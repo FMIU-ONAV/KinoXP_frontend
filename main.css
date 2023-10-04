@@ -1,0 +1,18 @@
+.navbar{
+    background-color: #483D8B;
+}
+
+.main-color{
+    color: #F7EBEC;
+}
+
+.main-color:hover{
+    color: #e200cb;
+}
+
+.container{
+    background-color: #483D8B;
+    padding: 10%;
+    border-radius: 10px;
+    color: #F7EBEC;
+}
