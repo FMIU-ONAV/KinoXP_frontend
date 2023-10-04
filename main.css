@@ -66,3 +66,23 @@ body {
   background-color: #f7ebec;
   border: 1px solid #f7ebec;
 }
+
+.btn-primary {
+  background-color: #483d8b;
+  border-color: #483d8b;
+}
+
+.btn-primary:hover {
+  border-color: #e200cb;
+  background-color: #483d8b;
+  color: #e200cb;
+}
+
+#add-movie {
+  margin-top: 50px;
+}
+
+#movie-result h5,
+h3 {
+  color: #404040;
+}
