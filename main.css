@@ -1,28 +1,68 @@
-.navbar{
-    background-color: #483D8B;
+h1,
+h2,
+th {
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 1.3em;
 }
 
-body{
-    background-color: #404040;
-    color: #F7EBEC;
+p,
+td,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-size: 1em;
 }
 
-.main-color{
-    color: #F7EBEC;
+.navbar {
+  background-color: #483d8b;
 }
 
-.main-color:hover{
-    color: #e200cb;
+body {
+  background-color: #404040;
+  color: #f7ebec;
 }
 
-.container{
-    background-color: #483D8B;
-    padding: 10%;
-    border-radius: 10px;
-    color: #F7EBEC;
+.main-color {
+  color: #f7ebec;
 }
 
-.navbar-content{
+.main-color:hover {
+  color: #e200cb;
+}
 
-    float: left;
+.container {
+  background-color: #483d8b;
+  padding: 10%;
+  border-radius: 10px;
+  color: #f7ebec;
+}
+
+.navbar-content {
+  float: left;
+}
+
+.table {
+  background-color: #483d8b;
+  width: 75%;
+  margin: 0 auto;
+  margin-top: 100px;
+}
+
+.table th {
+  background-color: #483d8b;
+  color: #f7ebec;
+}
+
+.table td {
+  background-color: #f7ebec;
+  color: #483d8b;
+  border: 1px solid #f7ebec;
+}
+
+.table tr {
+  background-color: #f7ebec;
+  border: 1px solid #f7ebec;
 }
