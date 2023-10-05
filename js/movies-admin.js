@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 export function getAllMovies() {
-  return fetch('http://localhost:8081/movie')
+  return fetch('http://localhost:3333/movie')
     .then(response => response.json())
     .then(response => {
       console.log(response);
@@ -121,7 +121,7 @@ function postShowTimes(dateTimes, movieId) {
       ],
     };
 
-    fetch('http://localhost:8081/showtime', {
+    fetch('http://localhost:3333/showtime', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -248,7 +248,7 @@ function addMovie() {
       body: JSON.stringify(movieData),
   };
 
-  fetch('http://localhost:8081/movie', options)
+  fetch('http://localhost:3333/movie', options)
       .then(response => response.json())
       .then(response => {
           console.log(response);
