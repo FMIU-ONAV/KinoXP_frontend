@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", () => {
     makeMovieRows();
 });
 
-function getAllMovies() {
+export function getAllMovies() {
   return fetch('http://localhost:8081/movie')
     .then(response => response.json())
     .then(response => {
@@ -257,4 +257,5 @@ function addMovie() {
       })
       .catch(err => console.error(err));
 }
+
 
