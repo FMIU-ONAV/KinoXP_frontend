@@ -15,7 +15,7 @@ function signup(event) {
         password: passwordFieldSignup
     };
     payload = JSON.stringify(payload);
-    fetch("http://localhost:3333/signup", {
+    fetch("http://localhost:8081/signup", {
         method: "POST",
         body: payload,
         headers: {'content-type': 'application/json'}
@@ -37,20 +37,25 @@ function login(event) {
         password: passwordField
     };
     payload = JSON.stringify(payload);
-    fetch("http://localhost:3333/login", {
+    fetch("http://localhost:8081/login", {
         method: "POST",
         body: payload,
         headers: {'content-type': 'application/json'}
     })
         .then(function (res) {
             if (res.ok) {
-                // Redirect to the "login" page upon successful login
-                window.location.href = "movies-admin.html"; // Replace with the actual login page URL
-                localStorage.setItem('user', JSON.stringify(res));
+                return res.json();
             } else {
-                printThis(div, "Wrong username or password", "red");
+                throw new Error('Wrong username or password');
             }
         })
+        .then(function (data) {
+            localStorage.setItem('user', JSON.stringify(data));
+            window.location.href = "movies-admin.html"; // Replace with the actual login page URL
+        })
+        .catch(function (error) {
+            printThis(div, error.message, "red");
+        });
 }
 
 function logout(event) {
@@ -72,4 +77,9 @@ function printThis(mydiv, txt, color) {
         'beforeend',
         `<span style="background-color: ${color}">${txt}</code>`,
     );
+}
+
+export function getToken(){
+    const localstorage_user = JSON.parse(localStorage.getItem('user'))
+    return  localstorage_user.token
 }

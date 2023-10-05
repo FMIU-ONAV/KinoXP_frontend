@@ -1,3 +1,5 @@
+import { getToken } from "./security.js";
+
 const options = {
     method: 'GET',
     headers: {
@@ -7,6 +9,7 @@ const options = {
   };
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log(getToken());
       fetch('https://api.themoviedb.org/3/authentication', options)
         .then(response => response.json())
         .then(response => console.log(response))
@@ -17,7 +20,13 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 export function getAllMovies() {
-  return fetch('http://localhost:3333/movie')
+  return fetch('http://localhost:8081/movie', {
+    method: 'GET', 
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getToken()}`
+    }
+  })
     .then(response => response.json())
     .then(response => {
       console.log(response);
@@ -25,6 +34,7 @@ export function getAllMovies() {
     })
     .catch(err => console.error(err));
 }
+
 
 async function makeMovieRows() {
   const movies = await getAllMovies();
@@ -121,13 +131,14 @@ function postShowTimes(dateTimes, movieId) {
       ],
     };
 
-    fetch('http://localhost:3333/showtime', {
+    fetch('http://localhost:8081/showtime', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`
       },
       body: JSON.stringify(showTime),
-    })
+    }, getToken())
       .then(response => {
         if (response.ok) {
           console.log("Showtime added");
@@ -244,11 +255,12 @@ function addMovie() {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${getToken()}`
       },
       body: JSON.stringify(movieData),
   };
 
-  fetch('http://localhost:3333/movie', options)
+  fetch('http://localhost:8081/movie', options, getToken())
       .then(response => response.json())
       .then(response => {
           console.log(response);
