@@ -37,31 +37,30 @@ export function getAllMovies() {
 
 
 async function makeMovieRows() {
-  const movies = await getAllMovies();
+    const movies = await getAllMovies();
 
-  const rows = movies.map(movie => {
-    return `
+    const rows = movies.map(movie => {
+        return `
       <tr>
         <td>${movie.id}</td>  
         <td>${movie.title}</td>
         <td>Dates<button class="btn btn-primary" id="btn-select-dates" data-movie="${movie.id}">Select Dates</button></td>
         <td>Tickets Sold</td>
+        <td><button class="btn btn-primary btn-view-movie" data-movie="${movie.id}">View</button></td>
         <td><button class="btn btn-warning" id="btn-edit-movie" data-movie="${movie.id}">Edit</button></td>
         <td><button class="btn btn-danger" id="btn-delete-movie" data-movie="${movie.id}">Delete</button></td>
       </tr>
     `;
-  });
-
-  document.getElementById("movie-table-body").innerHTML = rows.join("");
-
-  document.querySelectorAll("#btn-select-dates").forEach(button => {
-    button.addEventListener("click", () => {
-        const movieId = button.getAttribute("data-movie");
-        showSelectDatesModal(movieId); 
     });
-  });
 
+    document.getElementById("movie-table-body").innerHTML = rows.join("");
 
+    document.querySelectorAll(".btn-view-movie").forEach(button => {
+        button.addEventListener("click", () => {
+            const movieId = button.getAttribute("data-movie");
+            viewMovieDetails(movieId);
+        });
+    });
 }
 
 function showAddMovieModal() {
@@ -269,5 +268,38 @@ function addMovie() {
       })
       .catch(err => console.error(err));
 }
+
+function viewMovieDetails(movieId) {
+    fetch(`http://localhost:8081/movie/${movieId}`)
+        .then(response => response.json())
+        .then(movie => {
+            const modalTitle = document.querySelector('#movie-details-modal-label');
+            const modalBody = document.getElementById('movie-details-modal-body');
+
+            modalTitle.textContent = movie.title;
+            modalBody.innerHTML = `
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="${movie.imgRef}" alt="${movie.title}" class="img-fluid" />
+                    </div>
+                    <div class="col-md-8">
+                        <p><b>Director:</b> ${movie.director}</p>
+                        <p><b>Description:</b> ${movie.description}</p>
+                        <p><b>Duration:</b> ${movie.duration} minutes</p>
+                        <p><b>Age Limit:</b> ${movie.ageLimit}</p>
+                        <p><b>Genres:</b> ${movie.categories.map(category => category.name).join(", ")}</p>
+                    </div>
+                </div>
+            `;
+            const modal = new bootstrap.Modal(document.getElementById('movie-details-modal-details'));
+            modal.show();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+
+
 
 
