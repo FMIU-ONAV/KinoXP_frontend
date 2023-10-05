@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kino XP</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="main.css">
+  <script>
+    let div = ''
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById('loginForm').addEventListener('submit', login);
+      document.getElementById('logoutForm').addEventListener('submit', logout);
+      div = document.getElementById('container');
+    });
+
+    function login(event) {
+      event.preventDefault();
+      const usernameField = document.getElementById("usernameField").value;
+      const passwordField = document.getElementById("passwordField").value;
+      let payload = {
+        username: usernameField,
+        password: passwordField
+      };
+      payload = JSON.stringify(payload);
+      fetch("http://localhost:3333/login",
+              {
+                method: "POST",
+                body: payload,
+                headers:{'content-type': 'application/json'}
+              })
+              .then(function (res) {
+                return res.json();
+              })
+              .then(function (res) {
+                localStorage.setItem('user', JSON.stringify(res));
+                printThis(div,JSON.stringify(res), "green" );
+              });
+    }
+
+    function logout(event) {
+      event.preventDefault();
+      localStorage.removeItem('user');
+      printThis(div, "You have logged out.", "green");
+    }
+
+    function printThis(mydiv, txt, color){
+      mydiv.insertAdjacentHTML(
+              'beforeend',
+              `<span style="background-color: ${color}">${txt}</code>`,
+      );
+    }
+  </script>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container-fluid d-flex">
+    <a class="main-color" href="#">
+      <img src="logo.png" alt="logo" width="40%">
+    </a>
+  </div>
+</nav>
+
+<div class="container-fluid mt-3 text-center">
+  <h1>Login</h1>
+  <hr>
+</div>
+
+<div class="container-fluid mt-3 text-center">
+  <div class="container shadow">
+<form id="loginForm">
+  <input type="text" class="form-control" placeholder="Username" id="usernameField">
+  <input type="text" class="form-control mt-2" placeholder="Password" id="passwordField">
+  <input class="btn btn-dark mt-2" type="submit" value="Log in">
+</form>
+
+<form id="logoutForm">
+  <input class="btn btn-dark mt-2" type="submit" value="Log Out">
+</form>
+<div id="container">Initial Text</div>
+  </div>
+</div>
+
+<footer>
+  <div class="container-fluid text-center">
+    <p class="mt-5 mb-3 text-body-secondary">&copy; 2023 - KEA</p>
+  </div>
+</footer>
+
+<!---- JAVASCRIPT ---->
+<script>
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
