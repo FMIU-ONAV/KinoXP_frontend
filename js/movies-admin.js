@@ -6,39 +6,46 @@ const options = {
     }
   };
 
-  const categories = {
-    28: "Action",
-    12: "Adventure",
-    16: "Animation",
-    35: "Comedy",
-    80: "Crime",
-    99: "Documentary",
-    18: "Drama",
-    10751: "Family",
-    14: "Fantasy",
-    36: "History",
-    27: "Horror",
-    10402: "Music",
-    9648: "Mystery",
-    10749: "Romance",
-    878: "Science Fiction",
-    10770: "TV Movie",
-    53: "Thriller",
-    10752: "War",
-    37: "Western"
-
-  }
-
 document.addEventListener("DOMContentLoaded", () => {
-
-      
       fetch('https://api.themoviedb.org/3/authentication', options)
         .then(response => response.json())
         .then(response => console.log(response))
         .catch(err => console.error(err));
 
     document.getElementById("add-movie").addEventListener("click", showAddMovieModal);
+    makeMovieRows();
 });
+
+function getAllMovies() {
+  return fetch('http://localhost:8081/movie')
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      return response;
+    })
+    .catch(err => console.error(err));
+}
+
+async function makeMovieRows() {
+
+  const movies = await getAllMovies();
+
+  const rows = movies.map(movie => {
+    return `
+      <tr>
+        <td>${movie.id}</td>  
+        <td>${movie.title}</td>
+        <td>Date</td>
+        <td>Tickets Sold</td>
+        <td><button class="btn btn-warning">Edit</button></td>
+        <td><button class="btn btn-danger">Delete</button></td>
+      </tr>
+    `;
+  });
+
+  document.getElementById("movie-table-body").innerHTML = rows.join("");
+
+}
 
 function showAddMovieModal() {
     const myModal = new bootstrap.Modal(document.getElementById('movie-modal'));
@@ -86,7 +93,6 @@ function getDetails(id, options) {
             console.log(response)
             let movie = response;
             let genres = movie.genres.map(genre => genre.name).join(", ");
-            let genreIds = movie.genres.map(genre => genre.id);
             let output = `<div class="col-md-12" id="movie-result">
             <h3 id="movie-title"><b><span id="title-value">${movie.title}</span></b></h5>
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" id="poster_ref" alt="poster" width="200px">
@@ -107,7 +113,7 @@ function getDetails(id, options) {
             document.getElementById("result").innerHTML = output;
 
             const addButton = document.getElementById("btn-add-movie");
-            addButton.setAttribute("data-genre-ids", JSON.stringify(genreIds));
+            addButton.setAttribute("data-genres", JSON.stringify(movie.genres));
 
             fetch(`https://api.themoviedb.org/3/movie/${id}/credits?language=en-US`, options)
                 .then(response => response.json())
@@ -128,19 +134,23 @@ function getDetails(id, options) {
 }
 
 function addMovie() {
-  // Retrieve the genreIds from the data attribute
   const addButton = document.getElementById("btn-add-movie");
-  const genreIds = JSON.parse(addButton.getAttribute("data-genre-ids"));
+  const genres = JSON.parse(addButton.getAttribute("data-genres"));
+  const categories = genres.map(genre => {
+    return {
+      category_ID: genre.id, 
+      name: genre.name
+    };
+  });
 
-  // Replace the following with the actual data you want to send to the backend
   const movieData = {
       title: document.getElementById("title-value").innerHTML,
       director: document.getElementById("director-value").innerHTML,
       description: document.getElementById("description-value").innerHTML,
       duration: document.getElementById("duration-value").innerHTML,
       ageLimit: document.getElementById("age-limit").value,
-      img_ref: document.getElementById("poster_ref").src, // Use src instead of innerHTML
-      categoryIds: genreIds, // Pass genreIds to categoryIds
+      imgRef: document.getElementById("poster_ref").src,
+      categories: categories
   };
 
   const options = {
@@ -151,11 +161,12 @@ function addMovie() {
       body: JSON.stringify(movieData),
   };
 
-  fetch('http://localhost:8081/movie', options) // Replace with your actual backend URL
+  fetch('http://localhost:8081/movie', options)
       .then(response => response.json())
       .then(response => {
-          // Handle the response from the backend if needed
+          console.log(response);
           console.log(options.body);
+          makeMovieRows();
       })
       .catch(err => console.error(err));
 }
