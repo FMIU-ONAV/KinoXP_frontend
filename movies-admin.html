@@ -98,6 +98,89 @@
       </div>
     </div>
 
+    <div class="modal fade" tabindex="-1" aria-hidden="true" id="dates-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="modal-title">Select Dates</h3>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <h4>Dates</h4>
+            <div class="mb-3">
+              <label for="input-start-date" class="form-label">Start Date</label>
+              <input type="date" class="form-control" id="input-start-date" name="start-date">
+          </div>
+          <div class="mb-3">
+              <label for="input-end-date" class="form-label">End Date</label>
+              <input type="date" class="form-control" id="input-end-date" name="end-date">
+          </div>
+            
+            <h4>Times</4>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" value="8:00" id="time-option-1">
+                <label class="form-check-label" for="time-option-1">
+                    8:00
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" value="10:30" id="time-option-2">
+                <label class="form-check-label" for="time-option-2">
+                    10:30
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" value="13:00" id="time-option-3">
+                <label class="form-check-label" for="time-option-3">
+                    13:00
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" value="16:30" id="time-option-4">
+                <label class="form-check-label" for="time-option-4">
+                    16:30
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" value="20:00" id="time-option-5">
+                <label class="form-check-label" for="time-option-5">
+                    20:00
+                </label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" value="22:30" id="time-option-6">
+                <label class="form-check-label" for="time-option-6">
+                    22:30
+                </label>
+            </div>
+            
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+              id="btn-add-dates"
+              type="button"
+              class="btn btn-primary"
+              data-bs-dismiss="modal"
+            >
+              Add Dates
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <table class="table">
       <thead>
         <tr>
