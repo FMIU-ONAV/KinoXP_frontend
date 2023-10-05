@@ -1,9 +1,32 @@
 let div = ''
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById('signupForm').addEventListener('submit', signup);
     document.getElementById('loginForm').addEventListener('submit', login);
     document.getElementById('logoutForm').addEventListener('submit', logout);
     div = document.getElementById('container');
 });
+
+function signup(event) {
+    event.preventDefault();
+    const nameField = document.getElementById("nameField").value;
+    const passwordFieldSignup = document.getElementById("passwordFieldSignup").value;
+    let payload = {
+        username: nameField,
+        password: passwordFieldSignup
+    };
+    payload = JSON.stringify(payload);
+    fetch("http://localhost:3333/signup", {
+        method: "POST",
+        body: payload,
+        headers: {'content-type': 'application/json'}
+    })
+        .then(function (res) {
+            return res.json();
+        })
+        .then(function (data) {
+            printThis(div, JSON.stringify(data), "green");
+        });
+}
 
 function login(event) {
     event.preventDefault();
@@ -17,15 +40,14 @@ function login(event) {
     fetch("http://localhost:3333/login", {
         method: "POST",
         body: payload,
-        headers: { 'content-type': 'application/json' }
+        headers: {'content-type': 'application/json'}
     })
         .then(function (res) {
             if (res.ok) {
                 // Redirect to the "login" page upon successful login
                 window.location.href = "movies-admin.html"; // Replace with the actual login page URL
                 localStorage.setItem('user', JSON.stringify(res));
-            }
-            else {
+            } else {
                 printThis(div, "Wrong username or password", "red");
             }
         })
@@ -36,8 +58,7 @@ function logout(event) {
 
     if (localStorage.getItem('user') === null) {
         printThis(div, "You are not logged in.", "red");
-    }
-    else {
+    } else {
         localStorage.removeItem('user');
         printThis(div, "You have logged out.", "green");
         window.location.href = "index.html";
@@ -45,7 +66,8 @@ function logout(event) {
 
 }
 
-function printThis(mydiv, txt, color){
+
+function printThis(mydiv, txt, color) {
     mydiv.insertAdjacentHTML(
         'beforeend',
         `<span style="background-color: ${color}">${txt}</code>`,
