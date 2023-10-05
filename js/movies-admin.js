@@ -55,6 +55,13 @@ async function makeMovieRows() {
 
     document.getElementById("movie-table-body").innerHTML = rows.join("");
 
+    document.querySelectorAll("#btn-select-dates").forEach(button => {
+      button.addEventListener("click", () => {
+          const movieId = button.getAttribute("data-movie");
+          showSelectDatesModal(movieId);
+      });
+  });
+
     document.querySelectorAll(".btn-view-movie").forEach(button => {
         button.addEventListener("click", () => {
             const movieId = button.getAttribute("data-movie");
