@@ -51,6 +51,13 @@ async function makeMovieRows() {
     });
   });
 
+  document.querySelectorAll("#btn-delete-movie").forEach(button => {
+      button.addEventListener("click", () => {
+            const movieId = button.getAttribute("data-movie");
+            deleteMovie(movieId);
+        });
+    });
+
 
 }
 
@@ -257,4 +264,25 @@ function addMovie() {
       })
       .catch(err => console.error(err));
 }
+
+function deleteMovie(movieId) {
+    fetch(`http://localhost:8081/movie/${movieId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log("Movie deleted");
+            } else {
+                console.error(`Error deleting movie ${movieId}`);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        });
+}
+
+
 
