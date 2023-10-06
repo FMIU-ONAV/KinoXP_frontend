@@ -274,7 +274,7 @@ function addMovie() {
       body: JSON.stringify(movieData),
   };
 
-  fetch('http://localhost:8081/movie', options, getToken())
+  fetch('http://localhost:8081/movie', options)
       .then(response => response.json())
       .then(response => {
           console.log(response);
@@ -323,6 +323,7 @@ function deleteMovie(movieId) {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
         },
     })
         .then(response => {
