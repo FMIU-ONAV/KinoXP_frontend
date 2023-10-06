@@ -1,4 +1,34 @@
-import { getMovieById, getAllCategories } from "./movies-admin.js";
+import { getMovieById, getAllCategories, makeMovieRows } from "./movies-admin.js";
+import { getToken } from "./security.js";
+
+
+function handleSubmitEditClick(movieId, movieCopy, event) {
+    // Create a new copy of the updated movie object
+    const updatedMovie = Object.assign({}, movieCopy);
+
+    // Update the copied object with the latest values from the form
+    updatedMovie.title = document.getElementById("updated-title").value;
+    updatedMovie.director = document.getElementById("updated-director").value;
+    updatedMovie.description = document.getElementById("updated-description").value;
+    updatedMovie.duration = document.getElementById("updated-duration").value;
+    updatedMovie.ageLimit = document.getElementById("updated-age-limit").value;
+
+    // Extract selected categories
+    const selectedCategoryCheckboxes = document.querySelectorAll('.category-checkbox:checked');
+    const selectedCategories = Array.from(selectedCategoryCheckboxes).map(checkbox => ({
+        category_ID: parseInt(checkbox.getAttribute('data-category-id')),
+        name: getCategoryNameById(parseInt(checkbox.getAttribute('data-category-id'))),
+    }));
+
+    updatedMovie.categories = selectedCategories;
+
+    // Pass the copied object to the editMovie function
+    editMovie(movieId, updatedMovie);
+
+    if (event && typeof event.preventDefault === 'function') {
+        event.preventDefault();
+    }
+}
 
 export async function showEditMovieModal(movieId) {
     const myModal = new bootstrap.Modal(document.getElementById('edit-movie-modal'));
@@ -6,20 +36,24 @@ export async function showEditMovieModal(movieId) {
     const movie = await getMovieById(movieId);
     const allCategories = await getAllCategories();
 
+    // Create a deep copy of the movie object
+    const movieCopy = JSON.parse(JSON.stringify(movie));
+
     const categoryCheckboxes = allCategories.map(category => `
         <label>
-            <input type="checkbox" class="category-checkbox" data-category-id="${category.category_ID}" ${movieHasCategory(movie, category) ? 'checked' : ''}> ${category.name}
+            <input type="checkbox" class="category-checkbox" data-category-id="${category.category_ID}" ${movieHasCategory(movieCopy, category) ? 'checked' : ''}> ${category.name}
         </label>
     `).join('<br>');
 
     document.getElementById("edit-values").innerHTML = `
         <div class="col-md-12" id="movie-result">
-            <h3 id="movie-title"><b>Title:</b><input type="text" id="updated-title" class="form-control" value="${movie.title}"></h5>
-            <h5 id="movie-runtime"><b>Runtime:</b> <input type="text" id="updated-duration" class="form-control" value="${movie.duration}"> minutes</h5>
+            <img src="https://image.tmdb.org/t/p/w500${movieCopy.imgRef}" id="poster_ref" alt="poster" width="200px">
+            <h3 id="movie-title"><b>Title:</b><input type="text" id="updated-title" class="form-control" value="${movieCopy.title}"></h3>
+            <h5 id="movie-runtime"><b>Runtime:</b> <input type="text" id="updated-duration" class="form-control" value="${movieCopy.duration}"> minutes</h5>
             <h5 id="movie-genres"><b>Genres:</b> <div id="categories-checkboxes">${categoryCheckboxes}</div></h5>
-            <h5 id="movie-description"><b>Description:</b> <textarea id="updated-description" class="form-control">${movie.description}</textarea></h5>
-            <h5 id="movie-director"><b>Director:</b> <input type="text" id="updated-director" class="form-control" value="${movie.director}"></h5>
-            <h5 id="movie-age-limit"><b>Age Limit:</b> <input type="text" id="updated-age-limit" placeholder="Age limit" class="form-control" value="${movie.ageLimit}"/></h5>
+            <h5 id="movie-description"><b>Description:</b> <textarea id="updated-description" class="form-control">${movieCopy.description}</textarea></h5>
+            <h5 id="movie-director"><b>Director:</b> <input type="text" id="updated-director" class="form-control" value="${movieCopy.director}"></h5>
+            <h5 id="movie-age-limit"><b>Age Limit:</b> <input type="text" id="updated-age-limit" placeholder="Age limit" class="form-control" value="${movieCopy.ageLimit}"/></h5>
             <br>
         </div>
     `;
@@ -27,16 +61,26 @@ export async function showEditMovieModal(movieId) {
     const categoryCheckboxesElements = document.querySelectorAll('.category-checkbox');
     categoryCheckboxesElements.forEach(checkbox => {
         checkbox.addEventListener('change', () => {
-            updateCategories(movie);
+            updateCategories(movieCopy);
         });
     });
+    
+    const btnSubmitEdit = document.getElementById("btn-submit-edit");
 
-    document.getElementById("btn-submit-edit").addEventListener("click", () => {
-        // Pass the updatedMovie object to the editMovie function
-        editMovie(movieId, movie);
-    });
+    // Remove existing event listener
+    const oldListener = btnSubmitEdit.onclick;
+    if (oldListener) {
+        btnSubmitEdit.removeEventListener("click", oldListener);
+    }
+
+    // Add new event listener
+    const newListener = handleSubmitEditClick.bind(null, movieId, movieCopy);
+    btnSubmitEdit.onclick = newListener;
+    btnSubmitEdit.addEventListener("click", newListener);
+
     myModal.show();
 }
+
 
 function updateCategories(updatedMovie) {
     const checkedCategoryCheckboxes = document.querySelectorAll('.category-checkbox:checked');
@@ -51,13 +95,18 @@ function updateCategories(updatedMovie) {
     });
 }
 
-function editMovie(movieId) {
-    console.log("Inside edit Movie function");
-    const updatedTitle = document.getElementById("updated-title").value;
-    const updatedDirector = document.getElementById("updated-director").value;
-    const updatedDescription = document.getElementById("updated-description").value;
-    const updatedDuration = document.getElementById("updated-duration").value;
-    const updatedAgeLimit = document.getElementById("updated-age-limit").value;
+async function editMovie(movieId, updatedMovie) {
+    console.log("Entering editMovie() function");
+
+    // Create a new copy of the updated movie object
+    const copiedUpdatedMovie = Object.assign({}, updatedMovie);
+
+    // Update the copied object with the latest values from the form
+    copiedUpdatedMovie.title = document.getElementById("updated-title").value;
+    copiedUpdatedMovie.director = document.getElementById("updated-director").value;
+    copiedUpdatedMovie.description = document.getElementById("updated-description").value;
+    copiedUpdatedMovie.duration = document.getElementById("updated-duration").value;
+    copiedUpdatedMovie.ageLimit = document.getElementById("updated-age-limit").value;
 
     // Extract selected categories
     const selectedCategoryCheckboxes = document.querySelectorAll('.category-checkbox:checked');
@@ -66,41 +115,31 @@ function editMovie(movieId) {
         name: getCategoryNameById(parseInt(checkbox.getAttribute('data-category-id'))),
     }));
 
-    const updatedMovie = {
-        id: movieId,
-        title: updatedTitle,
-        director: updatedDirector,
-        description: updatedDescription,
-        duration: updatedDuration,
-        ageLimit: updatedAgeLimit,
-        imgRef: document.getElementById("poster_ref").src,
-        categories: selectedCategories,
-    };
+    copiedUpdatedMovie.categories = selectedCategories;
 
-    console.log("Updating movie with ID:", movieId);
+    console.log("Updated movie object:", copiedUpdatedMovie);
 
-    fetch(`http://localhost:8081/movie/${movieId}`, {
+    // Send the updated movie data to the server using fetch
+    const response = await fetch(`http://localhost:8081/movie/${movieId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`,
+            Authorization: `Bearer ${getToken()}`
         },
-        body: JSON.stringify(updatedMovie),
-    })
-        .then(response => {
-            console.log("Response status:", response.status);
-            if (response.ok) {
-                console.log("Movie updated successfully.");
-            } else {
-                console.error("Error updating movie.");
-            }
-            makeMovieRows();
-        })
-        .catch(error => {
-            console.error("Fetch error:", error);
-        });
-}
+        body: JSON.stringify(copiedUpdatedMovie)
+    });
 
+    // Display a success message once the movie has been updated
+    if (response.ok) {
+        console.log("Movie updated successfully!");
+        // Update the movie rows in the table
+        makeMovieRows();
+    } else {
+        alert("Error updating movie.");
+    }
+
+    return;
+}
 function getCategoryNameById(categoryId) {
     const categoryMap = {
         28: 'Action',

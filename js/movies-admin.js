@@ -9,13 +9,11 @@ const options = {
     }
   };
 
-document.addEventListener("DOMContentLoaded", () => {
-  console.log(getToken());
-      fetch('https://api.themoviedb.org/3/authentication', options)
+  document.addEventListener("DOMContentLoaded", () => {
+    fetch('https://api.themoviedb.org/3/authentication', options)
         .then(response => response.json())
         .then(response => console.log(response))
         .catch(err => console.error(err));
-
     document.getElementById("add-movie").addEventListener("click", showAddMovieModal);
     makeMovieRows();
 });
@@ -37,7 +35,8 @@ export function getAllMovies() {
 }
 
 
-async function makeMovieRows() {
+export async function makeMovieRows() {
+    console.log("Entering makeMovieRows() function");
     const movies = await getAllMovies();
 
     const rows = movies.map(movie => {
@@ -56,39 +55,55 @@ async function makeMovieRows() {
 
     document.getElementById("movie-table-body").innerHTML = rows.join("");
 
+    handleCrudBtns();
+
+    console.log("Exiting makeMovieRows() function");
+
+}
+
+
+function handleSelectDatesClick(event) {
+    const movieId = event.currentTarget.getAttribute("data-movie");
+    showSelectDatesModal(movieId);
+}
+
+function handleViewMovieClick(event) {
+    const movieId = event.currentTarget.getAttribute("data-movie");
+    viewMovieDetails(movieId);
+}
+
+function handleEditMovieClick(event) {
+    const movieId = event.currentTarget.getAttribute('data-movie');
+    showEditMovieModal(movieId);
+}
+
+function handleDeleteMovieClick(event) {
+    const movieId = event.currentTarget.getAttribute("data-movie");
+    deleteMovie(movieId);
+}
+
+function handleCrudBtns() {
     document.querySelectorAll("#btn-select-dates").forEach(button => {
-        console.log("Select Dates button found")
-        button.addEventListener("click", () => {
-            const movieId = button.getAttribute("data-movie");
-            showSelectDatesModal(movieId);
-        });
+        button.removeEventListener("click", handleSelectDatesClick);
+        button.addEventListener("click", handleSelectDatesClick);
     });
 
     document.querySelectorAll(".btn-view-movie").forEach(button => {
-        button.addEventListener("click", () => {
-            const movieId = button.getAttribute("data-movie");
-            viewMovieDetails(movieId);
-        });
+        button.removeEventListener("click", handleViewMovieClick);
+        button.addEventListener("click", handleViewMovieClick);
     });
 
-    console.log("Number of Edit Movie buttons found:", document.querySelectorAll(".btn-edit-movie").length);
-
-    document.querySelectorAll(".btn-edit-movie").forEach(button => {
-        button.addEventListener("click", () => {
-            console.log("Edit Movie button clicked");
-            const movieId = button.getAttribute("data-movie");
-            showEditMovieModal(movieId);
-        });
-    });
-  document.querySelectorAll("#btn-delete-movie").forEach(button => {
-      button.addEventListener("click", () => {
-            const movieId = button.getAttribute("data-movie");
-            deleteMovie(movieId);
-        });
+    document.querySelectorAll('.btn-edit-movie').forEach(button => {
+        button.removeEventListener('click', handleEditMovieClick);
+        button.addEventListener('click', handleEditMovieClick);
     });
 
-
+    document.querySelectorAll("#btn-delete-movie").forEach(button => {
+        button.removeEventListener("click", handleDeleteMovieClick);
+        button.addEventListener("click", handleDeleteMovieClick);
+    });
 }
+
 
 
 function showAddMovieModal() {
