@@ -47,7 +47,7 @@ async function makeMovieRows() {
         <td>Dates<button class="btn btn-primary" id="btn-select-dates" data-movie="${movie.id}">Select Dates</button></td>
         <td>Tickets Sold</td>
         <td><button class="btn btn-primary btn-view-movie" data-movie="${movie.id}">View</button></td>
-        <td><button class="btn btn-warning" id="btn-edit-movie" data-movie="${movie.id}">Edit</button></td>
+        <td><button class="btn btn-warning btn-edit-movie" data-movie="${movie.id}">Edit</button></td>
         <td><button class="btn btn-danger" id="btn-delete-movie" data-movie="${movie.id}">Delete</button></td>
       </tr>
     `;
@@ -56,16 +56,27 @@ async function makeMovieRows() {
     document.getElementById("movie-table-body").innerHTML = rows.join("");
 
     document.querySelectorAll("#btn-select-dates").forEach(button => {
-      button.addEventListener("click", () => {
-          const movieId = button.getAttribute("data-movie");
-          showSelectDatesModal(movieId);
-      });
-  });
+        console.log("Select Dates button found")
+        button.addEventListener("click", () => {
+            const movieId = button.getAttribute("data-movie");
+            showSelectDatesModal(movieId);
+        });
+    });
 
     document.querySelectorAll(".btn-view-movie").forEach(button => {
         button.addEventListener("click", () => {
             const movieId = button.getAttribute("data-movie");
             viewMovieDetails(movieId);
+        });
+    });
+
+    console.log("Number of Edit Movie buttons found:", document.querySelectorAll(".btn-edit-movie").length);
+
+    document.querySelectorAll(".btn-edit-movie").forEach(button => {
+        button.addEventListener("click", () => {
+            console.log("Edit Movie button clicked");
+            const movieId = button.getAttribute("data-movie");
+            showEditMovieModal(movieId);
         });
     });
   document.querySelectorAll("#btn-delete-movie").forEach(button => {
@@ -78,9 +89,10 @@ async function makeMovieRows() {
 
 }
 
+
 function showAddMovieModal() {
     const myModal = new bootstrap.Modal(document.getElementById('movie-modal'));
-    document.getElementById("modal-title").innerHTML = "Add Movie";
+    document.getElementById("movie-modal-title").innerHTML = "Add Movie";
     document.getElementById("movie-search-btn").addEventListener("click", searchMovies);
     document.getElementById("btn-add-movie").addEventListener("click", addMovie);
     myModal.show()
@@ -89,10 +101,33 @@ function showAddMovieModal() {
 function showSelectDatesModal(movieId) {
     const myModal = new bootstrap.Modal(document.getElementById('dates-modal'));
     console.log(movieId);
-    document.getElementById("modal-title").innerHTML = `Select Dates for ${movieId}`;
+    document.getElementById("dates-modal-title").innerHTML = `Select Dates for Movie ID: ${movieId}`;
     document.getElementById("btn-add-dates").addEventListener("click", () => addDatesToMovie(movieId));
     myModal.show()
 }
+
+async function showEditMovieModal(movieId) {
+    const myModal = new bootstrap.Modal(document.getElementById('edit-movie-modal'));
+    document.getElementById("edit-modal-title").innerHTML = "Edit Movie";
+    const movie = await getMovieById(movieId);
+    console.log(movie);
+
+    document.getElementById("edit-values").innerHTML = `
+        <div class="col-md-12" id="movie-result">
+            <h3 id="movie-title"><b>Title:</b><input type="text" id="updated-title" class="form-control" value="${movie.title}"></h5>
+            <h5 id="movie-runtime"><b>Runtime:</b> <input type="text" id="updated-duration" class="form-control" value="${movie.duration}"> minutes</h5>
+            <h5 id="movie-genres"><b>Genres:</b> <input type="text" id="updated-genres" class="form-control" value="${movie.categories.map(category => category.name).join(', ')}"></h5>
+            <h5 id="movie-description"><b>Description:</b> <textarea id="updated-description" class="form-control">${movie.description}</textarea></h5>
+            <h5 id="movie-director"><b>Director:</b> <input type="text" id="updated-director" class="form-control" value="${movie.director}"></h5>
+            <h5 id="movie-age-limit"><b>Age Limit:</b> <input type="text" id="updated-age-limit" placeholder="Age limit" class="form-control"  value="${movie.ageLimit}"/></h5>
+            <br>
+        </div>
+    `;
+
+    document.getElementById("btn-submit-edit").addEventListener("click", () => editMovie(movieId));
+    myModal.show();
+}
+
 
 function addDatesToMovie(movieId) {
   const startDateStr = document.getElementById("input-start-date").value;
@@ -284,15 +319,14 @@ function addMovie() {
       .catch(err => console.error(err));
 }
 
-function viewMovieDetails(movieId) {
-    fetch(`http://localhost:8081/movie/${movieId}`)
-        .then(response => response.json())
-        .then(movie => {
-            const modalTitle = document.querySelector('#movie-details-modal-label');
-            const modalBody = document.getElementById('movie-details-modal-body');
+async function viewMovieDetails(movieId) {
+    const movie = await getMovieById(movieId);
+    console.log(movie);
+    const modalTitle = document.querySelector('#movie-details-modal-label');
+    const modalBody = document.getElementById('movie-details-modal-body');
 
-            modalTitle.textContent = movie.title;
-            modalBody.innerHTML = `
+    modalTitle.textContent = movie.title;
+    modalBody.innerHTML = `
                 <div class="row">
                     <div class="col-md-4">
                         <img src="${movie.imgRef}" alt="${movie.title}" class="img-fluid" />
@@ -306,12 +340,64 @@ function viewMovieDetails(movieId) {
                     </div>
                 </div>
             `;
-            const modal = new bootstrap.Modal(document.getElementById('movie-details-modal-details'));
-            modal.show();
+    const modal = new bootstrap.Modal(document.getElementById('movie-details-modal-details'));
+    modal.show();
+}
+
+function editMovie(movieId) {
+    console.log("Inside edit Movie function");
+    const updatedTitle = document.getElementById("updated-title").value;
+    const updatedDirector = document.getElementById("updated-director").value;
+    const updatedDescription = document.getElementById("updated-description").value;
+    const updatedDuration = document.getElementById("updated-duration").value;
+    const updatedAgeLimit = document.getElementById("updated-age-limit").value;
+
+    const updatedMovie = {
+        id: movieId,
+        title: updatedTitle,
+        director: updatedDirector,
+        description: updatedDescription,
+        duration: updatedDuration,
+        ageLimit: updatedAgeLimit,
+        categories: [{
+            category_ID: 28,
+            name: "Action"
+        }]
+    };
+
+    console.log("Updating movie with ID:", movieId);
+
+    fetch(`http://localhost:8081/movie/${movieId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify(updatedMovie),
+    })
+        .then(response => {
+            console.log("Response status:", response.status);
+            if (response.ok) {
+                console.log("Movie updated successfully.");
+                // Optionally, close the edit modal or update the view
+            } else {
+                console.error("Error updating movie.");
+            }
+            makeMovieRows();
         })
         .catch(error => {
-            console.error(error);
+            console.error("Fetch error:", error);
         });
+}
+
+function getMovieById(movieId) {
+    return fetch(`http://localhost:8081/movie/${movieId}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getToken()}`,
+        },
+    }).then(response => response.json());
 }
 
 
