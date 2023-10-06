@@ -311,7 +311,9 @@ function getDetails(id, options) {
         .catch(err => console.error(err));
 }
 
-function addMovie() {
+const addedMovieIDs = [];
+
+async function addMovie() {
   const addButton = document.getElementById("btn-add-movie");
   const genres = JSON.parse(addButton.getAttribute("data-genres"));
   const categories = genres.map(genre => {
@@ -331,6 +333,12 @@ function addMovie() {
       categories: categories
   };
 
+    const tmdbMovieID = genres[0].id;
+    if (addedMovieIDs.includes(tmdbMovieID)) {
+        alert("This movie has already been added to the database.");
+        return;
+    }
+
   const options = {
       method: 'POST',
       headers: {
@@ -346,6 +354,8 @@ function addMovie() {
           console.log(response);
           console.log(options.body);
           makeMovieRows();
+
+          addedMovieIDs.push(tmdbMovieID);
       })
       .catch(err => console.error(err));
 }
