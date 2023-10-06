@@ -1,3 +1,5 @@
+import { getToken } from "./security.js";
+
 const options = {
     method: 'GET',
     headers: {
@@ -7,6 +9,7 @@ const options = {
   };
 
 document.addEventListener("DOMContentLoaded", () => {
+  console.log(getToken());
       fetch('https://api.themoviedb.org/3/authentication', options)
         .then(response => response.json())
         .then(response => console.log(response))
@@ -16,8 +19,14 @@ document.addEventListener("DOMContentLoaded", () => {
     makeMovieRows();
 });
 
-function getAllMovies() {
-  return fetch('http://localhost:8081/movie')
+export function getAllMovies() {
+  return fetch('http://localhost:8081/movie', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getToken()}`
+    }
+  })
     .then(response => response.json())
     .then(response => {
       console.log(response);
@@ -26,31 +35,39 @@ function getAllMovies() {
     .catch(err => console.error(err));
 }
 
-async function makeMovieRows() {
-  const movies = await getAllMovies();
 
-  const rows = movies.map(movie => {
-    return `
+async function makeMovieRows() {
+    const movies = await getAllMovies();
+
+    const rows = movies.map(movie => {
+        return `
       <tr>
         <td>${movie.id}</td>  
         <td>${movie.title}</td>
         <td>Dates<button class="btn btn-primary" id="btn-select-dates" data-movie="${movie.id}">Select Dates</button></td>
         <td>Tickets Sold</td>
+        <td><button class="btn btn-primary btn-view-movie" data-movie="${movie.id}">View</button></td>
         <td><button class="btn btn-warning" id="btn-edit-movie" data-movie="${movie.id}">Edit</button></td>
         <td><button class="btn btn-danger" id="btn-delete-movie" data-movie="${movie.id}">Delete</button></td>
       </tr>
     `;
-  });
-
-  document.getElementById("movie-table-body").innerHTML = rows.join("");
-
-  document.querySelectorAll("#btn-select-dates").forEach(button => {
-    button.addEventListener("click", () => {
-        const movieId = button.getAttribute("data-movie");
-        showSelectDatesModal(movieId); 
     });
+
+    document.getElementById("movie-table-body").innerHTML = rows.join("");
+
+    document.querySelectorAll("#btn-select-dates").forEach(button => {
+      button.addEventListener("click", () => {
+          const movieId = button.getAttribute("data-movie");
+          showSelectDatesModal(movieId);
+      });
   });
 
+    document.querySelectorAll(".btn-view-movie").forEach(button => {
+        button.addEventListener("click", () => {
+            const movieId = button.getAttribute("data-movie");
+            viewMovieDetails(movieId);
+        });
+    });
   document.querySelectorAll("#btn-delete-movie").forEach(button => {
       button.addEventListener("click", () => {
             const movieId = button.getAttribute("data-movie");
@@ -132,9 +149,10 @@ function postShowTimes(dateTimes, movieId) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `Bearer ${getToken()}`
       },
       body: JSON.stringify(showTime),
-    })
+    }, getToken())
       .then(response => {
         if (response.ok) {
           console.log("Showtime added");
@@ -251,11 +269,12 @@ function addMovie() {
       method: 'POST',
       headers: {
           'Content-Type': 'application/json',
+          Authorization: `Bearer ${getToken()}`
       },
       body: JSON.stringify(movieData),
   };
 
-  fetch('http://localhost:8081/movie', options)
+  fetch('http://localhost:8081/movie', options, getToken())
       .then(response => response.json())
       .then(response => {
           console.log(response);
@@ -264,6 +283,40 @@ function addMovie() {
       })
       .catch(err => console.error(err));
 }
+
+function viewMovieDetails(movieId) {
+    fetch(`http://localhost:8081/movie/${movieId}`)
+        .then(response => response.json())
+        .then(movie => {
+            const modalTitle = document.querySelector('#movie-details-modal-label');
+            const modalBody = document.getElementById('movie-details-modal-body');
+
+            modalTitle.textContent = movie.title;
+            modalBody.innerHTML = `
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="${movie.imgRef}" alt="${movie.title}" class="img-fluid" />
+                    </div>
+                    <div class="col-md-8">
+                        <p><b>Director:</b> ${movie.director}</p>
+                        <p><b>Description:</b> ${movie.description}</p>
+                        <p><b>Duration:</b> ${movie.duration} minutes</p>
+                        <p><b>Age Limit:</b> ${movie.ageLimit}</p>
+                        <p><b>Genres:</b> ${movie.categories.map(category => category.name).join(", ")}</p>
+                    </div>
+                </div>
+            `;
+            const modal = new bootstrap.Modal(document.getElementById('movie-details-modal-details'));
+            modal.show();
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+
+
+
 
 function deleteMovie(movieId) {
     fetch(`http://localhost:8081/movie/${movieId}`, {
