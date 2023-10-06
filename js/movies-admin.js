@@ -335,7 +335,9 @@ function deleteMovie(movieId) {
         })
         .catch(err => {
             console.error(err);
-        });
+        }).then(() => {
+            makeMovieRows();
+    })
 }
 
 
