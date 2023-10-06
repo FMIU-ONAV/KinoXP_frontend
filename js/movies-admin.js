@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 export function getAllMovies() {
   return fetch('http://localhost:8081/movie', {
-    method: 'GET', 
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${getToken()}`
@@ -79,6 +79,14 @@ async function makeMovieRows() {
             showEditMovieModal(movieId);
         });
     });
+  document.querySelectorAll("#btn-delete-movie").forEach(button => {
+      button.addEventListener("click", () => {
+            const movieId = button.getAttribute("data-movie");
+            deleteMovie(movieId);
+        });
+    });
+
+
 }
 
 
@@ -301,7 +309,7 @@ function addMovie() {
       body: JSON.stringify(movieData),
   };
 
-  fetch('http://localhost:8081/movie', options, getToken())
+  fetch('http://localhost:8081/movie', options)
       .then(response => response.json())
       .then(response => {
           console.log(response);
@@ -393,6 +401,30 @@ function getMovieById(movieId) {
 }
 
 
+
+
+
+function deleteMovie(movieId) {
+    fetch(`http://localhost:8081/movie/${movieId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${getToken()}`
+        },
+    })
+        .then(response => {
+            if (response.ok) {
+                console.log("Movie deleted");
+            } else {
+                console.error(`Error deleting movie ${movieId}`);
+            }
+        })
+        .catch(err => {
+            console.error(err);
+        }).then(() => {
+            makeMovieRows();
+    })
+}
 
 
 
