@@ -174,6 +174,61 @@
       </div>
     </div>
 
+    <div class="modal fade" tabindex="-1" aria-hidden="true" id="edit-movie-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title" id="edit-modal-title">Edit Movie</h3>
+            <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="mb-3">
+              <label for="updated-title" class="form-label">Title</label>
+              <input type="text" class="form-control" id="updated-title">
+            </div>
+            <div class="mb-3">
+              <label for="updated-director" class="form-label">Director</label>
+              <input type="text" class="form-control" id="updated-director">
+            </div>
+            <div class="mb-3">
+              <label for="updated-description" class="form-label">Description</label>
+              <textarea class="form-control" id="updated-description" rows="3"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="updated-duration" class="form-label">Duration (minutes)</label>
+              <input type="number" class="form-control" id="updated-duration">
+            </div>
+            <div class="mb-3">
+              <label for="updated-age-limit" class="form-label">Age Limit</label>
+              <input type="text" class="form-control" id="updated-age-limit">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+            >
+              Cancel
+            </button>
+            <button
+                    id="btn-submit-edit"
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-dismiss="modal"
+            >
+              Save Changes
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="modal fade" id="movie-details-modal-details" tabindex="-1" aria-labelledby="movie-details-modal-label" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">

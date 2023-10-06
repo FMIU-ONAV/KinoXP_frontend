@@ -47,7 +47,7 @@ async function makeMovieRows() {
         <td>Dates<button class="btn btn-primary" id="btn-select-dates" data-movie="${movie.id}">Select Dates</button></td>
         <td>Tickets Sold</td>
         <td><button class="btn btn-primary btn-view-movie" data-movie="${movie.id}">View</button></td>
-        <td><button class="btn btn-warning" id="btn-edit-movie" data-movie="${movie.id}">Edit</button></td>
+        <td><button class="btn btn-warning btn-edit-movie" data-movie="${movie.id}">Edit</button></td>
         <td><button class="btn btn-danger" id="btn-delete-movie" data-movie="${movie.id}">Delete</button></td>
       </tr>
     `;
@@ -55,12 +55,12 @@ async function makeMovieRows() {
 
     document.getElementById("movie-table-body").innerHTML = rows.join("");
 
-    document.querySelectorAll("#btn-select-dates").forEach(button => {
-      button.addEventListener("click", () => {
-          const movieId = button.getAttribute("data-movie");
-          showSelectDatesModal(movieId);
-      });
-  });
+    document.querySelectorAll(".btn-select-dates").forEach(button => {
+        button.addEventListener("click", () => {
+            const movieId = button.getAttribute("data-movie");
+            showSelectDatesModal(movieId);
+        });
+    });
 
     document.querySelectorAll(".btn-view-movie").forEach(button => {
         button.addEventListener("click", () => {
@@ -68,7 +68,18 @@ async function makeMovieRows() {
             viewMovieDetails(movieId);
         });
     });
+
+    console.log("Number of Edit Movie buttons found:", document.querySelectorAll(".btn-edit-movie").length);
+
+    document.querySelectorAll(".btn-edit-movie").forEach(button => {
+        button.addEventListener("click", () => {
+            console.log("Edit Movie button clicked");
+            const movieId = button.getAttribute("data-movie");
+            editMovie(movieId);
+        });
+    });
 }
+
 
 function showAddMovieModal() {
     const myModal = new bootstrap.Modal(document.getElementById('movie-modal'));
@@ -303,6 +314,47 @@ function viewMovieDetails(movieId) {
         })
         .catch(error => {
             console.error(error);
+        });
+}
+
+function editMovie(movieId) {
+    console.log("Inside edit Movie function");
+    const updatedTitle = document.getElementById("updated-title").value;
+    const updatedDirector = document.getElementById("updated-director").value;
+    const updatedDescription = document.getElementById("updated-description").value;
+    const updatedDuration = document.getElementById("updated-duration").value;
+    const updatedAgeLimit = document.getElementById("updated-age-limit").value;
+
+    const updatedMovie = {
+        id: movieId,
+        title: updatedTitle,
+        director: updatedDirector,
+        description: updatedDescription,
+        duration: updatedDuration,
+        ageLimit: updatedAgeLimit,
+    };
+
+    console.log("Updating movie with ID:", movieId);
+
+    fetch(`http://localhost:8081/movie/${movieId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify(updatedMovie),
+    })
+        .then(response => {
+            console.log("Response status:", response.status);
+            if (response.ok) {
+                console.log("Movie updated successfully.");
+                // Optionally, close the edit modal or update the view
+            } else {
+                console.error("Error updating movie.");
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
         });
 }
 
