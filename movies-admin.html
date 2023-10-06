@@ -47,7 +47,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">Add Movie</h3>
+            <h3 class="modal-title" id="movie-modal-title">Add Movie</h3>
             <button
               type="button"
               class="btn-close"
@@ -95,7 +95,7 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h3 class="modal-title" id="modal-title">Select Dates</h3>
+            <h3 class="modal-title" id="dates-modal-title">Select Dates</h3>
             <button
               type="button"
               class="btn-close"
@@ -114,7 +114,7 @@
               <input type="date" class="form-control" id="input-end-date" name="end-date">
           </div>
             
-            <h4>Times</4>
+            <h4>Times</h4>
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="checkbox" value="8:00" id="time-option-1">
                 <label class="form-check-label" for="time-option-1">
@@ -187,26 +187,9 @@
             ></button>
           </div>
           <div class="modal-body">
-            <div class="mb-3">
-              <label for="updated-title" class="form-label">Title</label>
-              <input type="text" class="form-control" id="updated-title">
-            </div>
-            <div class="mb-3">
-              <label for="updated-director" class="form-label">Director</label>
-              <input type="text" class="form-control" id="updated-director">
-            </div>
-            <div class="mb-3">
-              <label for="updated-description" class="form-label">Description</label>
-              <textarea class="form-control" id="updated-description" rows="3"></textarea>
-            </div>
-            <div class="mb-3">
-              <label for="updated-duration" class="form-label">Duration (minutes)</label>
-              <input type="number" class="form-control" id="updated-duration">
-            </div>
-            <div class="mb-3">
-              <label for="updated-age-limit" class="form-label">Age Limit</label>
-              <input type="text" class="form-control" id="updated-age-limit">
-            </div>
+            <div class="mb-3" id="edit-values"></div>
+
+
           </div>
           <div class="modal-footer">
             <button
