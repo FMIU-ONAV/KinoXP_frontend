@@ -26,7 +26,6 @@ export function getAllMovies() {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${getToken()}`
     }
   })
     .then(response => response.json())
@@ -137,7 +136,6 @@ export function getMovieById(movieId) {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`,
         },
     }).then(response => response.json());
 }
@@ -148,7 +146,6 @@ export async function getAllCategories() {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${getToken()}`,
             },
         });
 
