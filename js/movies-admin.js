@@ -1,5 +1,5 @@
 import { getToken } from "./security.js";
-import { getAllMovies } from "./main.js";
+import { getAllMovies, getMovieById } from "./main.js";
 import { showEditMovieModal } from "./edit-movie.js";
 import { showSelectDatesModal } from "./dates-movie.js";
 import { showAddMovieModal } from "./add-movie.js";
@@ -122,15 +122,6 @@ async function viewMovieDetails(movieId) {
             `;
     const modal = new bootstrap.Modal(document.getElementById('movie-details-modal-details'));
     modal.show();
-}
-
-export function getMovieById(movieId) {
-    return fetch(`http://localhost:8081/movie/${movieId}`, {
-        method: 'GET',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-    }).then(response => response.json());
 }
 
 export async function getAllCategories() {

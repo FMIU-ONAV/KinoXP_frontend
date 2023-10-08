@@ -1,5 +1,6 @@
-import { getMovieById, getAllCategories, makeMovieRows } from "./movies-admin.js";
+import { getAllCategories, makeMovieRows } from "./movies-admin.js";
 import { getToken } from "./security.js";
+import { getMovieById } from "./main.js";
 
 
 function handleSubmitEditClick(movieId, movieCopy, event) {
