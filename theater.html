@@ -20,10 +20,8 @@
             href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
     />
     <link rel="stylesheet" href="main.css" />
-
 </head>
 <body>
-
 <link rel="stylesheet" href="theater.css" />
 <link rel="stylesheet" href="main.css" />
 
@@ -63,69 +61,53 @@
         </form>
     </div>
 </nav>
+</div>
 
 <div class="container-fluid mt-5 text-center">
     <h3>Welcome to KinoXP</h3>
-    <hr />
+
+</div>
+<div class="seats">
+    <div class="seatstatus selected_seat">
+        <div class="seat-text">Selected</div>
+    </div>
+    <br>
+    <div class="seatstatus occupied">
+        <div class="seat-text">Occupied </div></div>
+    <br>
+    <div class="seatstatus available">
+        <div class="seat-text">Available</div></div>
 </div>
 
-<div class="box"> IMAX</div>
-<br><br>
 
 <button id="continueButton" disabled onclick="disableRedSeats()">Continue</button>
-<div id="seatRow"></div>
 
-<script src="js/SeatJs.js"></script>
-<!--script>
-    const rowContainer = document.getElementById('seatRow');
+<div id="theater1">
+    <div class="box"> IMAX</div>
+    <br>
 
-    // Your existing code to create seat layout
-    for (let j = 0; j < 25; j++) {
-        const rowDiv = document.createElement('div');
-        rowDiv.classList.add('row');
+    <div id="seatRow"></div>
+</div>
 
-        for (let i = 0; i < 16; i++) {
-            const seatDiv = document.createElement('div');
-            seatDiv.classList.add('seat');
-            seatDiv.textContent = (j * 16) + i + 1;
-            rowDiv.appendChild(seatDiv);
-        }
 
-        rowContainer.appendChild(rowDiv);
-    }
+<div class="seating-container">
 
-    const seats = document.getElementsByClassName('seat');
-    const continueButton = document.getElementById('continueButton');
-
-    Array.from(seats).forEach(seat => {
-        seat.addEventListener('click', () => {
-            if (seat.style.backgroundColor !== 'red') {
-                seat.style.backgroundColor = 'red';
-            } else {
-                seat.style.backgroundColor = 'white';
-            }
-            updateContinueButtonStatus();
-        });
-    });
-
-    function updateContinueButtonStatus() {
-        const redSeats = document.querySelectorAll('.seat[style*="background-color: red"]');
-        continueButton.disabled = redSeats.length === 0;
-    }
-
-    function disableRedSeats() {
-        const redSeats = document.querySelectorAll('.seat[style*="background-color: red"]');
-        redSeats.forEach(seat => {
-            seat.style.pointerEvents = 'none';
-        });
-    }
-
-</script-->
-<footer>
-    <div class="container-fluid text-center">
-        <p class="mt-5 mb-3 text-body-secondary">&copy; 2023 - KEA</p>
+    <div class="controls">
+        <label id="text" for="seatCount">  Select the number of seats: </label>
+        <button id="decrementBtn" onclick="decrement()">-</button>
+        <span id="seatCount">2</span>
+        <button id="incrementBtn" onclick="increment()">+</button>
     </div>
-</footer>
 
+
+    <script type="module" src="js/SeatJs.js" onload="initializeSeatSelection()"></script>
+
+    <footer>
+        <div class="container-fluid text-center">
+            <p class="mt-5 mb-3 text-body-secondary">&copy; 2023 - KEA</p>
+        </div>
+    </footer>
+
+</div>
 </body>
 </html>
