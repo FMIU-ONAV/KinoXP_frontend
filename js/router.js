@@ -11,7 +11,7 @@ document.addEventListener("click", (e) => {
 
 const urlRoutes = {
     404: {
-        template: "templaes/404.html",
+        template: "templates/404.html",
         title: "404 | " + pageTitle,
         description: "Page not found",
         script: ""
