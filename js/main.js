@@ -1,5 +1,5 @@
 async function main() {
-  const movies = await getAllMovies()
+  const movies = await getCurrentMovies()
   makeCards(movies);
 }
 
@@ -35,6 +35,19 @@ export function getAllMovies() {
     .then(response => response.json())
     .then(response => {
       console.log(response);
+      return response;
+    })
+    .catch(err => console.error(err));
+}
+
+export function getCurrentMovies(){
+  return fetch('http://localhost:8081/movie/current', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }).then(response => response.json())
+    .then(response => {
       return response;
     })
     .catch(err => console.error(err));
