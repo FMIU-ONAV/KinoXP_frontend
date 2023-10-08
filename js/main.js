@@ -1,8 +1,8 @@
-import { getAllMovies } from './movies-admin.js';
-document.addEventListener("DOMContentLoaded", async () => {
-    const movies = await getAllMovies()
-    makeCards(movies);
-})
+async function main() {
+  const movies = await getAllMovies()
+  makeCards(movies);
+}
+
 
 function makeCards(movies){
     const cardsHTML = movies.map(movie => {
@@ -24,3 +24,20 @@ function makeCards(movies){
     const cardContainer = document.getElementById('cardsRow');
     cardContainer.innerHTML = cardsHTML.join('');
 }
+
+export function getAllMovies() {
+  return fetch('http://localhost:8081/movie', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  })
+    .then(response => response.json())
+    .then(response => {
+      console.log(response);
+      return response;
+    })
+    .catch(err => console.error(err));
+}
+
+main();
