@@ -2,7 +2,6 @@ let div = ''
 function setupHandlers(){
     document.getElementById('signupForm').addEventListener('submit', signup);
     document.getElementById('loginForm').addEventListener('submit', login);
-    document.getElementById('logoutForm').addEventListener('submit', logout);
     div = document.getElementById('container');
 }
 

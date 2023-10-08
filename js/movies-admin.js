@@ -22,7 +22,7 @@ const options = {
     makeMovieRows();
   }
 
-export async function makeMovieRows() {
+  export async function makeMovieRows() {
     console.log("Entering makeMovieRows() function");
     const movies = await getAllMovies();
 
@@ -42,17 +42,25 @@ export async function makeMovieRows() {
 
     document.getElementById("movie-table-body").innerHTML = rows.join("");
 
+    // Add event listener for each "Select Dates" button
+    document.querySelectorAll("#btn-select-dates").forEach(button => {
+        button.addEventListener("click", function() {
+            let movieId = this.getAttribute("data-movie");
+            showSelectDatesModal(movieId);
+        });
+    });
+
     handleCrudBtns();
 
     console.log("Exiting makeMovieRows() function");
-
 }
 
 
 function handleSelectDatesClick(event) {
-    const movieId = event.currentTarget.getAttribute("data-movie");
+    let movieId = event.currentTarget.getAttribute("data-movie");
     showSelectDatesModal(movieId);
-}
+  }
+  
 
 function handleViewMovieClick(event) {
     const movieId = event.currentTarget.getAttribute("data-movie");
@@ -70,10 +78,10 @@ function handleDeleteMovieClick(event) {
 }
 
 function handleCrudBtns() {
-    document.querySelectorAll("#btn-select-dates").forEach(button => {
+    /* document.querySelectorAll("#btn-select-dates").forEach(button => {
         button.removeEventListener("click", handleSelectDatesClick);
         button.addEventListener("click", handleSelectDatesClick);
-    });
+    }); */
 
     document.querySelectorAll(".btn-view-movie").forEach(button => {
         button.removeEventListener("click", handleViewMovieClick);

@@ -1,37 +1,42 @@
 import { getToken } from "./security.js";
 
 export function showSelectDatesModal(movieId) {
-    const myModal = new bootstrap.Modal(document.getElementById('dates-modal'));
-    console.log(movieId);
-    document.getElementById("dates-modal-title").innerHTML = `Select Dates for Movie ID: ${movieId}`;
-    document.getElementById("btn-add-dates").addEventListener("click", () => addDatesToMovie(movieId));
-    myModal.show()
+  const myModal = new bootstrap.Modal(document.getElementById('dates-modal'));
+  document.getElementById("dates-modal-title").innerHTML = `Select Dates for Movie ID: ${movieId}`;
+  console.log(movieId)
+
+  function addDatesToMovie() {
+      const startDateStr = document.getElementById("input-start-date").value;
+      const endDateStr = document.getElementById("input-end-date").value;
+  
+      const startDate = new Date(startDateStr);
+      const endDate = new Date(endDateStr);
+  
+      const selectedTimes = getSelectedTimes();
+  
+      const allDateTimes = [];
+  
+      while (startDate <= endDate) {
+        for (const time of selectedTimes) {
+          const dateTime = new Date(startDate);
+          const [hours, minutes] = time.split(":");
+          dateTime.setHours(hours);
+          dateTime.setMinutes(minutes);
+          allDateTimes.push(dateTime);
+        }
+        startDate.setDate(startDate.getDate() + 1);
+      }
+  
+      postShowTimes(allDateTimes, movieId);
+
+      document.getElementById("input-start-date").value = "";
+      document.getElementById("input-end-date").value = "";
+  }
+
+  document.getElementById("btn-add-dates").addEventListener("click", addDatesToMovie);
+  myModal.show()
 }
 
-function addDatesToMovie(movieId) {
-    const startDateStr = document.getElementById("input-start-date").value;
-    const endDateStr = document.getElementById("input-end-date").value;
-  
-    const startDate = new Date(startDateStr);
-    const endDate = new Date(endDateStr);
-  
-    const selectedTimes = getSelectedTimes();
-  
-    const allDateTimes = [];
-  
-    while (startDate <= endDate) {
-      for (const time of selectedTimes) {
-        const dateTime = new Date(startDate);
-        const [hours, minutes] = time.split(":");
-        dateTime.setHours(hours);
-        dateTime.setMinutes(minutes);
-        allDateTimes.push(dateTime);
-      }
-      startDate.setDate(startDate.getDate() + 1);
-    }
-  
-    postShowTimes(allDateTimes, movieId);
-  }
 
   function getSelectedTimes() {
     const selectedTimes = [];
@@ -46,20 +51,24 @@ function addDatesToMovie(movieId) {
     return selectedTimes;
   }
   
-  function postShowTimes(dateTimes, movieId) {
+  function postShowTimes(dateTimes) {
+    let movieId = document.getElementById("dates-modal-title").innerHTML;
+    let movieIdInsideFunction = movieId.split(":")[1].trim();
+    console.log("Movie Id inside postShowTimes" + movieIdInsideFunction)
   
     dateTimes.forEach(dateTime => {
       const showTime = {
         date: dateTime.toISOString().split("T")[0],
         time: dateTime.toTimeString().split(" ")[0],
-        movies: [
-          {
-            movie_ID: movieId, 
-          },
-        ],
       };
+
+      console.log(showTime)
+
+      let url = `http://localhost:8081/showtime/${movieIdInsideFunction}`;
+
+      console.log(url)
   
-      fetch('http://localhost:8081/showtime', {
+      fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
