@@ -1,5 +1,9 @@
 const pageTitle = "Kino XP";
 
+document.addEventListener("DOMContentLoaded", function() {
+    document.getElementById("loader-container").style.display = "none";
+  });
+
 document.addEventListener("click", (e) => {
     const { target } = e;
     if (!target.matches("a")) {

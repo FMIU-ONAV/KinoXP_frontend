@@ -15,7 +15,9 @@ function makeCards(movies){
                 <h5 class="card-title">${movie.title}</h5>
                 <p class="card-text">${genres}</p>
                 <p class="card-text" style="color: ${movie.ageLimit>=18?"red":""}">${movie.ageLimit}+</p>
-                <a href="#" class="btn btn-primary">Reserve Tickets</a>
+              </div>
+              <div class="card-footer">
+                <a href="/movie/${movie.id}" class="btn btn-primary" id="reserve-btn">Reserve Tickets</a>
               </div>
             </div>
           </div>
