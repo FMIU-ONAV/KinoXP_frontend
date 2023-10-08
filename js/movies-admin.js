@@ -1,4 +1,5 @@
 import { getToken } from "./security.js";
+import { getAllMovies } from "./main.js";
 import { showEditMovieModal } from "./edit-movie.js";
 import { showSelectDatesModal } from "./dates-movie.js";
 import { showAddMovieModal } from "./add-movie.js";
@@ -12,30 +13,14 @@ const options = {
     }
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
+  function load () {
     fetch('https://api.themoviedb.org/3/authentication', options)
         .then(response => response.json())
         .then(response => console.log(response))
         .catch(err => console.error(err));
     document.getElementById("add-movie").addEventListener("click", showAddMovieModal);
     makeMovieRows();
-});
-
-export function getAllMovies() {
-  return fetch('http://localhost:8081/movie', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    }
-  })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
-      return response;
-    })
-    .catch(err => console.error(err));
-}
-
+  }
 
 export async function makeMovieRows() {
     console.log("Entering makeMovieRows() function");
@@ -162,7 +147,7 @@ export async function getAllCategories() {
     }
 }
 
-
+load();
 
 
 
