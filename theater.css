@@ -1,12 +1,30 @@
-
 .seat {
-    width: 20px;
-    height: 20px;
-    margin: 5px;
+    width: 18px;
+    height: 12px;
+    margin: 2px;
     text-align: center;
     border: 1px solid #000000;
-    padding: 5px;
+    padding: 2px;
     background-color: #FFFFFF;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: transparent;
+}
+
+.box {
+    width: 40%;
+    margin-left: 20px;
+    text-align: center;
+    border: 1px solid #000000;
+    padding: 18px;
+    background-color:  #FFFFFF;
+    transform: rotateX(-45deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    perspective: 1000px;
+}
+
+.seat:hover {
+    background-color: blue;;
 }
 
 
@@ -15,12 +33,77 @@
     margin-bottom: 5px;
     margin-left: 30px;
 }
-.box {
-    width: 45%;
-    margin: 5px 0;
-    text-align: center;
-    border: 2px solid #000000;
-    padding: 30px;
-    background-color: transparent;
 
+.seatstatus {
+    width: 27px;
+    height: 24px;
+    margin: 5px;
+    padding: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    display: inline-block; /* Display seats in a line */
+}
+
+/* Adjust the margin and padding for each seat status as needed */
+.selected_seat {
+    background-color: blue;
+    margin: 5px;
+    padding: 15px;
+}
+
+.occupied {
+    background-color: red;
+    margin: 5px;
+    padding: 15px;
+}
+
+.available {
+    background-color: #FFFFFF;
+    margin: 5px;
+    padding: 15px;
+}
+
+/* Optional: Adjust font size for the seat status */
+.seatstatus span {
+    font-size: 13px;
+}
+
+#theater1{
+    margin-left: 500px;
+    margin-top: -100px;
+
+}
+
+.seats{
+    margin-left: 1100px;
+    margin-top: -30px ;
+    text-align: center;
+    padding: 15px;
+    border-radius: 10px;
+    display: inline-block;
+}
+
+#continueButton {
+    margin-left: 30px;
+    margin-top: 40px;
+}
+
+
+#text{
+    font-family: monospace;
+    font-weight: bolder;
+    color: #e3dfe8;
+    margin-right: 40px;
+}
+
+
+.seat-text{
+    margin-left: 35px;
+    margin-top: -10px;
+
+}
+
+.controls {
+    margin-top: -600px;
+    margin-right: -100px; /* Adjust the negative margin-right value to move it to the left */
 }

@@ -1,10 +1,9 @@
 let div = ''
-document.addEventListener("DOMContentLoaded", function () {
+function setupHandlers(){
     document.getElementById('signupForm').addEventListener('submit', signup);
     document.getElementById('loginForm').addEventListener('submit', login);
-    document.getElementById('logoutForm').addEventListener('submit', logout);
     div = document.getElementById('container');
-});
+}
 
 function signup(event) {
     event.preventDefault();
@@ -51,7 +50,7 @@ function login(event) {
         })
         .then(function (data) {
             localStorage.setItem('user', JSON.stringify(data));
-            window.location.href = "movies-admin.html"; // Replace with the actual login page URL
+            window.navigateTo('/movies-admin');
         })
         .catch(function (error) {
             printThis(div, error.message, "red");
@@ -83,3 +82,5 @@ export function getToken(){
     const localstorage_user = JSON.parse(localStorage.getItem('user'))
     return  localstorage_user.token
 }
+
+setupHandlers();
