@@ -39,6 +39,13 @@ function handleSeatClick(seatNumber) {
     }
     updateContinueButtonStatus();
 }
+
+
+    const normalSeat = 110;
+    const VipSeat = normalSeat + 12;
+
+
+
 async function reserveSelectedSeats() {
     const theaterIds = [1, 2];  // Example: theater IDs for the selected seats
 
@@ -52,7 +59,7 @@ async function reserveSelectedSeats() {
         return {
             seat_number: seatNumber,
             isReserved: 1,
-            theater: th // Assign theater IDs in a round-robin fashion
+            theater: th,
         };
     });
     console.log(updatedSeats)
@@ -77,6 +84,8 @@ async function reserveSelectedSeats() {
             console.error('Error reserving seats:', error.message);
         });
 }
+
+
 
 
 /*function fetchAny(url) {
