@@ -57,6 +57,7 @@ function searchMovies() {
             let output = `<div class="col-md-12" id="movie-result">
             <h3 id="movie-title"><b><span id="title-value">${movie.title}</span></b></h5>
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" id="poster_ref" alt="poster" width="200px">
+            <img src="https://image.tmdb.org/t/p/original${movie.backdrop_path}" id="backdrop_ref" alt="poster" width="200px" style="display: none;">
             <h5 id="movie-release-date"><b>Release Date:</b> <span id="release-date-value">${movie.release_date}</span></h5>
             <h5 id="movie-runtime"><b>Runtime:</b> <span id="duration-value">${movie.runtime}</span> minutes</h5>
             <h5 id="movie-genres"><b>Genres:</b> <span id="genres-value">${genres}</span></h5>
@@ -94,8 +95,6 @@ function searchMovies() {
         .catch(err => console.error(err));
 }
 
-const addedMovieIDs = [];
-
 async function addMovie() {
   const addButton = document.getElementById("btn-add-movie");
   const genres = JSON.parse(addButton.getAttribute("data-genres"));
@@ -113,14 +112,9 @@ async function addMovie() {
       duration: document.getElementById("duration-value").innerHTML,
       ageLimit: document.getElementById("age-limit").value,
       imgRef: document.getElementById("poster_ref").src,
+      backdropRef: document.getElementById("backdrop_ref").src,
       categories: categories
   };
-
-    const tmdbMovieID = genres[0].id;
-    if (addedMovieIDs.includes(tmdbMovieID)) {
-        alert("This movie has already been added to the database.");
-        return;
-    }
 
   const options = {
       method: 'POST',
@@ -138,7 +132,6 @@ async function addMovie() {
           console.log(options.body);
           makeMovieRows();
 
-          addedMovieIDs.push(tmdbMovieID);
       })
       .catch(err => console.error(err));
 }

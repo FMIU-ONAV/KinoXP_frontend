@@ -1,5 +1,9 @@
 const pageTitle = "Kino XP";
 
+document.addEventListener("DOMContentLoaded", function() {
+    //document.getElementById("loader-container").style.display = "none";
+  });
+
 document.addEventListener("click", (e) => {
     const { target } = e;
     if (!target.matches("a")) {
@@ -11,7 +15,7 @@ document.addEventListener("click", (e) => {
 
 const urlRoutes = {
     404: {
-        template: "templaes/404.html",
+        template: "templates/404.html",
         title: "404 | " + pageTitle,
         description: "Page not found",
         script: ""
@@ -32,7 +36,7 @@ const urlRoutes = {
         template: "templates/movie.html",
         title: "Movie | " + pageTitle,
         description: "This is the movie page that shows all the details about the movie",
-        script: ""
+        script: "/js/main.js"
     },
     "/login": {
         template: "/templates/login.html",
