@@ -1,4 +1,3 @@
-import { getToken } from "./security.js";
 const selectedSeats = [];
 const rowContainer = document.getElementById('seatRow');
 const continueButton = document.getElementById('continueButton');
@@ -30,6 +29,7 @@ function handleSeatClick(seatNumber) {
     if (seatDiv.style.backgroundColor !== 'red') {
         seatDiv.style.backgroundColor = 'red';
         selectedSeats.push(seatNumber);
+
     } else {
         seatDiv.style.backgroundColor = 'white';
         const index = selectedSeats.indexOf(seatNumber);
@@ -61,7 +61,6 @@ async function reserveSelectedSeats() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`
         },
         body: JSON.stringify(updatedSeats),
     };
@@ -94,7 +93,9 @@ async function fetchData(id){
 
 console.log(fetchData(1))*/
 
+function getPrices(day, time) {
 
+}
 
 
 function updateContinueButtonStatus() {
