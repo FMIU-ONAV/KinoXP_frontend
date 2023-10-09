@@ -26,7 +26,7 @@ function updateHeroSection() {
       currentMovieIndex = (currentMovieIndex + 1) % movies.length;
     }, 1000);
   } else {
-    heroSection.style.backgroundImage = 'url(default-hero-image.jpg)';
+    heroSection.style.backgroundImage = 'url(images/default-hero-image.jpg)';
     heroSection.innerHTML = '<h1 id="welcome-title">No movies currently running</h1>';
   }
 }
