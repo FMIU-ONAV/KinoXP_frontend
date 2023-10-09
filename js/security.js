@@ -1,9 +1,9 @@
-/*let div = ''
+let div = ''
 function setupHandlers(){
     document.getElementById('signupForm').addEventListener('submit', signup);
     document.getElementById('loginForm').addEventListener('submit', login);
     div = document.getElementById('container');
-}*/
+}
 
 function signup(event) {
     event.preventDefault();
@@ -82,4 +82,4 @@ export function getToken(){
     const localstorage_user = JSON.parse(localStorage.getItem('user'))
     return  localstorage_user.token
 }
-//setupHandlers();
+setupHandlers();

@@ -12,7 +12,7 @@
     />
     <link
             rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
     <link
             rel="stylesheet"
@@ -92,41 +92,80 @@
 
 
 
-<div class="container-fluid mt-5 text-center">
-    <h3>Welcome to KinoXP</h3>
+<div class="container-fluid text-center">
 
     <!-- Reservation Frame -->
-    <div class="border p-4 mt-4 mx-auto" style="width: 320px;">
+    <div class="rounded mt-1 p-4 mx-auto container" style="width: 520px;">
         <h1>Reservation</h1>
+<hr>
 
-        <div class="mb-3">
-            <label for="first_Name" class="form-label">First Name:</label>
-            <input type="text" id="first_Name" name="first_Name" class="form-control">
+        <div class="row g-3 align-items-center m-1">
+            <div class="col-md-4">
+                <label for="first_Name" class="col-form-label">First name:</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" id="first_Name" class="form-control">
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label for="last_Name" class="form-label">Last Name:</label>
-            <input type="text" id="last_Name" name="last_Name" class="form-control">
+
+        <div class="row g-3 align-items-center m-1">
+            <div class="col-md-4">
+                <label for="last_Name" class="col-form-label">Last name:</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" id="last_Name" class="form-control">
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label for="birthday" class="form-label">Birthday:</label>
-            <input type="date" id="birthday" name="birthday" class="form-control">
+        <div class="row g-3 align-items-center m-1">
+            <div class="col-md-4">
+                <label for="birthday" class="col-form-label">Birthday:</label>
+            </div>
+            <div class="col-md-8">
+                <input type="date" id="birthday" class="form-control">
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label for="email" class="form-label">Email:</label>
-            <input type="email" id="email" name="email" class="form-control">
+        <div class="row g-3 align-items-center m-1 mb-3">
+            <div class="col-md-4">
+                <label for="email" class="col-form-label">Email:</label>
+            </div>
+            <div class="col-md-8">
+                <input type="email" id="email" class="form-control">
+            </div>
         </div>
 
-        <div class="mt-3">
-            <button type="button" id="submitButtonId" class="btn btn-primary mb-2">Pay Now</button>
-            <button type="button" class="btn btn-secondary">Pay Later</button>
-        </div>
+        <ul class="list-unstyled text-start fs-5">
+            <li class=""><b>Seats:</b>
+                <span id="seat">null</span>
+            </li>
+            <li class=""><b>Theater:</b>
+                <span id="theater">null</span>
+            </li>
+            <li class=""><b>Movie:</b>
+                <span id="movies">null</span>
+            </li>
+            <li class=""><b>Snacks:</b>
+                <span id="snacks">null</span>
+            </li>
+
+        </ul>
+
+        <div class="mt-5">
+        <button type="button" id="payLater" class="w-100 btn btn-primary mb-3 btn-sm">
+            Pay Later
+            <i class="fa fa-receipt"></i>
+        </button>
+        <button type="button" id="submitButtonId" class="w-100 btn btn-success btn-sm" >
+            Pay now
+            <i class="fa fa-coins"></i>
+        </button>
+
     </div>
+
     <table>
         <tbody id="customer-table-body">
-        <!-- This is where rows from the JavaScript will be inserted -->
         </tbody>
     </table>
 
@@ -138,7 +177,7 @@
         crossorigin="anonymous"></script>
 
 <script src="js/buyTickets.js"></script>
-
+</div>
 
 </body>
 </html>

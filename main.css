@@ -96,9 +96,9 @@ body {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.btn-primary {
+/*.btn-primary {
   background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  border-color: white;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -107,7 +107,7 @@ body {
   transform: scale(1.02);
   transition: transform 0.1s ease-in-out;
   color: var(--secondary-color);
-}
+}*/
 #add-movie {
   margin-top: 50px;
 }
