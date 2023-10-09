@@ -12,9 +12,16 @@ function initializeSeats() {
         for (let i = 0; i < 16; i++) {
             const seatDiv = document.createElement('div');
             seatDiv.classList.add('seat');
+
             const seatId = String.fromCharCode(65 + j) + (i + 1); // Assign a unique seat ID
             seatDiv.textContent = seatId;
-            seatDiv.dataset.seatId = seatId; // Store seat ID as a data attribute
+            seatDiv.dataset.seatId = seatId;
+
+            // golden sædder
+            if (j >= 15 && j < 25 && i >= 5 && i < 11) {
+                seatDiv.classList.add('golden-seat');
+            }
+
             seatDiv.addEventListener('click', () => handleSeatClick(seatId));
             rowDiv.appendChild(seatDiv);
         }
@@ -22,6 +29,7 @@ function initializeSeats() {
         rowContainer.appendChild(rowDiv);
     }
 }
+
 
 function handleSeatClick(seatNumber) {
     const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
@@ -40,14 +48,22 @@ function handleSeatClick(seatNumber) {
     updateContinueButtonStatus();
 }
 
+const normalSeat = 110;
+const VipSeat = normalSeat + 12;
+const discount = 25;
 
-    const normalSeat = 110;
-    const VipSeat = normalSeat + 12;
 
+
+function isSeatGolden(seatNumber) {
+    // Determine if a seat is golden based on your criteria
+    // For example, check if the seat has the class 'golden-seat'
+    const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
+    return seatDiv && seatDiv.classList.contains('golden-seat');
+}
 
 
 async function reserveSelectedSeats() {
-    const theaterIds = [1, 2];  // Example: theater IDs for the selected seats
+    const theaterIds = [1, 2];  //
 
     const th={
         theater_ID: 1,
@@ -56,9 +72,17 @@ async function reserveSelectedSeats() {
     }
 
     const updatedSeats = selectedSeats.map((seatNumber, index) => {
+        const currentTime = new Date().getHours();
+        const isGolden = isSeatGolden(seatNumber); // ser og sæddet er golden
+
+        // Determine seat price based on whether it's golden or not
+        const seat_price = (currentTime < 16) ? (isGolden ? ( VipSeat - discount) : (normalSeat - discount)) : normalSeat;
+
+
         return {
             seat_number: seatNumber,
             isReserved: 1,
+            seat_Price: seat_price,
             theater: th,
         };
     });
@@ -78,7 +102,6 @@ async function reserveSelectedSeats() {
                 throw new Error('Failed to reserve seats');
             }
             console.log('Seats reserved successfully!');
-            // Perform actions after successful reservation
         })
         .catch(error => {
             console.error('Error reserving seats:', error.message);
@@ -88,31 +111,13 @@ async function reserveSelectedSeats() {
 
 
 
-/*function fetchAny(url) {
-    console.log(url)
-    return fetch(url).then((response) => response.json())
-}
-
-async function fetchData(id){
-
-    const url = "http://localhost:8081/theater/" + id
-
-    return await fetchAny(url)*()
-}
-
-console.log(fetchData(1))*/
-
-function getPrices(day, time) {
-
-}
-
 
 function updateContinueButtonStatus() {
 
     continueButton.disabled = selectedSeats.length === 0;
 }
 
-// Fetch seat data based on seat number
+
 function fetchSeatsBySeatNumber(seatNumber) {
     const endpoint = `http://localhost:8081/seat/${seatNumber}`;
     fetch(endpoint, {
@@ -137,10 +142,7 @@ function fetchSeatsBySeatNumber(seatNumber) {
         });
 }
 
-// Fetch seat data for seat number 'P11'
-//fetchSeatsBySeatNumber('A1');
 
-// Initialize seats and event listeners
 initializeSeats();
 
 

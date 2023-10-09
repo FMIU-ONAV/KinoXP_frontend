@@ -107,3 +107,8 @@
     margin-top: -600px;
     margin-right: -100px; /* Adjust the negative margin-right value to move it to the left */
 }
+
+.golden-seat {
+    background-color: rgba(255, 226, 0, 0.42);
+    /* Add any other styling for golden seats here */
+}
