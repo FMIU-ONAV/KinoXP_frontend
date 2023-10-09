@@ -220,3 +220,42 @@ h3 {
     height: auto;
   }
 }
+.form-check-input {
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+  border: 2px solid #333;
+  border-radius: 0px;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-check-input:checked {
+  background-color: #333;
+  transform: scale(1.2);
+}
+
+.radio-button {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#showtime-text {
+  padding-top: 15px;
+
+  font-size: 1.2em;
+  font-weight: 900;
+}
+
+#showtime-text:hover {
+  color: var(--accent-color);
+}
+
+#showtimes-dropdown {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: var(--tertiary-color);
+  font-size: 1.2em;
+}
