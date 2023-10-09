@@ -1,4 +1,3 @@
-import { getToken } from "./security.js";
 const selectedSeats = [];
 const rowContainer = document.getElementById('seatRow');
 const continueButton = document.getElementById('continueButton');
@@ -30,6 +29,7 @@ function handleSeatClick(seatNumber) {
     if (seatDiv.style.backgroundColor !== 'red') {
         seatDiv.style.backgroundColor = 'red';
         selectedSeats.push(seatNumber);
+
     } else {
         seatDiv.style.backgroundColor = 'white';
         const index = selectedSeats.indexOf(seatNumber);
@@ -39,6 +39,13 @@ function handleSeatClick(seatNumber) {
     }
     updateContinueButtonStatus();
 }
+
+
+    const normalSeat = 110;
+    const VipSeat = normalSeat + 12;
+
+
+
 async function reserveSelectedSeats() {
     const theaterIds = [1, 2];  // Example: theater IDs for the selected seats
 
@@ -52,7 +59,7 @@ async function reserveSelectedSeats() {
         return {
             seat_number: seatNumber,
             isReserved: 1,
-            theater: th // Assign theater IDs in a round-robin fashion
+            theater: th,
         };
     });
     console.log(updatedSeats)
@@ -61,7 +68,6 @@ async function reserveSelectedSeats() {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${getToken()}`
         },
         body: JSON.stringify(updatedSeats),
     };
@@ -80,6 +86,8 @@ async function reserveSelectedSeats() {
 }
 
 
+
+
 /*function fetchAny(url) {
     console.log(url)
     return fetch(url).then((response) => response.json())
@@ -94,7 +102,9 @@ async function fetchData(id){
 
 console.log(fetchData(1))*/
 
+function getPrices(day, time) {
 
+}
 
 
 function updateContinueButtonStatus() {
