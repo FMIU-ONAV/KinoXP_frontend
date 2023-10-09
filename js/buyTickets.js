@@ -112,7 +112,7 @@ function handleTableClick(evt) {
     }
 }
 
-function makeNewCustomer() {
+    function makeNewCustomer() {
     showModal({
         id: null,
         first_Name: "",
@@ -122,7 +122,7 @@ function makeNewCustomer() {
     });
 }
 
-function showModal(customer) {
+    function showModal(customer) {
     const myModal = new bootstrap.Modal(document.getElementById('customer-modal'));
     document.getElementById("modal-title").innerText = customer.id ? "Edit Customer" : "Add Customer";
     document.getElementById("customer-id").innerText = customer.id;
@@ -133,7 +133,7 @@ function showModal(customer) {
     myModal.show();
 }
 
-async function saveCustomer() {
+    async function saveCustomer() {
     let customer = {};
    // customer.id = Number(document.getElementById("customer-id").innerText); // Assuming you have a hidden field with ID `customer-id`
     customer.first_Name = document.getElementById("first_Name").value;
@@ -141,21 +141,7 @@ async function saveCustomer() {
     customer.email = document.getElementById("email").value;
     customer.birthday = document.getElementById("birthday").value;
 
-        //... rest of the function remains the same
 
-/*
-    if (customer.id) {
-        const options = makeOptions("POST", customer);
-        try {
-            customer = await fetch(`${URLcustomer}/${customer.id}`, options);
-        } catch(err) {
-            handleError(err);
-        }
-        customers = customers.map(c => (c.id === customer.id) ? customer : c);
-    }
-
-
- */
 
         const options = makeOptions("POST", customer);
         try {
@@ -229,7 +215,4 @@ async function fetchCustomers() {
         }
         return res.json();
     }
-
-
-
 
