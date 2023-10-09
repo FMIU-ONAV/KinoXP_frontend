@@ -199,7 +199,7 @@ h3 {
 }
 
 #hero-section {
-  background-size: 100% 100%;
+  background-size: cover;
   background-repeat: no-repeat; /* Prevent the background image from repeating */
   background-position: center;
   width: 65%;
@@ -208,21 +208,11 @@ h3 {
   align-items: center;
   height: 50vh;
   filter: drop-shadow(1px 9px 10px #000000);
-  -webkit-box-shadow: inset 0 0 50px #000, inset 0 0 50px #000,
-    inset 0 0 50px #000;
-
-  -moz-box-shadow: inset 0 0 50px #000, inset 0 0 50px #000, inset 0 0 50px #000;
-
-  box-shadow: inset 0 0 50px #000, inset 0 0 50px #000, inset 0 0 50px #000;
+  transition: background-image 1s ease-in-out;
 }
 
 #hero-back {
   background-color: #ccc6c6;
-}
-
-.slide-left {
-  transform: translateX(-100%);
-  transition: transform 1s ease-in-out;
 }
 
 @media (max-width: 768px) {

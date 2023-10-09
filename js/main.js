@@ -17,16 +17,11 @@ function updateHeroSection() {
     const currentMovie = movies[currentMovieIndex];
     const newBackgroundImage = `url(${currentMovie.backdropRef})`;
 
-    heroSection.classList.add('slide-left');
+    heroSection.style.backgroundImage = newBackgroundImage;
 
-    setTimeout(() => {
-      heroSection.style.backgroundImage = newBackgroundImage;
-      heroSection.classList.remove('slide-left');
-
-      currentMovieIndex = (currentMovieIndex + 1) % movies.length;
-    }, 1000);
+    currentMovieIndex = (currentMovieIndex + 1) % movies.length;
   } else {
-    heroSection.style.backgroundImage = 'url(images/default-hero-image.jpg)';
+    heroSection.style.backgroundImage = 'url(default-hero-image.jpg)';
     heroSection.innerHTML = '<h1 id="welcome-title">No movies currently running</h1>';
   }
 }

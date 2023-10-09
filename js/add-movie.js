@@ -56,6 +56,7 @@ function searchMovies() {
             let genres = movie.genres.map(genre => genre.name).join(", ");
             let output = `<div class="col-md-12" id="movie-result">
             <h3 id="movie-title"><b><span id="title-value">${movie.title}</span></b></h5>
+            <span id="movie-id" hidden>${movie.id}</span>
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" id="poster_ref" alt="poster" width="200px">
             <img src="https://image.tmdb.org/t/p/original${movie.backdrop_path}" id="backdrop_ref" alt="poster" width="200px" style="display: none;">
             <h5 id="movie-release-date"><b>Release Date:</b> <span id="release-date-value">${movie.release_date}</span></h5>
