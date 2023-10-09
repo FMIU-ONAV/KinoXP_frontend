@@ -1,7 +1,10 @@
 const selectedSeats = [];
 const rowContainer = document.getElementById('seatRow');
 const continueButton = document.getElementById('continueButton');
-
+const seatCountDisplay = document.getElementById('seatCount');
+const decrementButton = document.getElementById('decrementBtn');
+const incrementButton = document.getElementById('incrementBtn');
+let seatCount = 0;
 
 
 function initializeSeats() {
@@ -22,24 +25,84 @@ function initializeSeats() {
         rowContainer.appendChild(rowDiv);
     }
 }
-
-function handleSeatClick(seatNumber) {
+/*function handleSeatClick(seatNumber) {
     const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
 
     if (seatDiv.style.backgroundColor !== 'red') {
         seatDiv.style.backgroundColor = 'red';
         selectedSeats.push(seatNumber);
-
+        seatCount++;
     } else {
         seatDiv.style.backgroundColor = 'white';
         const index = selectedSeats.indexOf(seatNumber);
         if (index !== -1) {
             selectedSeats.splice(index, 1);
+            seatCount--;
+        }
+        seatCountDisplay.textContent = seatCount;
+    }
+
+    updateContinueButtonStatus();
+}*/
+
+function handleSeatClick(seatNumber) {
+    const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
+    if (seatDiv.style.backgroundColor !== 'red') {
+        if (seatCount > 1) {
+            console.log(seatCount);
+            let firstChar = seatNumber.substring(0, 1);
+            let substring = seatNumber.substring(1);
+            let parsedNumber = parseInt(substring);
+
+            const seatsToMarkRed = [];
+
+            for (let i = 0; i < seatCount; i++) {
+                let e = firstChar + parsedNumber;
+                parsedNumber++;
+                console.log(e);
+                seatsToMarkRed.push(e);
+            }
+
+            // Mark all selected seats as red
+            seatsToMarkRed.forEach((seat) => {
+                const seatDiv = document.querySelector(`.seat[data-seat-id="${seat}"]`);
+                seatDiv.style.backgroundColor = 'red';
+                selectedSeats.push(seat);
+            });
+
+            // Update seat count display
+            seatCountDisplay.textContent = selectedSeats.length;
+        } else {
+            seatDiv.style.backgroundColor = 'red';
+            selectedSeats.push(seatNumber);
+            // Update seat count display
+            seatCountDisplay.textContent = selectedSeats.length;
+        }
+    } else {
+        seatDiv.style.backgroundColor = 'white';
+        const index = selectedSeats.indexOf(seatNumber);
+        if (index !== -1) {
+            selectedSeats.splice(index, 1);
+            seatCountDisplay.textContent = selectedSeats.length; // Update seat count display
         }
     }
     updateContinueButtonStatus();
 }
 
+
+function increment() {
+    if (seatCount < 25) { // Adjust the maximum number of seats here (e.g., 3)
+        seatCount++;
+        seatCountDisplay.textContent = seatCount;
+    }
+}
+
+function decrement() {
+    if (seatCount > 0) {
+        seatCount--;
+        seatCountDisplay.textContent = seatCount;
+    }
+}
 
     const normalSeat = 110;
     const VipSeat = normalSeat + 12;
@@ -86,22 +149,6 @@ async function reserveSelectedSeats() {
 }
 
 
-
-
-/*function fetchAny(url) {
-    console.log(url)
-    return fetch(url).then((response) => response.json())
-}
-
-async function fetchData(id){
-
-    const url = "http://localhost:8081/theater/" + id
-
-    return await fetchAny(url)*()
-}
-
-console.log(fetchData(1))*/
-
 function getPrices(day, time) {
 
 }
@@ -142,6 +189,11 @@ function fetchSeatsBySeatNumber(seatNumber) {
 
 // Initialize seats and event listeners
 initializeSeats();
-
-
 continueButton.addEventListener('click',reserveSelectedSeats)
+decrementButton.addEventListener('click', decrement);
+incrementButton.addEventListener('click', increment);
+
+// Enable seat selection and continue button after choosing the number of seats
+
+//continueButton.addEventListener('click',reserveSelectedSeats)
+
