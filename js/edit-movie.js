@@ -122,7 +122,7 @@ async function editMovie(movieId, updatedMovie) {
 
     // Send the updated movie data to the server using fetch
     const response = await fetch(`http://localhost:8081/movie/${movieId}`, {
-        method: 'PUT',
+        method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${getToken()}`
