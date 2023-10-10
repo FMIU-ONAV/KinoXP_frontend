@@ -1,6 +1,6 @@
 const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
-async function main() {
+export async function main() {
   const movies = await getCurrentMovies()
   makeCards(movies);
   setUniqueCategoriesInDropdown(movies);
