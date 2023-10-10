@@ -1,6 +1,7 @@
 import { getToken } from "./security.js";
 import { makeMovieRows } from "./movies-admin.js";
 
+const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 const options = {
     method: 'GET',
     headers: {
@@ -134,7 +135,7 @@ async function addMovie() {
       body: JSON.stringify(movieData),
   };
 
-  fetch('http://localhost:8081/movie', options)
+  fetch(`https://${url}/movie`, options)
       .then(response => response.json())
       .then(response => {
           console.log(response);

@@ -2,6 +2,8 @@ import { getAllCategories, makeMovieRows } from "./movies-admin.js";
 import { getToken } from "./security.js";
 import { getMovieById } from "./main.js";
 
+const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+
 
 function handleSubmitEditClick(movieId, movieCopy, event) {
     // Create a new copy of the updated movie object
@@ -121,7 +123,7 @@ async function editMovie(movieId, updatedMovie) {
     console.log("Updated movie object:", copiedUpdatedMovie);
 
     // Send the updated movie data to the server using fetch
-    const response = await fetch(`http://localhost:8081/movie/${movieId}`, {
+    const response = await fetch(`https://kinoxpkea.azurewebsites.net/movie/${movieId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',

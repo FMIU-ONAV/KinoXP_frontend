@@ -4,6 +4,8 @@ import { showSelectDatesModal } from "./dates-movie.js";
 import { showAddMovieModal } from "./add-movie.js";
 import { deleteMovie } from "./delete-movie.js";
 
+const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+
 const options = {
     method: 'GET',
     headers: {
@@ -125,7 +127,7 @@ async function viewMovieDetails(movieId) {
 
 export async function getAllCategories() {
     try {
-        const response = await fetch('http://localhost:8081/category', {
+        const response = await fetch(`https://${url}/category`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
