@@ -78,6 +78,7 @@ async function displayMovieDetails(movieId){
   let heroSection = document.getElementById('hero-section');
   const dropdown = document.getElementById('showtimes-dropdown');
   const showtimesContainer = document.getElementById('showtimes-container');
+const loadingSkeleton = document.querySelector('.skeleton-loader');
 
   const showtimesByDate = movieShowtimes.reduce((acc, showtime) => {
     const date = showtime.date.split(' ')[0]; // Extract the date part
@@ -141,6 +142,9 @@ async function displayMovieDetails(movieId){
       <div id="go-to-seat-reservation">
   <button class="btn btn-primary"><a href="/theater">Reserve Seats</a></button>
 </div>`;
+loadingSkeleton.style.display = 'none';
+container.style.display = 'block';
+
     container.innerHTML = html;
   }, 1000);
 }

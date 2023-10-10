@@ -259,3 +259,56 @@ h3 {
   color: var(--tertiary-color);
   font-size: 1.2em;
 }
+
+/* Add CSS styles for the skeleton loader */
+.skeleton-loader {
+  background-color: #f0f0f0; /* Background color of the skeleton */
+  border-radius: 4px; /* Rounded corners for the skeleton */
+  padding: 20px; /* Padding inside the skeleton */
+  margin-bottom: 20px; /* Margin between skeleton loaders */
+  animation: pulse 1.5s infinite alternate; /* Animation for pulsating effect */
+}
+
+/* Keyframes for the pulse animation */
+@keyframes pulse {
+  0% {
+    opacity: 0.8; /* Initial opacity */
+  }
+  100% {
+    opacity: 1; /* Final opacity */
+  }
+}
+
+.skeleton-poster {
+  width: 100%; /* Width of the skeleton poster */
+  height: 300px; /* Height of the skeleton poster */
+  background-color: #e0e0e0; /* Background color for the poster */
+  margin-bottom: 10px; /* Margin between poster and other elements */
+}
+
+.skeleton-title {
+  width: 80%; /* Width of the skeleton title */
+  height: 20px; /* Height of the skeleton title */
+  background-color: #e0e0e0; /* Background color for the title */
+  margin-bottom: 10px; /* Margin between title and other elements */
+}
+
+.skeleton-description {
+  width: 100%; /* Width of the skeleton description */
+  height: 100px; /* Height of the skeleton description */
+  background-color: #e0e0e0; /* Background color for the description */
+  margin-bottom: 10px; /* Margin between description and other elements */
+}
+
+.skeleton-genres {
+  width: 50%; /* Width of the skeleton genres */
+  height: 20px; /* Height of the skeleton genres */
+  background-color: #e0e0e0; /* Background color for the genres */
+  margin-bottom: 10px; /* Margin between genres and other elements */
+}
+
+.skeleton-showtimes {
+  width: 70%; /* Width of the skeleton showtimes */
+  height: 20px; /* Height of the skeleton showtimes */
+  background-color: #e0e0e0; /* Background color for the showtimes */
+}
