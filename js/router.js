@@ -51,10 +51,10 @@ const urlRoutes = {
         script: "/js/movies-admin.js"
     },
     "/theater": {
-        template: "/templates/index.html",
+        template: "/templates/theater.html",
         title: "Theater | " + pageTitle,
         description: "This is the theater page that shows all running movies",
-        script: ""
+        script: "/js/SeatJs.js"
     }
 }
 
@@ -98,7 +98,6 @@ const urlLocationHandler = async () => {
         script.type = 'module';
         document.body.appendChild(script);
     }
-    
 }
 
 const navigateTo = (url) => {
