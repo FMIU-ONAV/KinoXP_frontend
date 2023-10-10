@@ -10,7 +10,8 @@ export async function displayMovieDetails(movieId){
     let heroSection = document.getElementById('hero-section');
     const dropdown = document.getElementById('showtimes-dropdown');
     const showtimesContainer = document.getElementById('showtimes-container');
-  const loadingSkeleton = document.querySelector('.skeleton-loader');
+    const loadingSkeleton = document.querySelector('.skeleton-loader');
+    const heroLoader = document.getElementById('loading-hero');
   
     const showtimesByDate = movieShowtimes.reduce((acc, showtime) => {
       const date = showtime.date.split(' ')[0]; // Extract the date part
@@ -51,7 +52,7 @@ export async function displayMovieDetails(movieId){
           `;
         });
   
-        showtimesContainer.innerHTML = `<div class="col-md-8">${showtimesHTML}</div>`;
+        showtimesContainer.innerHTML = `<div class="col-md-8" id="times">${showtimesHTML}</div>`;
       });
   
   
@@ -71,11 +72,11 @@ export async function displayMovieDetails(movieId){
             </div>
           </div>
         </div>
-        <div id="go-to-seat-reservation">
-    <button class="btn btn-primary"><a href="/theater">Reserve Seats</a></button>
-  </div>`;
-  loadingSkeleton.style.display = 'none';
-  container.style.display = 'block';
+        `;
+    loadingSkeleton.style.display = 'none';
+    heroLoader.style.display = 'none';
+    container.style.display = 'block';
+    heroSection.style.display = 'block';
   
       container.innerHTML = html;
     }, 1000);

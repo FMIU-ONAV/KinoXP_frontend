@@ -1,4 +1,12 @@
-<div class="container-fluid mt-5 text-center" id="hero-section"></div>
+<div class="container-fluid mt-5 text-center">
+  <div class="skeleteon-loader animated" id="loading-hero"></div>
+</div>
+
+<div
+  class="container-fluid mt-5 text-center"
+  id="hero-section"
+  style="display: none"
+></div>
 
 <div class="container-fluid mt-5 text-center" id="showtimes">
   <select class="form-select" id="showtimes-dropdown" style="width: 18rem">
@@ -13,14 +21,19 @@
 
 <div class="container-fluid mt-5 text-center">
   <!-- Loading Skeleton -->
-  <div class="skeleton-loader" id="loading-skeleton">
-    <div class="skeleton-poster"></div>
-    <div class="skeleton-title"></div>
-    <div class="skeleton-description"></div>
-    <div class="skeleton-genres"></div>
-    <div class="skeleton-showtimes"></div>
+  <div class="skeleton-loader animated" id="loading-skeleton">
+    <div class="skeleton-poster animated"></div>
+    <div class="skeleton-title animated"></div>
+    <div class="skeleton-description animated"></div>
+    <div class="skeleton-genres animated"></div>
+    <div class="skeleton-showtimes animated"></div>
   </div>
 
   <!-- Movie Details (Initially Hidden) -->
   <div class="col-4" id="movie-details" style="display: none"></div>
+  <div id="showtimes" class="d-flex">
+    <button class="btn btn-primary" id="reserve-btn">
+      <a href="/theater">Reserve Seats</a>
+    </button>
+  </div>
 </div>
