@@ -109,6 +109,13 @@
 }
 
 .golden-seat {
-    background-color: rgba(255, 226, 0, 0.42);
+    background-color: #DAA520
     /* Add any other styling for golden seats here */
 }
+
+
+.reserved-seat {
+    background-color: red; /* You can customize the styles */
+    color: transparent; /* Adjust the text color for visibility */
+}
+
