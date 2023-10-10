@@ -49,6 +49,12 @@ const urlRoutes = {
         title: "Employee Site | " + pageTitle, 
         description: "Employee site for managing movies",
         script: "/js/movies-admin.js"
+    },
+    "/theater": {
+        template: "/templates/index.html",
+        title: "Theater | " + pageTitle,
+        description: "This is the theater page that shows all running movies",
+        script: ""
     }
 }
 

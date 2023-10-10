@@ -122,7 +122,7 @@ async function editMovie(movieId, updatedMovie) {
 
     // Send the updated movie data to the server using fetch
     const response = await fetch(`http://localhost:8081/movie/${movieId}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${getToken()}`
@@ -136,7 +136,7 @@ async function editMovie(movieId, updatedMovie) {
         // Update the movie rows in the table
         makeMovieRows();
     } else {
-        alert("Error updating movie.");
+        console.error("Movie update failed!");
     }
 
     return;

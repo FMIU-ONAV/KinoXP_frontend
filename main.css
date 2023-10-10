@@ -199,7 +199,7 @@ h3 {
 }
 
 #hero-section {
-  background-size: 100% 100%;
+  background-size: cover;
   background-repeat: no-repeat; /* Prevent the background image from repeating */
   background-position: center;
   width: 65%;
@@ -208,25 +208,117 @@ h3 {
   align-items: center;
   height: 50vh;
   filter: drop-shadow(1px 9px 10px #000000);
-  -webkit-box-shadow: inset 0 0 50px #000, inset 0 0 50px #000,
-    inset 0 0 50px #000;
-
-  -moz-box-shadow: inset 0 0 50px #000, inset 0 0 50px #000, inset 0 0 50px #000;
-
-  box-shadow: inset 0 0 50px #000, inset 0 0 50px #000, inset 0 0 50px #000;
+  transition: background-image 1s ease-in-out;
 }
 
 #hero-back {
   background-color: #ccc6c6;
 }
 
-.slide-left {
-  transform: translateX(-100%);
-  transition: transform 1s ease-in-out;
-}
-
 @media (max-width: 768px) {
   .card {
     height: auto;
   }
+}
+.form-check-input {
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+  border: 2px solid #333;
+  border-radius: 0px;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-check-input:checked {
+  background-color: #333;
+  transform: scale(1.2);
+}
+
+.radio-button {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#showtime-text {
+  padding-top: 15px;
+
+  font-size: 1.2em;
+  font-weight: 900;
+}
+
+#showtime-text:hover {
+  color: var(--accent-color);
+}
+
+#showtimes-dropdown {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: var(--tertiary-color);
+  font-size: 1.2em;
+}
+
+/* Add CSS styles for the skeleton loader */
+.skeleton-loader {
+  background-color: #f0f0f0; /* Background color of the skeleton */
+  border-radius: 4px; /* Rounded corners for the skeleton */
+  padding: 20px; /* Padding inside the skeleton */
+  margin-bottom: 20px; /* Margin between skeleton loaders */
+  animation: pulse 1.5s infinite alternate; /* Animation for pulsating effect */
+}
+
+/* Keyframes for the pulse animation */
+@keyframes pulse {
+  0% {
+    opacity: 0.8; /* Initial opacity */
+  }
+  100% {
+    opacity: 1; /* Final opacity */
+  }
+}
+
+.skeleton-poster {
+  width: 100%; /* Width of the skeleton poster */
+  height: 300px; /* Height of the skeleton poster */
+  background-color: #e0e0e0; /* Background color for the poster */
+  margin-bottom: 10px; /* Margin between poster and other elements */
+}
+
+.skeleton-title {
+  width: 80%; /* Width of the skeleton title */
+  height: 20px; /* Height of the skeleton title */
+  background-color: #e0e0e0; /* Background color for the title */
+  margin-bottom: 10px; /* Margin between title and other elements */
+}
+
+.skeleton-description {
+  width: 100%; /* Width of the skeleton description */
+  height: 100px; /* Height of the skeleton description */
+  background-color: #e0e0e0; /* Background color for the description */
+  margin-bottom: 10px; /* Margin between description and other elements */
+}
+
+.skeleton-genres {
+  width: 50%; /* Width of the skeleton genres */
+  height: 20px; /* Height of the skeleton genres */
+  background-color: #e0e0e0; /* Background color for the genres */
+  margin-bottom: 10px; /* Margin between genres and other elements */
+}
+
+.skeleton-showtimes {
+  width: 70%; /* Width of the skeleton showtimes */
+  height: 20px; /* Height of the skeleton showtimes */
+  background-color: #e0e0e0; /* Background color for the showtimes */
+}
+
+.dropdown{
+  position: absolute;
+  left: 84%;
+}
+
+.dropdown-menu{
+  background-color: white;
+  border-color: #483d8b;
 }
