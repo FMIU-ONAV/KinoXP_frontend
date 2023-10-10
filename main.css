@@ -230,3 +230,13 @@ h3 {
     height: auto;
   }
 }
+
+.dropdown{
+  position: absolute;
+  left: 84%;
+}
+
+.dropdown-menu{
+  background-color: white;
+  border-color: #483d8b;
+}

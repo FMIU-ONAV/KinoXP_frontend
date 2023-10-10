@@ -1,4 +1,3 @@
-import { getToken } from "./security.js";
 import { getAllMovies, getMovieById } from "./main.js";
 import { showEditMovieModal } from "./edit-movie.js";
 import { showSelectDatesModal } from "./dates-movie.js";
