@@ -33,16 +33,11 @@ function updateHeroSection() {
     const currentMovie = movies[currentMovieIndex];
     const newBackgroundImage = `url(${currentMovie.backdropRef})`;
 
-    heroSection.classList.add('slide-left');
+    heroSection.style.backgroundImage = newBackgroundImage;
 
-    setTimeout(() => {
-      heroSection.style.backgroundImage = newBackgroundImage;
-      heroSection.classList.remove('slide-left');
-
-      currentMovieIndex = (currentMovieIndex + 1) % movies.length;
-    }, 1000);
+    currentMovieIndex = (currentMovieIndex + 1) % movies.length;
   } else {
-    heroSection.style.backgroundImage = 'url(images/default-hero-image.jpg)';
+    heroSection.style.backgroundImage = 'url(default-hero-image.jpg)';
     heroSection.innerHTML = '<h1 id="welcome-title">No movies currently running</h1>';
   }
 }
@@ -63,8 +58,8 @@ function makeCards(movies){
               <div class="card-body">
                 <h5 class="card-title">${movie.title}</h5>
                 <p class="card-text">${genres}</p>
-                <p class="card-text" style="color: ${movie.ageLimit>=18?"red":""}">${movie.ageLimit}+</p>
-              </div>
+                <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}"> ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}</p>
+                            </div>
               <div class="card-footer">
                 <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
               </div>
@@ -91,10 +86,25 @@ function handleReserveClick(){
 
 async function displayMovieDetails(movieId){
   const movie = await getMovieById(movieId);
+  const movieShowtimes = await getShowtimesByMovieId(movieId);
   console.log(movie);
+  console.log(movieShowtimes);
   let html = ``;
   let container = document.getElementById('movie-details');
   let heroSection = document.getElementById('hero-section');
+  const dropdown = document.getElementById('showtimes-dropdown');
+  const showtimesContainer = document.getElementById('showtimes-container');
+const loadingSkeleton = document.querySelector('.skeleton-loader');
+
+  const showtimesByDate = movieShowtimes.reduce((acc, showtime) => {
+    const date = showtime.date.split(' ')[0]; // Extract the date part
+    if (!acc[date]) {
+      acc[date] = [];
+    }
+    acc[date].push(showtime);
+    return acc;
+  }, {});
+
 
   // Check if the container exists, if not wait for 100ms and check again
   while (!container) {
@@ -105,6 +115,30 @@ async function displayMovieDetails(movieId){
 
   setTimeout(() => {
     heroSection.style.backgroundImage = `url(${movie.backdropRef})`;
+    Object.keys(showtimesByDate).forEach(date => {
+      const option = document.createElement('option');
+      option.text = option.value = date;
+      dropdown.add(option);
+    });
+
+    dropdown.addEventListener('change', function() {
+      const selectedDate = this.value;
+      const selectedShowtimes = movieShowtimes.filter(showtime => showtime.date === selectedDate);
+
+      let showtimesHTML = '';
+      selectedShowtimes.forEach(showtime => {
+        showtimesHTML += `
+          <div class="radio-button">
+            <input class="form-check-input" type="radio" value="${showtime.time}" name="timeRadio" id="${showtime.time}">
+            <label><h4 id="showtime-text">${showtime.time}</h4></label>
+          </div>
+        `;
+      });
+
+      showtimesContainer.innerHTML = `<div class="col-md-8">${showtimesHTML}</div>`;
+    });
+
+
     html = `
       <div id="movie" class="d-flex">
         <div id="poster-title" class="col-6">
@@ -120,7 +154,13 @@ async function displayMovieDetails(movieId){
             <p><b>Genres:</b> ${movie.categories.map(category => category.name).join(", ")}</p>
           </div>
         </div>
-      </div>`;
+      </div>
+      <div id="go-to-seat-reservation">
+  <button class="btn btn-primary"><a href="/theater">Reserve Seats</a></button>
+</div>`;
+loadingSkeleton.style.display = 'none';
+container.style.display = 'block';
+
     container.innerHTML = html;
   }, 1000);
 }
@@ -162,6 +202,15 @@ export function getCurrentMovies(){
       return response;
     })
     .catch(err => console.error(err));
+}
+
+function getShowtimesByMovieId(movieId) {
+  return fetch(`http://localhost:8081/showtime/${movieId}`, {
+      method: 'GET',
+      headers: {
+          'Content-Type': 'application/json',
+      },
+  }).then(response => response.json());
 }
 
 function setUniqueCategoriesInDropdown(movies) {

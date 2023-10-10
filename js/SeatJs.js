@@ -1,7 +1,10 @@
 const selectedSeats = [];
 const rowContainer = document.getElementById('seatRow');
 const continueButton = document.getElementById('continueButton');
-
+const seatCountDisplay = document.getElementById('seatCount');
+const decrementButton = document.getElementById('decrementBtn');
+const incrementButton = document.getElementById('incrementBtn');
+let seatCount = 0;
 
 
 function initializeSeats() {
@@ -12,9 +15,16 @@ function initializeSeats() {
         for (let i = 0; i < 16; i++) {
             const seatDiv = document.createElement('div');
             seatDiv.classList.add('seat');
+
             const seatId = String.fromCharCode(65 + j) + (i + 1); // Assign a unique seat ID
             seatDiv.textContent = seatId;
-            seatDiv.dataset.seatId = seatId; // Store seat ID as a data attribute
+            seatDiv.dataset.seatId = seatId;
+
+            // golden sædder
+            if (j >= 15 && j < 25 && i >= 5 && i < 11) {
+                seatDiv.classList.add('golden-seat');
+            }
+
             seatDiv.addEventListener('click', () => handleSeatClick(seatId));
             rowDiv.appendChild(seatDiv);
         }
@@ -25,25 +35,76 @@ function initializeSeats() {
 
 function handleSeatClick(seatNumber) {
     const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
-
     if (seatDiv.style.backgroundColor !== 'red') {
-        seatDiv.style.backgroundColor = 'red';
-        selectedSeats.push(seatNumber);
+        if (seatCount > 1) {
+            console.log(seatCount);
+            let firstChar = seatNumber.substring(0, 1);
+            let substring = seatNumber.substring(1);
+            let parsedNumber = parseInt(substring);
 
+            const seatsToMarkRed = [];
+
+            for (let i = 0; i < seatCount; i++) {
+                let e = firstChar + parsedNumber;
+                parsedNumber++;
+                console.log(e);
+                seatsToMarkRed.push(e);
+            }
+
+            // Mark all selected seats as red
+            seatsToMarkRed.forEach((seat) => {
+                const seatDiv = document.querySelector(`.seat[data-seat-id="${seat}"]`);
+                seatDiv.style.backgroundColor = 'red';
+                selectedSeats.push(seat);
+            });
+
+            // Update seat count display
+            seatCountDisplay.textContent = selectedSeats.length;
+        } else {
+            seatDiv.style.backgroundColor = 'red';
+            selectedSeats.push(seatNumber);
+            // Update seat count display
+            seatCountDisplay.textContent = selectedSeats.length;
+        }
     } else {
         seatDiv.style.backgroundColor = 'white';
         const index = selectedSeats.indexOf(seatNumber);
         if (index !== -1) {
             selectedSeats.splice(index, 1);
+            seatCountDisplay.textContent = selectedSeats.length; // Update seat count display
         }
     }
     updateContinueButtonStatus();
 }
 
+const normalSeat = 110;
+const VipSeat = normalSeat + 12;
+const discount = 25;
 
-    const normalSeat = 110;
-    const VipSeat = normalSeat + 12;
 
+function increment() {
+    if (seatCount < 25) { // Adjust the maximum number of seats here (e.g., 3)
+        seatCount++;
+        seatCountDisplay.textContent = seatCount;
+    }
+}
+
+function decrement() {
+    if (seatCount > 0) {
+        seatCount--;
+        seatCountDisplay.textContent = seatCount;
+    }
+}
+
+
+
+
+function isSeatGolden(seatNumber) {
+    // Determine if a seat is golden based on your criteria
+    // For example, check if the seat has the class 'golden-seat'
+    const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
+    return seatDiv && seatDiv.classList.contains('golden-seat');
+}
 
 
 async function reserveSelectedSeats() {
@@ -56,9 +117,17 @@ async function reserveSelectedSeats() {
     }
 
     const updatedSeats = selectedSeats.map((seatNumber, index) => {
+        const currentTime = new Date().getHours();
+        const isGolden = isSeatGolden(seatNumber); // ser og sæddet er golden
+
+        // Determine seat price based on whether it's golden or not
+        const seat_price = (currentTime < 16) ? (isGolden ? ( VipSeat - discount) : (normalSeat - discount)) : normalSeat;
+
+
         return {
             seat_number: seatNumber,
             isReserved: 1,
+            seat_Price: seat_price,
             theater: th,
         };
     });
@@ -112,7 +181,7 @@ function updateContinueButtonStatus() {
     continueButton.disabled = selectedSeats.length === 0;
 }
 
-// Fetch seat data based on seat number
+
 function fetchSeatsBySeatNumber(seatNumber) {
     const endpoint = `http://localhost:8081/seat/${seatNumber}`;
     fetch(endpoint, {
@@ -142,6 +211,11 @@ function fetchSeatsBySeatNumber(seatNumber) {
 
 // Initialize seats and event listeners
 initializeSeats();
-
-
 continueButton.addEventListener('click',reserveSelectedSeats)
+decrementButton.addEventListener('click', decrement);
+incrementButton.addEventListener('click', increment);
+
+// Enable seat selection and continue button after choosing the number of seats
+
+//continueButton.addEventListener('click',reserveSelectedSeats)
+
