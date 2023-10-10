@@ -1,11 +1,13 @@
 const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
 let div = ''
-function setupHandlers(){
+
+if (window.location.pathname.includes('/login')) {
     document.getElementById('signupForm').addEventListener('submit', signup);
     document.getElementById('loginForm').addEventListener('submit', login);
-    div = document.getElementById('container');
 }
+    div = document.getElementById('container');
+
 
 function signup(event) {
     event.preventDefault();
@@ -84,4 +86,3 @@ export function getToken(){
     const localstorage_user = JSON.parse(localStorage.getItem('user'))
     return  localstorage_user.token
 }
-setupHandlers();
