@@ -312,3 +312,13 @@ h3 {
   height: 20px; /* Height of the skeleton showtimes */
   background-color: #e0e0e0; /* Background color for the showtimes */
 }
+
+.dropdown{
+  position: absolute;
+  left: 84%;
+}
+
+.dropdown-menu{
+  background-color: white;
+  border-color: #483d8b;
+}

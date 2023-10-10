@@ -1,6 +1,22 @@
 async function main() {
   const movies = await getCurrentMovies()
   makeCards(movies);
+  setUniqueCategoriesInDropdown(movies);
+
+  // Update the JavaScript code to use the Bootstrap dropdown API
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+  dropdownMenu.addEventListener('click', (event) => {
+    event.preventDefault(); // Prevent the default behavior (e.g., navigating to a new page)
+    event.stopPropagation(); // Stop event propagation to parent elements
+
+    const selectedCategory = event.target.textContent;
+    filterMoviesByCategory(selectedCategory, movies);
+
+    // Close the dropdown menu
+    const dropdownToggle = document.querySelector('#dropdownMenuButton');
+    dropdownToggle.classList.remove('show');
+    dropdownMenu.classList.remove('show');
+  });
 }
 
 let currentMovieIndex = 0;
@@ -88,7 +104,7 @@ const loadingSkeleton = document.querySelector('.skeleton-loader');
     acc[date].push(showtime);
     return acc;
   }, {});
-  
+
 
   // Check if the container exists, if not wait for 100ms and check again
   while (!container) {
@@ -108,7 +124,7 @@ const loadingSkeleton = document.querySelector('.skeleton-loader');
     dropdown.addEventListener('change', function() {
       const selectedDate = this.value;
       const selectedShowtimes = movieShowtimes.filter(showtime => showtime.date === selectedDate);
-    
+
       let showtimesHTML = '';
       selectedShowtimes.forEach(showtime => {
         showtimesHTML += `
@@ -118,10 +134,10 @@ const loadingSkeleton = document.querySelector('.skeleton-loader');
           </div>
         `;
       });
-    
+
       showtimesContainer.innerHTML = `<div class="col-md-8">${showtimesHTML}</div>`;
     });
-    
+
 
     html = `
       <div id="movie" class="d-flex">
@@ -196,5 +212,52 @@ function getShowtimesByMovieId(movieId) {
       },
   }).then(response => response.json());
 }
+
+function setUniqueCategoriesInDropdown(movies) {
+  const uniqueCategories = Array.from(
+    new Set(movies.flatMap(movie => movie.categories.map(category => category.name)))
+  );
+
+  const dropdownMenu = document.querySelector('.dropdown-menu');
+
+  // Create a new dropdown menu item
+  const allCategoriesItem = document.createElement('a');
+  allCategoriesItem.classList.add('nav-link', 'dropdown-item');
+  allCategoriesItem.setAttribute('data-category', '');
+
+  // Append the new dropdown menu item to the existing list of items
+  dropdownMenu.appendChild(allCategoriesItem);
+
+  // Add the remaining dropdown menu items
+  uniqueCategories.forEach(category => {
+    const dropdownMenuItem = document.createElement('a');
+    dropdownMenuItem.classList.add('nav-link', 'dropdown-item');
+    dropdownMenuItem.setAttribute('data-category', category);
+    dropdownMenuItem.textContent = category;
+
+    dropdownMenu.appendChild(dropdownMenuItem);
+  });
+}
+
+
+
+function filterMoviesByCategory(selectedCategory, movies) {
+  // Check if the selected category is "All Categories"
+  if (selectedCategory === "All Categories") {
+    makeCards(movies);
+    return;
+  }
+
+  // Filter the movies by the selected category
+  const filteredMovies = movies.filter(movie =>
+    movie.categories.some(category => category.name === selectedCategory));
+
+  makeCards(filteredMovies);
+}
+
+
+
+setUniqueCategoriesInDropdown(movies)
+
 
 main();
