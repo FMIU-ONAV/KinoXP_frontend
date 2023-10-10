@@ -40,8 +40,8 @@ const urlRoutes = {
         template: "templates/movie.html",
         title: "Movie | " + pageTitle,
         description: "This is the movie page that shows all the details about the movie",
-        script: "/js/main.js",
-        scriptId: "mainScript" 
+        script: "/js/movie.js",
+        scriptId: "movieScript"
     },
     "/login": {
         template: "/templates/login.html",
@@ -89,8 +89,11 @@ const urlLocationHandler = async () => {
     document
       .querySelector("meta[name='description']")
       .setAttribute("content", route.description);
+      removeScripts();
   
-    reloadScript(route.script, route.scriptId);
+      if (route.script) {
+        reloadScript(route.script, route.scriptId); 
+      }
   
     if (document.readyState === "loading") {
       // Loading hasn't finished yet
@@ -123,6 +126,16 @@ const urlLocationHandler = async () => {
       script.type = "module";
       document.body.appendChild(script);
     }
+  }
+
+  function removeScripts() {
+    const allScripts = document.querySelectorAll('script');
+
+  allScripts.forEach(script => {
+    if (script.id !== 'routerScript') {
+      script.remove(); 
+    }
+  });
   }
   
   
