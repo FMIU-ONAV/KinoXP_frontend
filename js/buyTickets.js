@@ -64,9 +64,10 @@ function makeNewStudent() {
         birthday: null
     });*/
 
+    const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
-const URLcustomers = "http://localhost:8081/customers";
-const URLcustomer  = "http://localhost:8081/customer";
+const URLcustomers = `http://${url}/customers`;
+const URLcustomer  = `http://${url}/customer`;
 /*
 function setUpHandlers() {
     console.log("Setting up handlers...");

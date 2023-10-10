@@ -1,3 +1,5 @@
+const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+
 let div = ''
 function setupHandlers(){
     document.getElementById('signupForm').addEventListener('submit', signup);
@@ -14,7 +16,7 @@ function signup(event) {
         password: passwordFieldSignup
     };
     payload = JSON.stringify(payload);
-    fetch("http://localhost:8081/signup", {
+    fetch(`https://${url}/signup`, {
         method: "POST",
         body: payload,
         headers: {'content-type': 'application/json'}
@@ -36,7 +38,7 @@ function login(event) {
         password: passwordField
     };
     payload = JSON.stringify(payload);
-    fetch("http://localhost:8081/login", {
+    fetch(`https://${url}/login`, {
         method: "POST",
         body: payload,
         headers: {'content-type': 'application/json'}

@@ -1,3 +1,5 @@
+const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+
 async function main() {
   const movies = await getCurrentMovies()
   makeCards(movies);
@@ -168,7 +170,7 @@ container.style.display = 'block';
 
 
 export function getMovieById(movieId) {
-  return fetch(`http://localhost:8081/movie/${movieId}`, {
+  return fetch(`https://${url}/movie/${movieId}`, {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',
@@ -177,7 +179,7 @@ export function getMovieById(movieId) {
 }
 
 export function getAllMovies() {
-  return fetch('http://localhost:8081/movie', {
+  return fetch(`https://${url}/movie`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -192,7 +194,7 @@ export function getAllMovies() {
 }
 
 export function getCurrentMovies(){
-  return fetch('http://localhost:8081/movie/current', {
+  return fetch(`https://${url}/movie/current`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -205,7 +207,7 @@ export function getCurrentMovies(){
 }
 
 function getShowtimesByMovieId(movieId) {
-  return fetch(`http://localhost:8081/showtime/${movieId}`, {
+  return fetch(`https://${url}/showtime/${movieId}`, {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',
