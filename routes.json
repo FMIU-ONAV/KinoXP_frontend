@@ -1,0 +1,12 @@
+{
+    "routes": [
+        {
+            "route": "/",
+            "serve": "index.html"
+        },
+        {
+            "route": "/login",
+            "serve": "login.html"
+        }
+    ]
+}
