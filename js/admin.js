@@ -3,10 +3,10 @@ document.addEventListener("DOMContentLoaded", function () {
     makeUserRows();
 });
 
-const url = 'https://kinoxpkea.azurewebsites.net';
+const url = 'localhost:8081';
 
 export function getAllUsers() {
-    return fetch(`https://${url}/admin`, {
+    return fetch(`${url}/admin`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',

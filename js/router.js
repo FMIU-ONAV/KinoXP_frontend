@@ -33,8 +33,8 @@ const urlRoutes = {
         template: "templates/upcoming.html",
         title: "Upcoming Movies | " + pageTitle,
         description: "This is the upcoming page that shows all upcoming movies",
-        script: "",
-        scriptId: "" 
+        script: "/js/upcoming.js",
+        scriptId: "upcomingScript" 
     },
     "/movie" : {
         template: "templates/movie.html",
