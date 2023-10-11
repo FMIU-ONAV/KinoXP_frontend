@@ -1,9 +1,28 @@
+<div id="hero-back">
+  <div class="container-fluid mt-5 text-center" id="hero-section"></div>
+</div>
+
 <div class="container-fluid mt-5 text-center">
   <h1 id="welcome-title">Upcoming Movies</h1>
 </div>
 
 <div class="container-fluid mt-5 text-center">
   <div class="container shadow" id="cardsContainer">
+    <div class="dropdown">
+      <button
+        class="btn btn-secondary dropdown-toggle"
+        type="button"
+        id="dropdownMenuButton"
+        data-bs-toggle="dropdown"
+      >
+        Choose Category
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="nav-link dropdown-item" href="#" data-category=""
+          >All Categories</a
+        >
+      </div>
+    </div>
     <div class="row" align="center" id="cardsRow"></div>
   </div>
 </div>
