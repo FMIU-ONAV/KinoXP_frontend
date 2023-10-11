@@ -190,42 +190,6 @@ function handleReserveClick(){
     });
 }
 
-async function displayMovieDetails(movieId){
-  const movie = await getMovieById(movieId);
-  console.log(movie);
-  let html = ``;
-  let container = document.getElementById('movie-details');
-  let heroSection = document.getElementById('hero-section');
-
-  // Check if the container exists, if not wait for 100ms and check again
-  while (!container) {
-    await new Promise(resolve => setTimeout(resolve, 100));
-    container = document.getElementById('movie-details');
-    heroSection = document.getElementById('hero-section');
-  }
-
-  setTimeout(() => {
-    heroSection.style.backgroundImage = `url(${movie.backdropRef})`;
-    html = `
-      <div id="movie" class="d-flex">
-        <div id="poster-title" class="col-6">
-          <img src="${movie.imgRef}" alt="${movie.title}" class="img-fluid" width="400px" id="details-poster"/>
-          <h2>${movie.title}</h2>
-        </div>
-        <div id="movie-details" class="col-12 fluid">
-          <div>
-            <p><b>Director:</b> ${movie.director}</p>
-            <p><b>Description:</b> ${movie.description}</p>
-            <p><b>Duration:</b> ${movie.duration} minutes</p>
-            <p><b>Age Limit:</b> ${movie.ageLimit}</p>
-            <p><b>Genres:</b> ${movie.categories.map(category => category.name).join(", ")}</p>
-          </div>
-        </div>
-      </div>`;
-    container.innerHTML = html;
-  }, 1000);
-}
-
 
 
 export function getMovieById(movieId) {
