@@ -70,15 +70,16 @@ const urlRoutes = {
         description: "This is the admin page that shows all employees",
         script: "/js/admin.js",
         scriptId: "adminScript"
-    },
+    }
+    /* ,
 
     "/templates/EksportBookingInfo.html": {
         template: "/templates/EksportBookingInfo.html",
         title: "EksportBookingInfo | " + pageTitle,
         description: "This is the admin page that shows all employees",
-        script: "/js/eb.js",
+        script: "/js/eksportBooking.js",
         scriptId: "ebScript"
-    }
+    }*/
 }
 
 
