@@ -1,3 +1,4 @@
+import { url } from "./main.js";
 const selectedSeats = [];
 const rowContainer = document.getElementById('seatRow');
 const continueButton = document.getElementById('continueButton');
@@ -8,7 +9,6 @@ let seatCount = 0;
 const normalSeat = 110;
 const vipSeat = normalSeat + 12;
 const discount = 25;
-const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
 const options = {
     method: 'GET',

@@ -21,6 +21,10 @@ export async function main() {
     dropdownToggle.classList.remove('show');
     dropdownMenu.classList.remove('show');
   });
+
+  localStorage.removeItem("movieId");
+  localStorage.removeItem("showtime");
+  localStorage.removeItem("date");
 }
 
 let currentMovieIndex = 0;
