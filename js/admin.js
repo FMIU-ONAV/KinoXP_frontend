@@ -1,5 +1,30 @@
 import {url} from "./main.js";
 
+export async function makeUserRows() {
+    try {
+        const users = await getAllUsers();
+
+        const rows = users.map((user) => {
+            return `
+        <tr data-ID="${user.id}" data-Username="${user.username}" data-FirstName="${user.first_Name}" data-LastName="${user.last_Name}" data-Role="${user.role.name}">
+          <td>${user.id}</td>
+          <td>${user.username}</td>
+          <td>${user.first_Name}</td>
+          <td>${user.last_Name}</td>
+          <td>${user.role.name}</td>
+          <td><button class="btn btn-warning btn-edit-movie" data-user="${user.id}">Edit</button></td>
+        </tr>
+      `;
+        });
+
+        document.getElementById("user-table-body").innerHTML = rows.join("");
+        // Sort the table initially based on the currentSort values
+        updateTableWithSort(currentSort.column, currentSort.order);
+    } catch (error) {
+        console.error("Error in makeUserRows:", error);
+    }
+}
+
 export function getAllUsers() {
     // Retrieve the JWT token from local storage
     const jwtToken = localStorage.getItem('jwtToken');
@@ -27,29 +52,56 @@ export function getAllUsers() {
         });
 }
 
-export async function makeUserRows() {
-    try {
-        const users = await getAllUsers();
+// Store the current sorting column and order in a global variable
+let currentSort = {
+    column: "ID",
+    order: "asc",
+};
 
-        console.log("Current users:", users); // Log the users array
+// Function to update the table with sorted data
+function updateTableWithSort(column, order) {
+    const users = [...document.getElementById("user-table-body").querySelectorAll("tr")];
 
-        const rows = users.map(user => {
-            return `
-          <tr>
-            <td>${user.id}</td>  
-            <td>${user.username}</td>
-            <td>${user.first_Name}</td>
-            <td>${user.last_Name}</td>
-            <td>${user.role}</td>
-            <td><button class="btn btn-warning btn-edit-movie" data-user="${user.id}">Edit</button></td>
-          </tr>
-        `;
-        });
+    users.sort((a, b) => {
+        const aValue = a.getAttribute(`data-${column}`);
+        const bValue = b.getAttribute(`data-${column}`);
 
-        document.getElementById("user-table-body").innerHTML = rows.join("");
-    } catch (error) {
-        console.error("Error in makeUserRows:", error); // Log any errors that occur in makeUserRows
-    }
+        if (order === "asc") {
+            return aValue.localeCompare(bValue);
+        } else {
+            return bValue.localeCompare(aValue);
+        }
+    });
+
+    document.getElementById("user-table-body").innerHTML = users.map((user) => user.outerHTML).join("");
 }
+
+// Function to handle the header click event
+function handleHeaderClick(column) {
+    if (column === currentSort.column) {
+        currentSort.order = currentSort.order === "asc" ? "desc" : "asc";
+    } else {
+        currentSort.column = column;
+        currentSort.order = "asc";
+    }
+
+    // Update the data-order attribute in the headers
+    const headers = document.querySelectorAll("th[data-col]");
+    headers.forEach((header) => {
+        const col = header.getAttribute("data-col");
+        header.setAttribute("data-order", col === currentSort.column ? currentSort.order : "asc");
+    });
+
+    // Update the table with sorted data
+    updateTableWithSort(currentSort.column, currentSort.order);
+}
+
+// Add click event listeners to the table headers
+document.querySelectorAll("th[data-col]").forEach((header) => {
+    header.addEventListener("click", () => {
+        const column = header.getAttribute("data-col");
+        handleHeaderClick(column);
+    });
+});
 
 makeUserRows();
