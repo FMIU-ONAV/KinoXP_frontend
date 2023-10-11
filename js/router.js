@@ -33,8 +33,8 @@ const urlRoutes = {
         template: "templates/upcoming.html",
         title: "Upcoming Movies | " + pageTitle,
         description: "This is the upcoming page that shows all upcoming movies",
-        script: "",
-        scriptId: "" 
+        script: "/js/upcoming.js",
+        scriptId: "upcomingScript"
     },
     "/movie" : {
         template: "templates/movie.html",
@@ -70,16 +70,22 @@ const urlRoutes = {
         description: "This is the admin page that shows all employees",
         script: "/js/admin.js",
         scriptId: "adminScript"
-    }
-    /* ,
+    },
 
     "/templates/EksportBookingInfo.html": {
         template: "/templates/EksportBookingInfo.html",
         title: "EksportBookingInfo | " + pageTitle,
         description: "This is the admin page that shows all employees",
-        script: "/js/eksportBooking.js",
+        script: "/js/eb.js",
         scriptId: "ebScript"
-    }*/
+    },
+    "/snack": {
+        template: "/templates/snack.html",
+        title: "Snack | " + pageTitle,
+        description: "This is the snack page that snacks options",
+        script: "/js/snack.js",
+        scriptId: "snackScript"
+    },
 }
 
 

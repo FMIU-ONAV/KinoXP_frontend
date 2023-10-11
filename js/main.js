@@ -1,6 +1,6 @@
 import { displayMovieDetails } from './movie.js';
 
-export const url = 'https://kinoxpkea.azurewebsites.net' // 'localhost:8081'
+export const url = 'http://localhost:8081' // 'localhost:8081'
 
 export async function main() {
   const movies = await getCurrentMovies()
