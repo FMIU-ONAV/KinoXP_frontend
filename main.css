@@ -96,9 +96,9 @@ body {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-.btn-primary {
+/*.btn-primary {
   background-color: var(--primary-color);
-  border-color: var(--primary-color);
+  border-color: white;
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -107,7 +107,7 @@ body {
   transform: scale(1.02);
   transition: transform 0.1s ease-in-out;
   color: var(--secondary-color);
-}
+}*/
 #add-movie {
   margin-top: 50px;
 }
@@ -152,11 +152,37 @@ h3 {
 }
 
 .card-footer {
-  position: absolute;
-  bottom: 0;
+  position: relative;
   width: 100%;
-  background-color: #f8f9fa; /* Optional: Add a background color to the footer */
+  height: 75px;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }
+
+.rate-text {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  display: block; /* Set to block by default */
+  left: 5px;
+  top: 12%;
+  transform:translateY(-50%);
+
+}
+
+.modal-title {
+  font-family: "Your Font Name", sans-serif; /* Change to your desired font */
+}
+
+.btn-secondary .rate-text {
+  color: #333;
+}
+
+
 
 #loading-container {
   position: fixed;
@@ -199,7 +225,7 @@ h3 {
 }
 
 #hero-section {
-  background-size: 100% 100%;
+  background-size: cover;
   background-repeat: no-repeat; /* Prevent the background image from repeating */
   background-position: center;
   width: 65%;
@@ -208,25 +234,54 @@ h3 {
   align-items: center;
   height: 50vh;
   filter: drop-shadow(1px 9px 10px #000000);
-  -webkit-box-shadow: inset 0 0 50px #000, inset 0 0 50px #000,
-    inset 0 0 50px #000;
-
-  -moz-box-shadow: inset 0 0 50px #000, inset 0 0 50px #000, inset 0 0 50px #000;
-
-  box-shadow: inset 0 0 50px #000, inset 0 0 50px #000, inset 0 0 50px #000;
+  transition: background-image 1s ease-in-out;
 }
 
 #hero-back {
   background-color: #ccc6c6;
 }
 
-.slide-left {
-  transform: translateX(-100%);
-  transition: transform 1s ease-in-out;
-}
-
 @media (max-width: 768px) {
   .card {
     height: auto;
   }
+}
+.form-check-input {
+  width: 30px;
+  height: 30px;
+  margin: 10px;
+  border: 2px solid #333;
+  border-radius: 0px;
+  appearance: none;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-check-input:checked {
+  background-color: #333;
+  transform: scale(1.2);
+}
+
+.radio-button {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+#showtime-text {
+  padding-top: 15px;
+
+  font-size: 1.2em;
+  font-weight: 900;
+}
+
+#showtime-text:hover {
+  color: var(--accent-color);
+}
+
+#showtimes-dropdown {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: var(--tertiary-color);
+  font-size: 1.2em;
 }
