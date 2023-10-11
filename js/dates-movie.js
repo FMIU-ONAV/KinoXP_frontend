@@ -1,6 +1,6 @@
 import { getToken } from "./security.js";
+import { url } from "./main.js";
 
-const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
 export function showSelectDatesModal(movieId) {
   const myModal = new bootstrap.Modal(document.getElementById('dates-modal'));
@@ -66,11 +66,11 @@ export function showSelectDatesModal(movieId) {
 
       console.log(showTime)
 
-      let url = `https://kinoxpkea.azurewebsites.net/showtime/${movieIdInsideFunction}`;
+      let urlToUse = `${url}/showtime/${movieIdInsideFunction}`;
 
-      console.log(url)
+      console.log(urlToUse)
   
-      fetch(url, {
+      fetch(urlToUse, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

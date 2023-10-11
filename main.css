@@ -254,10 +254,50 @@ h3 {
 }
 
 #showtimes-dropdown {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin: auto;
   color: var(--tertiary-color);
   font-size: 1.2em;
+}
+
+#times {
+  margin: auto;
+}
+
+#reserve-btn {
+  margin-left: auto;
+}
+
+#reserve-btn a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+#loading-hero {
+  background-color: #e0e0e0;
+  width: 100%;
+  height: 50vh;
+  margin: 0 auto;
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.animated {
+  animation-duration: 1.5s; /* Adjust the duration as needed */
+  animation-iteration-count: infinite;
+  animation-timing-function: ease-in-out;
+  animation-name: pulse;
 }
 
 /* Add CSS styles for the skeleton loader */
@@ -266,17 +306,6 @@ h3 {
   border-radius: 4px; /* Rounded corners for the skeleton */
   padding: 20px; /* Padding inside the skeleton */
   margin-bottom: 20px; /* Margin between skeleton loaders */
-  animation: pulse 1.5s infinite alternate; /* Animation for pulsating effect */
-}
-
-/* Keyframes for the pulse animation */
-@keyframes pulse {
-  0% {
-    opacity: 0.8; /* Initial opacity */
-  }
-  100% {
-    opacity: 1; /* Final opacity */
-  }
 }
 
 .skeleton-poster {
@@ -313,12 +342,16 @@ h3 {
   background-color: #e0e0e0; /* Background color for the showtimes */
 }
 
-.dropdown{
-  position: absolute;
-  left: 84%;
+#dropdownMenuButton {
+  float: right;
 }
 
-.dropdown-menu{
+.dropdown-menu {
   background-color: white;
+  border-color: #483d8b;
+}
+
+.btn-primary {
+  background-color: #483d8b;
   border-color: #483d8b;
 }
