@@ -1,8 +1,10 @@
 import { getToken } from "./security.js";
 import { makeMovieRows } from "./movies-admin.js";
 
+const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+
 export function deleteMovie(movieId) {
-    fetch(`http://localhost:8081/movie/${movieId}`, {
+    fetch(`https://${url}/movie/${movieId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',

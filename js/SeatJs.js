@@ -8,6 +8,7 @@ let seatCount = 0;
 const normalSeat = 110;
 const vipSeat = normalSeat + 12;
 const discount = 25;
+const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
 /*function initializeSeats() {
     for (let j = 0; j < 25; j++) {
@@ -277,7 +278,7 @@ async function reserveSelectedSeats() {
         body: JSON.stringify(updatedSeats),
     };
 
-    await fetch('http://localhost:8081/seats', options)
+    await fetch(`https://${url}/seats`, options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to reserve seats');

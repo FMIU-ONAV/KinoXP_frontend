@@ -1,9 +1,13 @@
+const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+
 let div = ''
-function setupHandlers(){
+
+if (window.location.pathname.includes('/login')) {
     document.getElementById('signupForm').addEventListener('submit', signup);
     document.getElementById('loginForm').addEventListener('submit', login);
-    div = document.getElementById('container');
 }
+    div = document.getElementById('container');
+
 
 function signup(event) {
     event.preventDefault();
@@ -14,7 +18,7 @@ function signup(event) {
         password: passwordFieldSignup
     };
     payload = JSON.stringify(payload);
-    fetch("http://localhost:8081/signup", {
+    fetch(`https://${url}/signup`, {
         method: "POST",
         body: payload,
         headers: {'content-type': 'application/json'}
@@ -36,7 +40,7 @@ function login(event) {
         password: passwordField
     };
     payload = JSON.stringify(payload);
-    fetch("http://localhost:8081/login", {
+    fetch(`https://${url}/login`, {
         method: "POST",
         body: payload,
         headers: {'content-type': 'application/json'}
@@ -82,4 +86,3 @@ export function getToken(){
     const localstorage_user = JSON.parse(localStorage.getItem('user'))
     return  localstorage_user.token
 }
-setupHandlers();
