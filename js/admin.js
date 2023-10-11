@@ -1,18 +1,22 @@
-document.addEventListener("DOMContentLoaded", function () {
-    alert("test");
-    makeUserRows();
-});
-
-const url = 'localhost:8081';
+import {url} from "./main.js";
 
 export function getAllUsers() {
+    // Retrieve the JWT token from local storage
+    const jwtToken = localStorage.getItem('jwtToken');
+
     return fetch(`${url}/admin`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${jwtToken}`
         }
     })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Request failed with status: ${response.status}`);
+            }
+            return response.json();
+        })
         .then(response => {
             console.log("Response from server:", response); // Log the response
             return response;
@@ -47,3 +51,5 @@ export async function makeUserRows() {
         console.error("Error in makeUserRows:", error); // Log any errors that occur in makeUserRows
     }
 }
+
+makeUserRows();

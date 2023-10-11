@@ -34,7 +34,7 @@ const urlRoutes = {
         title: "Upcoming Movies | " + pageTitle,
         description: "This is the upcoming page that shows all upcoming movies",
         script: "/js/upcoming.js",
-        scriptId: "upcomingScript" 
+        scriptId: "upcomingScript"
     },
     "/movie" : {
         template: "templates/movie.html",
