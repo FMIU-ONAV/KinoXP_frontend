@@ -54,6 +54,7 @@ setInterval(fetchAndUpdateHeroSection, 5000);
 
 function makeCards(movies){
     const cardsHTML = movies.map(movie => {
+
         let genres = movie.categories.map(genre => genre.name).join(", ");
         return `
         <div class="col-md-4">
@@ -67,6 +68,15 @@ function makeCards(movies){
               <div class="card-footer">
                 <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
               </div>
+                <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}"> ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}</p>
+                            </div>
+                            <div class="card-footer">
+                            <a  class="btn btn-secondary" id="rate-btn" data-movie="${movie.id}" data-movie-name="${movie.title}">
+                            <i class="fas fa-star" style="color: gold;"></i>
+                            <span class="rate-text">Rate Movie</span>
+                        </a>
+                        <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
+                    </div>
             </div>
           </div>
         `
@@ -74,20 +84,143 @@ function makeCards(movies){
     const cardContainer = document.getElementById('cardsRow');
     cardContainer.innerHTML = cardsHTML.join('');
 
+    // Example: Retrieving the 'data-movie' attribute from an element with a specific ID
+    //const movieId = document.getElementById('rate-btn').getAttribute('data-movie');
+
+
+    handleRateMovieClick();
     handleReserveClick();
 }
 
-function handleReserveClick(){
-  document.querySelectorAll("#reserve-btn").forEach(button => {
-    button.addEventListener("click", function() {
-      let movieId = this.getAttribute("data-movie");
-      localStorage.setItem("movieId", movieId);
-      
-      displayMovieDetails(movieId);
+function handleRateMovieClick() {
+    document.querySelectorAll(".btn-secondary").forEach(button => {
+        button.addEventListener("click", function () {
+            const movieName = this.getAttribute("data-movie-name");
+            const movieId = this.getAttribute("data-movie");
+            $("#ratingModalLabel").text(`Rate ${movieName}`);
+            $("#rating-modal").modal("show");
+
+            //const movieId = this.getAttribute("data-movie");
+
+            handleRatingSubmission(movieId);
+
+        });
     });
-});
 }
 
+function handleRatingSubmission(movieId) {
+    const submitRatingBtn = document.getElementById("submit-rating-btn");
+
+    submitRatingBtn.addEventListener("click", function () {
+        // Get the values of the ticket ID and rating from the form inputs
+        const ticketId = document.getElementById("ticketId").value;
+        const ratingValue = document.getElementById("rating").value;
+
+        //eventuelt: const ticketExists = checkTicketExistence(ticketId);
+        //if (ticketExists) {
+
+
+        /*Create an object to hold the rating data
+        const ratingData = {
+          rating_value: ratingValue, // The rating value (1-5)
+          movie: {
+            id: movieId, // The movie ID associated with the rating
+          },
+          ticket: {
+            id: ticketId, // The ticket ID associated with the rating
+          },
+        };*/
+
+        //Create an object to hold the rating data
+        const ratingData = {
+            rating_value: ratingValue, // The rating value (1-5)
+            movie_idfk: movieId, // The movie ID associated with the rating
+            ticket_idfk: ticketId // The ticket ID associated with the rating
+
+        };
+
+
+        // Send the rating data to the server using a fetch request
+        fetch('http://localhost:8081/rating', {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(ratingData),
+        })
+            .then((response) => response.json())
+            .then((createdRating) => {
+                // Handle the response from the server, e.g., display a success message
+                console.log("Rating submitted successfully:", createdRating);
+                // Close the modal (if needed)
+                $("#rating-modal").modal("hide");
+            })
+            .catch((error) => {
+                // Handle any errors that occurred during the request
+                //console.log(ratingValue);
+                //console.log(movieId);
+                //console.log(ticketId);
+
+                console.error("Error submitting rating:", error);
+
+                if (response.status === 404) {
+                    alert("Ticket not found");
+                }
+                else {
+                    alert("Error submitting rating: " + error.message);
+                }
+
+            });
+    });
+}
+
+
+function handleReserveClick(){
+    document.querySelectorAll("#reserve-btn").forEach(button => {
+        button.addEventListener("click", function() {
+            let movieId = this.getAttribute("data-movie");
+            localStorage.setItem("movieId", movieId);
+
+            displayMovieDetails(movieId);
+        });
+    });
+}
+
+async function displayMovieDetails(movieId){
+  const movie = await getMovieById(movieId);
+  console.log(movie);
+  let html = ``;
+  let container = document.getElementById('movie-details');
+  let heroSection = document.getElementById('hero-section');
+
+  // Check if the container exists, if not wait for 100ms and check again
+  while (!container) {
+    await new Promise(resolve => setTimeout(resolve, 100));
+    container = document.getElementById('movie-details');
+    heroSection = document.getElementById('hero-section');
+  }
+
+  setTimeout(() => {
+    heroSection.style.backgroundImage = `url(${movie.backdropRef})`;
+    html = `
+      <div id="movie" class="d-flex">
+        <div id="poster-title" class="col-6">
+          <img src="${movie.imgRef}" alt="${movie.title}" class="img-fluid" width="400px" id="details-poster"/>
+          <h2>${movie.title}</h2>
+        </div>
+        <div id="movie-details" class="col-12 fluid">
+          <div>
+            <p><b>Director:</b> ${movie.director}</p>
+            <p><b>Description:</b> ${movie.description}</p>
+            <p><b>Duration:</b> ${movie.duration} minutes</p>
+            <p><b>Age Limit:</b> ${movie.ageLimit}</p>
+            <p><b>Genres:</b> ${movie.categories.map(category => category.name).join(", ")}</p>
+          </div>
+        </div>
+      </div>`;
+    container.innerHTML = html;
+  }, 1000);
+}
 
 
 
