@@ -8,32 +8,47 @@ export function showSelectDatesModal(movieId) {
   console.log(movieId)
 
   function addDatesToMovie() {
-      const startDateStr = document.getElementById("input-start-date").value;
-      const endDateStr = document.getElementById("input-end-date").value;
+    const startDateStr = document.getElementById("input-start-date").value;
+    const endDateStr = document.getElementById("input-end-date").value;
   
-      const startDate = new Date(startDateStr);
-      const endDate = new Date(endDateStr);
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
   
-      const selectedTimes = getSelectedTimes();
+    // Check if startDate and endDate are valid dates
+    if (isNaN(startDate) || isNaN(endDate)) {
+      console.error("Invalid start date or end date");
+      return;
+    }
   
-      const allDateTimes = [];
+    const selectedTimes = getSelectedTimes();
   
-      while (startDate <= endDate) {
-        for (const time of selectedTimes) {
-          const dateTime = new Date(startDate);
-          const [hours, minutes] = time.split(":");
-          dateTime.setHours(hours);
-          dateTime.setMinutes(minutes);
-          allDateTimes.push(dateTime);
+    const allDateTimes = [];
+  
+    while (startDate <= endDate) {
+      for (const time of selectedTimes) {
+        const [hours, minutes] = time.split(":");
+  
+        // Create a new Date object for each date and time combination
+        const dateTime = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate(), hours, minutes);
+  
+        // Check if dateTime is a valid date and time
+        if (isNaN(dateTime)) {
+          console.error("Invalid date or time" + dateTime);
+          continue;
         }
-        startDate.setDate(startDate.getDate() + 1);
-      }
   
-      postShowTimes(allDateTimes, movieId);
-
-      document.getElementById("input-start-date").value = "";
-      document.getElementById("input-end-date").value = "";
+        allDateTimes.push(dateTime);
+      }
+      startDate.setDate(startDate.getDate() + 1);
+    }
+  
+    postShowTimes(allDateTimes, movieId);
+  
+    document.getElementById("input-start-date").value = "";
+    document.getElementById("input-end-date").value = "";
   }
+  
+  
 
   document.getElementById("btn-add-dates").addEventListener("click", addDatesToMovie);
   myModal.show()
@@ -57,17 +72,21 @@ export function showSelectDatesModal(movieId) {
     let movieId = document.getElementById("dates-modal-title").innerHTML;
     let movieIdInsideFunction = movieId.split(":")[1].trim();
     console.log("Movie Id inside postShowTimes" + movieIdInsideFunction)
+    
+    // Get the selected theater ID
+    let theaterId = document.querySelector('input[name="theater"]:checked').value;
+    console.log("Theater Id inside postShowTimes" + theaterId)
   
     dateTimes.forEach(dateTime => {
       const showTime = {
         date: dateTime.toISOString().split("T")[0],
-        time: dateTime.toTimeString().split(" ")[0],
+        time: dateTime.toTimeString().split(" ")[0]
       };
-
+  
       console.log(showTime)
-
-      let urlToUse = `${url}/showtime/${movieIdInsideFunction}`;
-
+  
+      let urlToUse = `${url}/showtime/${movieIdInsideFunction}?theaterId=${theaterId}`;
+  
       console.log(urlToUse)
   
       fetch(urlToUse, {
@@ -90,3 +109,4 @@ export function showSelectDatesModal(movieId) {
         });
     });
   }
+  
