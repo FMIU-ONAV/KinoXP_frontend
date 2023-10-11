@@ -94,7 +94,7 @@ async function loadSeats() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadSeats);
+loadSeats();
 
 function handleSeatClick(seatNumber) {
     const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
