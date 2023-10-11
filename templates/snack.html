@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Snack Selection</title>
+</head>
+<body>
+
+<button onclick="showSnackSelection()">Choose Snack</button>
+<div class="popup" id="snackPopup">
+    <h2>Snack Selection</h2>
+    <p>Do you want to add a snack to your order?</p>
+    <div class="snack-option" onclick="selectSnack('Small Menu')">Small Menu</div>
+    <div class="snack-option" onclick="selectSnack('Medium Menu')">Medium Menu</div>
+    <div class="snack-option" onclick="selectSnack('Big Menu')">Big Menu</div>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+</body>
+</html>
