@@ -26,3 +26,38 @@
     <div class="row" align="center" id="cardsRow"></div>
   </div>
 </div>
+
+
+
+<!-- Modal Container -->
+<div class="modal-container">
+  <div class="modal fade" id="rating-modal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="ratingModalLabel">Rate Movie</h3>
+          <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="ticketId">Enter your ticket ID:</label>
+              <input type="text" class="form-control" id="ticketId">
+            </div>
+            <div class="form-group">
+              <label for="rating">How much do you rate the movie? (1-5)</label>
+              <input type="number" class="form-control" id="rating" min="1" max="5">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" id="submit-rating-btn">Submit Rating</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- End of Modal Container -->
