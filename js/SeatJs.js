@@ -1,3 +1,4 @@
+import { url } from "./main.js";
 const selectedSeats = [];
 const rowContainer = document.getElementById('seatRow');
 const continueButton = document.getElementById('continueButton');
@@ -8,7 +9,7 @@ let seatCount = 0;
 const normalSeat = 110;
 const vipSeat = normalSeat + 12;
 const discount = 25;
-const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+
 
 /*function initializeSeats() {
     for (let j = 0; j < 25; j++) {
@@ -278,7 +279,7 @@ async function reserveSelectedSeats() {
         body: JSON.stringify(updatedSeats),
     };
 
-    await fetch(`https://${url}/seats`, options)
+    await fetch(`${url}/seats`, options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to reserve seats');

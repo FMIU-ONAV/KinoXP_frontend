@@ -1,3 +1,5 @@
+import { url } from "./main.js";
+
 var snackOptions = {
     SMALL_MENU: "Small Menu",
     MEDIUM_MENU: "Medium Menu",
