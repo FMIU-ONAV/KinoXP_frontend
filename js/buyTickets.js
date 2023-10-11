@@ -1,3 +1,4 @@
+import {url} from "./main.js";
 // This function will send the customer data to the server
 /*async function saveCustomer() {
     let customer = {};
@@ -64,10 +65,9 @@ function makeNewStudent() {
         birthday: null
     });*/
 
-    const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
-const URLcustomers = `http://${url}/customers`;
-const URLcustomer  = `http://${url}/customer`;
+const URLcustomers = `${url}/customers`;
+const URLcustomer  = `${url}/customer`;
 /*
 function setUpHandlers() {
     console.log("Setting up handlers...");

@@ -63,6 +63,13 @@ const urlRoutes = {
         description: "This is the theater page that shows all running movies",
         script: "/js/SeatJs.js",
         scriptId: "seatScript"
+    },
+    "/admin": {
+        template: "/templates/admin.html",
+        title: "Admin | " + pageTitle,
+        description: "This is the admin page that shows all employees",
+        script: "/js/admin.js",
+        scriptId: "adminScript"
     }
 }
 

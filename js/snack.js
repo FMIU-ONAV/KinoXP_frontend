@@ -2,6 +2,8 @@ const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
 
 
+import { url } from "./main.js";
+
 var snackOptions = {
     SMALL_MENU: "Small Menu",
     MEDIUM_MENU: "Medium Menu",
@@ -18,6 +20,7 @@ var snackOptions = {
     snackChoice = parseInt(snackChoice);
 
     if (snackChoice >= 1 && snackChoice <= 3) {
+    // Convert the user's choice to the corresponding SnackType
     var selectedSnackType;
         var snackPrice;
     switch (snackChoice) {
@@ -67,8 +70,4 @@ var snackOptions = {
             });
 
 }
-
-
-
-
 

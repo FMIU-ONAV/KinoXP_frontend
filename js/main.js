@@ -1,6 +1,6 @@
 import { displayMovieDetails } from './movie.js';
 
-const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+export const url = 'https://kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
 export async function main() {
   const movies = await getCurrentMovies()
@@ -92,7 +92,7 @@ function handleReserveClick(){
 
 
 export function getMovieById(movieId) {
-  return fetch(`https://${url}/movie/${movieId}`, {
+  return fetch(`${url}/movie/${movieId}`, {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export function getMovieById(movieId) {
 }
 
 export function getAllMovies() {
-  return fetch(`https://${url}/movie`, {
+  return fetch(`${url}/movie`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -116,7 +116,7 @@ export function getAllMovies() {
 }
 
 export function getCurrentMovies(){
-  return fetch(`https://${url}/movie/current`, {
+  return fetch(`${url}/movie/current`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -129,7 +129,7 @@ export function getCurrentMovies(){
 }
 
 export function getShowtimesByMovieId(movieId) {
-  return fetch(`https://${url}/showtime/${movieId}`, {
+  return fetch(`${url}/showtime/${movieId}`, {
       method: 'GET',
       headers: {
           'Content-Type': 'application/json',

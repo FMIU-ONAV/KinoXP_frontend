@@ -144,6 +144,7 @@ function unclickConnectedSeats(seatNumber) {
     });
 }
 
+
 function getConnectedSeats(seatNumber) {
     // Modify this function based on how seats are connected in your UI
     // For example, if seats are connected in a row, you might traverse the row to get connected seats
@@ -187,6 +188,8 @@ function findClosestAvailableSeat(seatNumber) {
     return null;  //ingen ledig
 }
 
+
+
 function updateContinueButtonStatus() {
     continueButton.disabled = selectedSeats.length === 0;
 }
@@ -227,12 +230,13 @@ async function reserveSelectedSeats() {
         // Determine seat price based on whether it's golden or not
         const seat_price = (currentTime < 16) ? (isGolden ? (vipSeat - discount) : (normalSeat - discount)) : (isGolden ? vipSeat : normalSeat);
 
+
+
         return {
             seat_number: seatNumber,
             isReserved: 1,
             seat_Price: seat_price,
             theater: th,
-
         };
     });
     console.log(updatedSeats)
