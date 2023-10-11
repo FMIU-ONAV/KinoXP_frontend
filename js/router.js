@@ -78,7 +78,14 @@ const urlRoutes = {
         description: "This is the admin page that shows all employees",
         script: "/js/eb.js",
         scriptId: "ebScript"
-    }
+    },
+    "/snack": {
+        template: "/templates/snack.html",
+        title: "Snack | " + pageTitle,
+        description: "This is the snack page that snacks options",
+        script: "/js/snack.js",
+        scriptId: "snackScript"
+    },
 }
 
 
