@@ -10,35 +10,6 @@ const vipSeat = normalSeat + 12;
 const discount = 25;
 const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
-/*function initializeSeats() {
-    for (let j = 0; j < 25; j++) {
-        const rowDiv = document.createElement('div');
-        rowDiv.classList.add('row');
-
-        for (let i = 0; i < 16; i++) {
-            const seatDiv = document.createElement('div');
-            seatDiv.classList.add('seat');
-
-            const seatId = String.fromCharCode(65 + j) + (i + 1); // Assign a unique seat ID
-            seatDiv.textContent = seatId;
-            seatDiv.dataset.seatId = seatId;
-
-            // golden sædder
-            if (j >= 15 && j < 25 && i >= 5 && i < 11) {
-                seatDiv.classList.add('golden-seat');
-            }
-
-            seatDiv.addEventListener('click', () => handleSeatClick(seatId));
-            rowDiv.appendChild(seatDiv);
-        }
-
-        rowContainer.appendChild(rowDiv);
-    }
-}
-
- */
-
-
 const options = {
     method: 'GET',
     headers: {
@@ -94,7 +65,7 @@ async function loadSeats() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadSeats);
+ loadSeats();
 
 function handleSeatClick(seatNumber) {
     const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
@@ -173,7 +144,6 @@ function unclickConnectedSeats(seatNumber) {
     });
 }
 
-
 function getConnectedSeats(seatNumber) {
     // Modify this function based on how seats are connected in your UI
     // For example, if seats are connected in a row, you might traverse the row to get connected seats
@@ -217,8 +187,6 @@ function findClosestAvailableSeat(seatNumber) {
     return null;  //ingen ledig
 }
 
-
-
 function updateContinueButtonStatus() {
     continueButton.disabled = selectedSeats.length === 0;
 }
@@ -259,13 +227,12 @@ async function reserveSelectedSeats() {
         // Determine seat price based on whether it's golden or not
         const seat_price = (currentTime < 16) ? (isGolden ? (vipSeat - discount) : (normalSeat - discount)) : (isGolden ? vipSeat : normalSeat);
 
-
-
         return {
             seat_number: seatNumber,
             isReserved: 1,
             seat_Price: seat_price,
             theater: th,
+
         };
     });
     console.log(updatedSeats)
