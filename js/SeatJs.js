@@ -215,7 +215,7 @@ function isSeatGolden(seatNumber) {
 }
 
 async function reserveSelectedSeats() {
-    const theaterIds = [1, 2];  // Example: theater IDs for the selected seats
+   // Example: theater IDs for the selected seats
 
     const th={
         theater_ID: 1,
