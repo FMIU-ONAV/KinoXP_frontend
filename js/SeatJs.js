@@ -10,35 +10,6 @@ const vipSeat = normalSeat + 12;
 const discount = 25;
 const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
-/*function initializeSeats() {
-    for (let j = 0; j < 25; j++) {
-        const rowDiv = document.createElement('div');
-        rowDiv.classList.add('row');
-
-        for (let i = 0; i < 16; i++) {
-            const seatDiv = document.createElement('div');
-            seatDiv.classList.add('seat');
-
-            const seatId = String.fromCharCode(65 + j) + (i + 1); // Assign a unique seat ID
-            seatDiv.textContent = seatId;
-            seatDiv.dataset.seatId = seatId;
-
-            // golden sædder
-            if (j >= 15 && j < 25 && i >= 5 && i < 11) {
-                seatDiv.classList.add('golden-seat');
-            }
-
-            seatDiv.addEventListener('click', () => handleSeatClick(seatId));
-            rowDiv.appendChild(seatDiv);
-        }
-
-        rowContainer.appendChild(rowDiv);
-    }
-}
-
- */
-
-
 const options = {
     method: 'GET',
     headers: {
@@ -94,7 +65,7 @@ async function loadSeats() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', loadSeats);
+ loadSeats();
 
 function handleSeatClick(seatNumber) {
     const seatDiv = document.querySelector(`.seat[data-seat-id="${seatNumber}"]`);
@@ -278,7 +249,7 @@ async function reserveSelectedSeats() {
         body: JSON.stringify(updatedSeats),
     };
 
-    await fetch(`https://${url}/seats`, options)
+    await fetch(`${url}/seats`, options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to reserve seats');

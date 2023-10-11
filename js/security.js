@@ -1,4 +1,4 @@
-const url = 'kinoxpkea.azurewebsites.net' // 'localhost:8081'
+import {url} from "./main.js";
 
 let div = ''
 
@@ -18,7 +18,7 @@ function signup(event) {
         password: passwordFieldSignup
     };
     payload = JSON.stringify(payload);
-    fetch(`https://${url}/signup`, {
+    fetch(`${url}/signup`, {
         method: "POST",
         body: payload,
         headers: {'content-type': 'application/json'}
@@ -40,7 +40,7 @@ function login(event) {
         password: passwordField
     };
     payload = JSON.stringify(payload);
-    fetch(`https://${url}/login`, {
+    fetch(`${url}/login`, {
         method: "POST",
         body: payload,
         headers: {'content-type': 'application/json'}
