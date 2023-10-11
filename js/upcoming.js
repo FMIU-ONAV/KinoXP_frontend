@@ -39,7 +39,7 @@ function updateHeroSection() {
   
       heroSection.style.backgroundImage = newBackgroundImage;
   
-      upcomingMovie = (upcomingMovieIndex + 1) % movies.length;
+      upcomingMovieIndex = (upcomingMovieIndex + 1) % movies.length;
     } else {
       heroSection.style.backgroundImage = 'url(default-hero-image.jpg)';
       heroSection.innerHTML = '<h1 id="welcome-title">No movies upcoming movies</h1>';
@@ -63,9 +63,7 @@ function makeCards(movies){
                 <h5 class="card-title">${movie.title}</h5>
                 <p class="card-text">${genres}</p>
                 <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}"> ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}</p>
-                            </div>
-              <div class="card-footer">
-                <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
+                <p class="card-text"> Directed by ${movie.director}</p>
               </div>
             </div>
           </div>
