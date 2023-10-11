@@ -73,6 +73,22 @@ export async function displayMovieDetails(movieId){
           </div>
         </div>
         `;
+    const reserveBtn = document.getElementById('reserve-btn');
+    reserveBtn.addEventListener('click', function(event) {
+      const selectedShowtime = document.querySelector('input[name="timeRadio"]:checked');
+      if (selectedShowtime) {
+        const showtime = selectedShowtime.value;
+        const date = dropdown.value;
+        localStorage.setItem('movieId', movieId);
+        localStorage.setItem('date', date);
+        localStorage.setItem('showtime', showtime);
+      } else {
+        alert('Please select a showtime');
+        event.stopImmediatePropagation();
+      }
+    });
+    
+     
     loadingSkeleton.style.display = 'none';
     heroLoader.style.display = 'none';
     container.style.display = 'block';
