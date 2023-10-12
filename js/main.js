@@ -1,6 +1,6 @@
 import { displayMovieDetails } from './movie.js';
 
-export const url = 'http://localhost:8081' // 'localhost:8081'
+export const url = 'https://kinoxpkea.azurewebsites.net' // 'localhost:8081'
 
 export async function main() {
   const movies = await getCurrentMovies()
@@ -59,32 +59,32 @@ setInterval(fetchAndUpdateHeroSection, 5000);
 function makeCards(movies){
     const cardsHTML = movies.map(movie => {
 
+        const maxTitleLength = 25;
         let genres = movie.categories.map(genre => genre.name).join(", ");
+        const titleClass = movie.title.length > maxTitleLength ? "long-title" : "";
+
         return `
         <div class="col-md-4">
             <div class="card" style="width: 18rem;">
-              <img src="${movie.imgRef}" class="card-img-top" alt="...">
-              <div class="card-body">
-                <h5 class="card-title">${movie.title}</h5>
-                <p class="card-text">${genres}</p>
-                <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}"> ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}</p>
-                            </div>
-              <div class="card-footer">
-                <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
-              </div>
-                <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}"> ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}</p>
-                            </div>
-                            <div class="card-footer">
-                            <a  class="btn btn-secondary" id="rate-btn" data-movie="${movie.id}" data-movie-name="${movie.title}">
-                            <i class="fas fa-star" style="color: gold;"></i>
-                            <span class="rate-text">Rate Movie</span>
-                        </a>
-                        <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
-                    </div>
+                <img src="${movie.imgRef}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title ${titleClass}">${movie.title}</h5>
+                    <p class="card-text">${genres}</p>
+                    <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}">
+                        ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-secondary" id="rate-btn" data-movie="${movie.id}" data-movie-name="${movie.title}">
+                        <i class="fas fa-star" style="color: gold;"></i>
+                        <span class="rate-text">Rate Movie</span>
+                    </a>
+                    <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
+                </div>
             </div>
-          </div>
-        `
-    })
+        </div>
+        `;
+    });
     const cardContainer = document.getElementById('cardsRow');
     cardContainer.innerHTML = cardsHTML.join('');
 
