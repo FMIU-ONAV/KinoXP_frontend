@@ -5,7 +5,7 @@ const URLcustomers = `${url}/customers`;
 const URLcustomer = `${url}/customer`;
 
 document.getElementById("customer-table-body").addEventListener("click", handleTableClick);
-document.getElementById("submitButtonId").addEventListener("click", saveCustomer);
+
 
 function handleTableClick(evt) {
   const target = evt.target;
@@ -26,83 +26,145 @@ function handleTableClick(evt) {
 async function showModal() {
 
     const movie = await getMovieById(localStorage.getItem("movieId"));
+    const snack = localStorage.getItem("snackName");
+    let snackDisplay;
+    switch (snack) {
+      case "SMALL_MENU":
+        snackDisplay = "Small Menu";
+        break;
+      case "MEDIUM_MENU":
+        snackDisplay = "Medium Menu";
+        break;
+      case "BIG_MENU":
+        snackDisplay = "Large Menu";
+        break;
+      default:
+        snackDisplay = "No Snack";
+        break;
+    } 
 
   const movieInfoReservation = document.getElementById("movieInfoReservation");
   movieInfoReservation.querySelector("#ticketSeats").textContent = `Seats: ${localStorage.getItem("selectedSeats")}`;
   movieInfoReservation.querySelector("#ticketTheater").textContent = `Theater: ${localStorage.getItem("theater")}`;
   movieInfoReservation.querySelector("#ticketMovie").textContent = `Movie: ${movie.title}`;
-  movieInfoReservation.querySelector("#ticketSnacks").textContent = `Snacks: `;
+  movieInfoReservation.querySelector("#ticketSnacks").textContent = `Snacks: ${snackDisplay}`;
+  movieInfoReservation.querySelector("#totalPrice").textContent = `Total Price: ${localStorage.getItem("totalPrice")} kr.`;
 
   movieInfoReservation.style.display = "block";
 }
 
 async function saveCustomer() {
-    const customer = {
-      first_Name: document.getElementById("first_Name").value,
-      last_Name: document.getElementById("last_Name").value,
-      email: document.getElementById("email").value,
-      birthday: document.getElementById("birthday").value,
-    };
-  
-    try {
-      let newCustomer = null;
-      const response = await fetch(URLcustomer, makeOptions("POST", customer));
-      if (response.ok) {
-        newCustomer = await response.json();
-        console.log(newCustomer);
-  
-        // After saving the customer, create tickets for each selected seat
-        const selectedSeats = localStorage.getItem("selectedSeats").split(',');
-        const theater = localStorage.getItem("theater");
-  
-        for (let seat of selectedSeats) {
-          seat = await getSeatBySeatNumber(seat);
-          const movie = await getMovieById(localStorage.getItem("movieId"));
-          const showtime = await getShowtimeById(localStorage.getItem("showtime_id"));
-          console.log("Inside seat " + JSON.stringify(seat));
-          console.log("Inside movie " + JSON.stringify(movie));
-          console.log("Inside showtime " + JSON.stringify(showtime));
-          
-          const snackName = localStorage.getItem("snackName");
-          const snackPrice = localStorage.getItem("snackPrice");
+  const customer = {
+    first_Name: document.getElementById("first_Name").value,
+    last_Name: document.getElementById("last_Name").value,
+    email: document.getElementById("email").value,
+    birthday: document.getElementById("birthday").value,
+  };
 
-          const ticket = {
-            customer: newCustomer,
-            movie: movie,
-            showtime: showtime,
-            seat: seat,
-            snack: {
-                name: snackName,
-                price: snackPrice,
-            },
-          };
-  
-          console.log(JSON.stringify(ticket));
-  
-          const ticketResponse = await fetch(`${url}/ticket`, {
+  try {
+    let newCustomer = null;
+    const response = await fetch(URLcustomer, makeOptions("POST", customer));
+    if (response.ok) {
+      newCustomer = await response.json();
+
+      // After saving the customer, create tickets for each selected seat
+      const selectedSeats = localStorage.getItem("selectedSeats").split(',');
+      let tickets = [];
+
+
+      for (let seat of selectedSeats) {
+        seat = await getSeatBySeatNumber(seat);
+        const movie = await getMovieById(localStorage.getItem("movieId"));
+        const showtime = await getShowtimeById(localStorage.getItem("showtime_id"));
+        
+        let snackName = localStorage.getItem("snackName");
+        let snackPrice = localStorage.getItem("snackPrice");
+
+        console.log(snackName);
+        console.log(snackPrice);
+        
+        
+        
+        const snack = {
+          snackType: snackName,
+          price: snackPrice,
+        };
+        
+        
+
+          console.log(snack);
+
+          let snackData;
+
+          const snackResponse = await fetch(`${url}/snacks`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(ticket),
+            body: JSON.stringify(snack),
           });
-  
-          if (ticketResponse.ok) {
-            const ticketData = await ticketResponse.json();
-            console.log(ticketData);
-            
-            
+          if (snackResponse.ok) {
+            snackData = await snackResponse.json();
           } else {
-            // Handle the case where the ticket creation request failed.
+            // Handle the case where the snack creation request failed.
           }
+        
+
+        const ticket = {
+          customer: newCustomer,
+          movie: movie,
+          showtime: showtime,
+          seat: seat,
+          snack: snackData,
+        };
+
+
+        const ticketResponse = await fetch(`${url}/ticket`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(ticket),
+        });
+
+        let ticketData;
+
+        if (ticketResponse.ok) {
+          ticketData = await ticketResponse.json();
+
+          // Update the snackData with the ticket_id
+          const snackUpdate = {
+            id: snackData.snack_id,
+            snackType: snackData.snackType,
+            price: snackData.price,
+            ticket_ID: ticketData.ticket_ID,
+          }
+
+          const snackUpdateResponse = await fetch(`${url}/snacks/${snackData.snack_ID}`, {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(snackUpdate),
+          });
+
+          tickets.push(ticketData);
+          localStorage.setItem('tickets', JSON.stringify(tickets));
+
+          if (!snackUpdateResponse.ok) {
+            // Handle the case where the snack update request failed.
+          }
+        } else {
+          // Handle the case where the ticket creation request failed.
         }
-      } else {
-        // Handle the case where the customer creation request failed.
       }
-    } catch (err) {
-      console.log(err);
+    } else {
+      // Handle the case where the customer creation request failed.
     }
+  } catch (err) {
+    console.log(err);
   }
+}
   
   
 
@@ -144,6 +206,11 @@ function getShowtimeById(showtimeId){
     }).then(response => {return response.json()});
 
 }
+
+document.getElementById("submitButtonId").addEventListener("click", async () => {
+  saveCustomer();
+  window.navigateTo('/order-confirmation');
+});
 
 showModal({
     id: null,

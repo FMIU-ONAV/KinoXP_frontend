@@ -24,6 +24,10 @@ dropdownMenu.addEventListener('click', (event) => {
 });
 
 
+  clearLocalStorage();
+}
+
+function clearLocalStorage(){
   localStorage.removeItem("movieId");
   localStorage.removeItem("showtime");
   localStorage.removeItem("date");
@@ -31,6 +35,10 @@ dropdownMenu.addEventListener('click', (event) => {
   localStorage.removeItem("selectedSeats");
   localStorage.removeItem("snack");
   localStorage.removeItem("showtime_id");
+  localStorage.removeItem("snackName");
+  localStorage.removeItem("snackPrice");
+  localStorage.removeItem("totalPrice");
+  localStorage.removeItem("tickets");
 }
 
 let currentMovieIndex = 0;
