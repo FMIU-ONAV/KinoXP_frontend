@@ -19,7 +19,7 @@ let seatCount = 0;
 const normalSeat = 110;
 const vipSeat = normalSeat + 12;
 const discount = 25;
-import { url } from "./main.js";
+let totalPrice = 0;
 
 const options = {
     method: 'GET',
@@ -143,6 +143,13 @@ function handleSeatClick(seatNumber) {
         // Update seat count display
         seatCountDisplay.textContent = selectedSeats.length;
     }
+
+    const currentTime = new Date().getHours();
+    const isGolden = isSeatGolden(seatNumber); // ser og sæddet er golden
+    const seat_price = (currentTime < 16) ? (isGolden ? (vipSeat - discount) : (normalSeat - discount)) : (isGolden ? vipSeat : normalSeat);
+    totalPrice += seat_price;
+
+    document.getElementById('totalPriceDisplay').textContent = 'Total: ' + totalPrice + ' kr.';
 
     updateContinueButtonStatus();
 }
@@ -281,7 +288,6 @@ async function reserveSelectedSeats() {
         body: JSON.stringify(updatedSeats),
     };
 
-    await fetch(`${url}/seats`, options)
     await fetch(`${url}/seats`, options)
         .then(response => {
             if (!response.ok) {
