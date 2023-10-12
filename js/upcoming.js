@@ -54,13 +54,17 @@ setInterval(fetchAndUpdateHeroSection, 5000);
   
 function makeCards(movies){
     const cardsHTML = movies.map(movie => {
+
+        const maxTitleLength = 25;
         let genres = movie.categories.map(genre => genre.name).join(", ");
+        const titleClass = movie.title.length > maxTitleLength ? "long-title" : "";
+
         return `
         <div class="col-md-4">
             <div class="card" style="width: 18rem;">
               <img src="${movie.imgRef}" class="card-img-top" alt="...">
               <div class="card-body">
-                <h5 class="card-title">${movie.title}</h5>
+              <h5 class="card-title ${titleClass}">${movie.title}</h5>
                 <p class="card-text">${genres}</p>
                 <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}"> ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}</p>
                 <p class="card-text"> Directed by ${movie.director}</p>
