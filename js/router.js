@@ -4,14 +4,19 @@ document.addEventListener("DOMContentLoaded", function() {
     //document.getElementById("loader-container").style.display = "none";
   });
 
-document.addEventListener("click", (e) => {
+  document.addEventListener("click", (e) => {
     const { target } = e;
     if (!target.matches("a")) {
-        return;
+      return;
+    } else if(target.matches(".dropdown-item")) {
+      return;
     }
     e.preventDefault();
     route();
-});
+  }, true);  // register this event listener in the capturing phase
+  
+  
+  
 
 
 const urlRoutes = {
@@ -86,6 +91,13 @@ const urlRoutes = {
         script: "/js/snack.js",
         scriptId: "snackScript"
     },
+    "/buyticket": {
+        template: "/templates/buyTicket.html",
+        title: "Buy Ticket | " + pageTitle,
+        description: "This is the buy ticket page that shows all running movies",
+        script: "/js/buyTickets.js",
+        scriptId: "buyTicketScript"
+    }
 }
 
 

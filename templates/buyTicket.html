@@ -1,61 +1,3 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kino XP</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-    />
-    <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-    />
-    <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700&display=swap"
-    />
-    <link rel="stylesheet" href="../main.css" />
-</head>
-<body>
-<nav class="navbar">
-    <div class="container-fluid d-flex">
-        <a class="main-color" href="#">
-            <img src="logo.png" alt="logo" width="40%" />
-        </a>
-
-        <div class="navbar-content me-4">
-            <ul class="nav">
-                <li class="nav-item">
-                    <a class="nav-link main-color" href="#">
-                        Movies <i class="fa fa-film"></i>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link main-color" href="#">
-                        Upcoming Movies <i class="fa fa-star"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
-
-        <form class="d-flex" role="search">
-            <input
-                    class="form-text form-control-sm"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-            />
-            <button class="btn" type="submit">
-                <i class="fa fa-search main-color"></i>
-            </button>
-        </form>
-    </div>
-</nav>
-
 <!--div class="container-fluid mt-5 text-center">
     <h3>Welcome to KinoXP</h3>
 
@@ -90,94 +32,84 @@
     </div>
 </div-->/
 
-
-
 <div class="container-fluid text-center">
+  <!-- Reservation Frame -->
+  <div class="rounded mt-1 p-4 mx-auto container" style="width: 520px">
+    <h1>Reservation</h1>
+    <hr />
 
-    <!-- Reservation Frame -->
-    <div class="rounded mt-1 p-4 mx-auto container" style="width: 520px;">
-        <h1>Reservation</h1>
-<hr>
+    <div class="row g-3 align-items-center m-1">
+      <div class="col-md-4">
+        <label for="first_Name" class="col-form-label">First name:</label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" id="first_Name" class="form-control" />
+      </div>
+    </div>
 
-        <div class="row g-3 align-items-center m-1">
-            <div class="col-md-4">
-                <label for="first_Name" class="col-form-label">First name:</label>
-            </div>
-            <div class="col-md-8">
-                <input type="text" id="first_Name" class="form-control">
-            </div>
-        </div>
+    <div class="row g-3 align-items-center m-1">
+      <div class="col-md-4">
+        <label for="last_Name" class="col-form-label">Last name:</label>
+      </div>
+      <div class="col-md-8">
+        <input type="text" id="last_Name" class="form-control" />
+      </div>
+    </div>
 
+    <div class="row g-3 align-items-center m-1">
+      <div class="col-md-4">
+        <label for="birthday" class="col-form-label">Birthday:</label>
+      </div>
+      <div class="col-md-8">
+        <input type="date" id="birthday" class="form-control" />
+      </div>
+    </div>
 
-        <div class="row g-3 align-items-center m-1">
-            <div class="col-md-4">
-                <label for="last_Name" class="col-form-label">Last name:</label>
-            </div>
-            <div class="col-md-8">
-                <input type="text" id="last_Name" class="form-control">
-            </div>
-        </div>
+    <div class="row g-3 align-items-center m-1 mb-3">
+      <div class="col-md-4">
+        <label for="email" class="col-form-label">Email:</label>
+      </div>
+      <div class="col-md-8">
+        <input type="email" id="email" class="form-control" />
+      </div>
+    </div>
 
-        <div class="row g-3 align-items-center m-1">
-            <div class="col-md-4">
-                <label for="birthday" class="col-form-label">Birthday:</label>
-            </div>
-            <div class="col-md-8">
-                <input type="date" id="birthday" class="form-control">
-            </div>
-        </div>
+    <div id="movieInfoReservation">
+      <div class="" id="ticketSeats">
+        <b>Seats:</b>
+      </div>
+      <div class="" id="ticketTheater">
+        <b>Theater:</b>
+      </div>
+      <div class="" id="ticketMovie">
+        <b>Movie:</b>
+      </div>
+      <div class="" id="ticketSnacks">
+        <b>Snacks:</b>
+      </div>
+    </div>
 
-        <div class="row g-3 align-items-center m-1 mb-3">
-            <div class="col-md-4">
-                <label for="email" class="col-form-label">Email:</label>
-            </div>
-            <div class="col-md-8">
-                <input type="email" id="email" class="form-control">
-            </div>
-        </div>
-
-        <ul class="list-unstyled text-start fs-5">
-            <li class=""><b>Seats:</b>
-                <span id="seat">null</span>
-            </li>
-            <li class=""><b>Theater:</b>
-                <span id="theater">null</span>
-            </li>
-            <li class=""><b>Movie:</b>
-                <span id="movies">null</span>
-            </li>
-            <li class=""><b>Snacks:</b>
-                <span id="snacks">null</span>
-            </li>
-
-        </ul>
-
-        <div class="mt-5">
-        <button type="button" id="payLater" class="w-100 btn btn-primary mb-3 btn-sm">
-            Pay Later
-            <i class="fa fa-receipt"></i>
-        </button>
-        <button type="button" id="submitButtonId" class="w-100 btn btn-success btn-sm" >
-            Pay now
-            <i class="fa fa-coins"></i>
-        </button>
-
+    <div class="mt-5">
+      <button
+        type="button"
+        id="payLater"
+        class="w-100 btn btn-primary mb-3 btn-sm"
+      >
+        Pay Later
+        <i class="fa fa-receipt"></i>
+      </button>
+      <button
+        type="button"
+        id="submitButtonId"
+        class="w-100 btn btn-success btn-sm"
+      >
+        Pay now
+        <i class="fa fa-coins"></i>
+      </button>
     </div>
 
     <table>
-        <tbody id="customer-table-body">
-        </tbody>
+      <tbody id="customer-table-body"></tbody>
     </table>
-
+  </div>
 </div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
-
-<script src="../js/buyTickets.js"></script>
-</div>
-
-</body>
-</html>

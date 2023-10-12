@@ -1,50 +1,46 @@
 <div class="container-fluid mt-5 text-center">
-    <h3>Welcome to KinoXP</h3>
+  <h3>Welcome to KinoXP</h3>
 </div>
 <div class="seats">
-    <div class="seatstatus selected_seat">
-        <div class="seat-text">Selected</div>
-    </div>
-    <br>
-    <div class="seatstatus occupied">
-        <div class="seat-text">Occupied </div></div>
-    <br>
-    <div class="seatstatus available">
-        <div class="seat-text">Available</div></div>
-    <br>
-    <div class="seatstatus Vip">
-        <div class="seat-text">Vip</div></div>
+  <div class="seatstatus selected_seat">
+    <div class="seat-text">Selected</div>
+  </div>
+  <br />
+  <div class="seatstatus occupied">
+    <div class="seat-text">Occupied</div>
+  </div>
+  <br />
+  <div class="seatstatus available">
+    <div class="seat-text">Available</div>
+  </div>
+  <br />
+  <div class="seatstatus Vip">
+    <div class="seat-text">Vip</div>
+  </div>
 </div>
 
-=======
-
-<button id="continueButton" disabled>Continue
-    <a href="snack"></a>
+<button id="continueButton" disabled>
+  Continue
+  <a href="snack"></a>
 </button>
 
 <div id="theater1">
-    <div class="box">IMAX</div>
-    <br>
+  <div class="box">IMAX</div>
+  <br />
 
-    <div id="seatRow"></div>
+  <div id="seatRow"></div>
 </div>
 
 <div class="seating-container">
+  <div class="controls">
+    <label for="seatCount">Select the number of seats: </label>
+    <button id="decrementBtn">-</button>
+    <span id="seatCount">0</span>
+    <button id="incrementBtn">+</button>
+  </div>
+  <div id="countContainer"></div>
 
-    <div class="controls">
-        <label for="seatCount">Select the number of seats: </label>
-        <button id="decrementBtn">-</button>
-        <span id="seatCount">0</span>
-        <button id="incrementBtn">+</button>
-    </div>
-    <div id="countContainer"></div>
-
-    <script type="module" src="../js/SeatJs.js" ></script>
-
-    <footer>
-        <div class="container-fluid text-center">
-            <p class="mt-5 mb-3 text-body-secondary">&copy; 2023 - KEA</p>
-        </div>
-    </footer>
-
+  <button class="btn btn-primary" id="reserve-btn">
+    <a href="/buyticket">Videre</a>
+  </button>
 </div>

@@ -96,9 +96,9 @@ body {
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-/*.btn-primary {
+.btn-primary {
   background-color: var(--primary-color);
-  border-color: white;
+  border-color: var(--primary-color);
   transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
@@ -107,7 +107,7 @@ body {
   transform: scale(1.02);
   transition: transform 0.1s ease-in-out;
   color: var(--secondary-color);
-}*/
+}
 #add-movie {
   margin-top: 50px;
 }
@@ -152,11 +152,37 @@ h3 {
 }
 
 .card-footer {
-  position: absolute;
-  bottom: 0;
+  position: relative;
   width: 100%;
-  background-color: #f8f9fa; /* Optional: Add a background color to the footer */
+  height: 75px;
+  background-color: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }
+
+.rate-text {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-size: 12px;
+  display: block; /* Set to block by default */
+  left: 5px;
+  top: 12%;
+  transform:translateY(-50%);
+
+}
+
+.modal-title {
+  font-family: "Your Font Name", sans-serif; /* Change to your desired font */
+}
+
+.btn-secondary .rate-text {
+  color: #333;
+}
+
+
 
 #loading-container {
   position: fixed;
@@ -212,7 +238,7 @@ h3 {
 }
 
 #hero-back {
-  background-color: #ccc6c6;
+  background-color: rgb(205, 198, 198);
 }
 
 @media (max-width: 768px) {
@@ -220,6 +246,7 @@ h3 {
     height: auto;
   }
 }
+
 .form-check-input {
   width: 30px;
   height: 30px;
@@ -354,4 +381,8 @@ h3 {
 .btn-primary {
   background-color: #483d8b;
   border-color: #483d8b;
+}
+
+.long-title {
+  font-size: 14px;
 }

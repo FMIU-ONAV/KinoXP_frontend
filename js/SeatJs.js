@@ -1,3 +1,14 @@
+import { url } from "./main.js";
+
+// Fixing the footer in the theater page
+const myFooter = document.querySelector('.myFooter');
+if (myFooter) {
+    myFooter.style.marginTop = '40%';
+}
+
+const movieId = localStorage.getItem('movieId');
+const showtime = localStorage.getItem('showtime');
+const date = localStorage.getItem('date');
 const selectedSeats = [];
 const rowContainer = document.getElementById('seatRow');
 const continueButton = document.getElementById('continueButton');
@@ -20,12 +31,22 @@ const options = {
 async function initializeSeats(seatsData) {
     const rowContainer = document.getElementById('seatRow');
     rowContainer.innerHTML = '';  // Clear existing content
+    const showtimeData = await fetchShowtime(movieId, date, showtime);
+    const theater_ID = showtimeData.theater.theater_ID;
+    localStorage.setItem('theater', theater_ID);
+    localStorage.setItem('showtime_id', showtimeData.showtime_ID)
+    const rows = theater_ID === 1 ? 20 : 25;
+    const columns = theater_ID === 1 ? 12 : 16;
 
-    for (let j = 0; j < 25; j++) {
+    const goldenRows = 10;  // Number of rows with golden seats (centered)
+    const goldenColumnsStart = Math.floor(columns / 4);  // Golden seats start from the middle of the first half
+    const goldenColumnsEnd = Math.floor(3 * columns / 4);  // Golden seats end at the middle of the second half
+
+    for (let j = 0; j < rows; j++) {
         const rowDiv = document.createElement('div');
         rowDiv.classList.add('row');
 
-        for (let i = 0; i < 16; i++) {
+        for (let i = 0; i < columns; i++) {
             const seatDiv = document.createElement('div');
             seatDiv.classList.add('seat');
 
@@ -33,15 +54,15 @@ async function initializeSeats(seatsData) {
             seatDiv.textContent = seatId;
             seatDiv.dataset.seatId = seatId;
 
-            // Check if the seat is reserved and apply the appropriate class
             const isReserved = seatsData.some(seatInfo => seatInfo.seat_number === seatId && seatInfo.isReserved);
+
             if (isReserved) {
                 seatDiv.classList.add('reserved-seat');
-            } else if (j >= 15 && j < 25 && i >= 5 && i < 11) {
+            } 
+            if (j >= (rows - goldenRows) && i >= goldenColumnsStart && i < goldenColumnsEnd) {
                 seatDiv.classList.add('golden-seat');
             }
 
-            // Add your logic to handle golden seats (if needed)
 
             // Remove click event listener for reserved seats
             if (!isReserved) {
@@ -55,15 +76,19 @@ async function initializeSeats(seatsData) {
     }
 }
 
+
 async function loadSeats() {
     try {
-        const response = await fetch('http://localhost:8081/seat', options);
-        const seatsData = await response.json();
-        initializeSeats(seatsData);  // Call initializeSeats with seat data
+        const showtimeData = await fetchShowtime(movieId, date, showtime);
+        console.log(showtimeData);
+        const seatsData = await fetchSeats(showtimeData.showtime_ID);
+        console.log(seatsData);
+        initializeSeats(seatsData);  
     } catch (error) {
         console.error('Error loading seats:', error.message);
     }
 }
+
 
  loadSeats();
 
@@ -215,12 +240,18 @@ function isSeatGolden(seatNumber) {
 }
 
 async function reserveSelectedSeats() {
-    const theaterIds = [1, 2];  // Example: theater IDs for the selected seats
+   // Example: theater IDs for the selected seats
+
+
+    const showtimeData = await fetchShowtime(movieId, date, showtime);
+    console.log(showtimeData)
+    const theater_ID = showtimeData.theater.theater_ID;
+    console.log(theater_ID)
 
     const th={
-        theater_ID: 1,
-        total_rows: 16,
-        total_Seat_Per_Row: 25
+        theater_ID: theater_ID,
+        total_rows: theater_ID===1?20:25,
+        total_Seat_Per_Row: theater_ID===1?12:16,
     }
 
     const updatedSeats = selectedSeats.map((seatNumber, index) => {
@@ -237,6 +268,7 @@ async function reserveSelectedSeats() {
             isReserved: 1,
             seat_Price: seat_price,
             theater: th,
+            showtime: showtimeData,
         };
     });
     console.log(updatedSeats)
@@ -250,6 +282,7 @@ async function reserveSelectedSeats() {
     };
 
     await fetch(`${url}/seats`, options)
+    await fetch(`${url}/seats`, options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to reserve seats');
@@ -260,7 +293,22 @@ async function reserveSelectedSeats() {
         .catch(error => {
             console.error('Error reserving seats:', error.message);
         });
+
+    localStorage.setItem('selectedSeats', selectedSeats);
 }
+
+async function fetchShowtime(movieId, date, showtime) {
+    const response = await fetch(`${url}/showtimes/${movieId}?date=${date}&time=${showtime}`, options);
+    const showtimeData = await response.json();
+    return showtimeData;
+}
+
+async function fetchSeats(showtimeId) {
+    const response = await fetch(`${url}/seats/${showtimeId}`, options);
+    const seatsData = await response.json();
+    return seatsData;
+}
+
 
 //initializeSeats();
 continueButton.addEventListener('click',reserveSelectedSeats)
