@@ -79,11 +79,11 @@ function makeCards(movies){
                     </p>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-secondary rate-btn" id="rate-btn" data-movie="${movie.id}" data-movie-name="${movie.title}">
+                    <a class="btn btn-secondary rate-btn" id="rate-btn" data-movie="${movie.movie_ID}" data-movie-name="${movie.title}">
                         <i class="fas fa-star" style="color: gold;"></i>
                         <span class="rate-text">Rate Movie</span>
                     </a>
-                    <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
+                    <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.movie_ID}">Reserve Tickets</a>
                 </div>
             </div>
         </div>
