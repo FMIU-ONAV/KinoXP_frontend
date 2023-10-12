@@ -294,6 +294,7 @@ async function reserveSelectedSeats() {
                 throw new Error('Failed to reserve seats');
             }
             console.log('Seats reserved successfully!');
+            showSnackSelection();
             // Perform actions after successful reservation
         })
         .catch(error => {
@@ -315,6 +316,62 @@ async function fetchSeats(showtimeId) {
     return seatsData;
 }
 
+function closeCustomPopup() {
+    var customPopup = document.getElementById('customPopup');
+    customPopup.style.display = 'none';
+}
+
+async function showSnackSelection() {
+    var customPopup = document.getElementById('customPopup');
+    customPopup.style.display = 'block';
+
+    var snackOptionsElement = document.getElementById('popupContent');
+    var selectSnackButton = document.getElementById('selectSnackButton');
+
+    selectSnackButton.addEventListener('click', async function() {
+        var selectedSnack = document.querySelector('input[name="snackChoice"]:checked');
+        var popupContent = document.getElementById('popupContent');
+
+        if (selectedSnack) {
+            var selectedSnackType;
+            var snackPrice;
+
+            switch (selectedSnack.value) {
+                case "small":
+                    selectedSnackType = "SMALL_MENU";
+                    snackPrice = 70;
+                    break;
+                case "medium":
+                    selectedSnackType = "MEDIUM_MENU";
+                    snackPrice = 87;
+                    break;
+                case "big":
+                    selectedSnackType = "BIG_MENU";
+                    snackPrice = 100;
+                    break;
+            }
+
+            popupContent.innerHTML = `
+        <p>You have selected: ${selectedSnackType} for ${snackPrice} kr.</p>
+        <button id="close-snack" ><a href="/buyticket">Close</a></button>
+      `;
+      document.getElementById('close-snack').addEventListener('click', closeCustomPopup)
+            
+            localStorage.setItem('snackName', snackType);
+            localStorage.setItem('snackPrice', snackPrice);
+            
+           
+        } else {
+    
+            popupContent.innerHTML = `
+        <p>Please select a snack option.</p>
+        <button id="close-snack">Close</button>
+      `;
+
+      document.getElementById('close-snack').addEventListener('click', closeCustomPopup)
+        }
+    });
+}
 
 //initializeSeats();
 continueButton.addEventListener('click',reserveSelectedSeats)

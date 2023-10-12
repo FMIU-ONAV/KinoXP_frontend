@@ -62,11 +62,19 @@ async function saveCustomer() {
           console.log("Inside seat " + JSON.stringify(seat));
           console.log("Inside movie " + JSON.stringify(movie));
           console.log("Inside showtime " + JSON.stringify(showtime));
+          
+          const snackName = localStorage.getItem("snackName");
+          const snackPrice = localStorage.getItem("snackPrice");
+
           const ticket = {
             customer: newCustomer,
             movie: movie,
             showtime: showtime,
             seat: seat,
+            snack: {
+                name: snackName,
+                price: snackPrice,
+            },
           };
   
           console.log(JSON.stringify(ticket));
@@ -82,6 +90,8 @@ async function saveCustomer() {
           if (ticketResponse.ok) {
             const ticketData = await ticketResponse.json();
             console.log(ticketData);
+            
+            
           } else {
             // Handle the case where the ticket creation request failed.
           }

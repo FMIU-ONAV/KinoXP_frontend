@@ -29,6 +29,8 @@ dropdownMenu.addEventListener('click', (event) => {
   localStorage.removeItem("date");
   localStorage.removeItem("theater");
   localStorage.removeItem("selectedSeats");
+  localStorage.removeItem("snack");
+  localStorage.removeItem("showtime_id");
 }
 
 let currentMovieIndex = 0;
