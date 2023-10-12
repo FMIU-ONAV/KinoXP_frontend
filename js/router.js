@@ -8,6 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const { target } = e;
     if (!target.matches("a")) {
       return;
+    } else if(target.matches(".dropdown-item")) {
+      return;
     }
     e.preventDefault();
     route();
@@ -88,6 +90,13 @@ const urlRoutes = {
         description: "This is the snack page that snacks options",
         script: "/js/snack.js",
         scriptId: "snackScript"
+    },
+    "/buyticket": {
+        template: "/templates/buyTicket.html",
+        title: "Buy Ticket | " + pageTitle,
+        description: "This is the buy ticket page that shows all running movies",
+        script: "/js/buyTickets.js",
+        scriptId: "buyTicketScript"
     }
 }
 

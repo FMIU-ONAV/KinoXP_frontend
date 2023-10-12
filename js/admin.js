@@ -5,10 +5,11 @@ export async function makeUserRows() {
     try {
         const users = await getAllUsers();
         console.log(users)
-
+        
         const rows = users.map((user) => {
+            const role = user.role.name;
             return `
-        <tr data-ID="${user.id}" data-Username="${user.username}" data-FirstName="${user.first_Name}" data-LastName="${user.last_Name}" data-Role="${user.role.name}">
+        <tr data-ID="${user.id}" data-Username="${user.username}" data-FirstName="${user.first_Name}" data-LastName="${user.last_Name}" data-Role="${role}">
           <td>${user.id}</td>
           <td>${user.username}</td>
           <td>${user.first_Name}</td>

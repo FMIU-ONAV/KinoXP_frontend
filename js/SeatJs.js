@@ -25,6 +25,8 @@ async function initializeSeats(seatsData) {
     rowContainer.innerHTML = '';  // Clear existing content
     const showtimeData = await fetchShowtime(movieId, date, showtime);
     const theater_ID = showtimeData.theater.theater_ID;
+    localStorage.setItem('theater', theater_ID);
+    localStorage.setItem('showtime_id', showtimeData.showtime_ID)
     const rows = theater_ID === 1 ? 20 : 25;
     const columns = theater_ID === 1 ? 12 : 16;
 
@@ -282,6 +284,8 @@ async function reserveSelectedSeats() {
         .catch(error => {
             console.error('Error reserving seats:', error.message);
         });
+
+    localStorage.setItem('selectedSeats', selectedSeats);
 }
 
 async function fetchShowtime(movieId, date, showtime) {

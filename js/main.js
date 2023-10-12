@@ -6,25 +6,29 @@ export async function main() {
   const movies = await getCurrentMovies()
   makeCards(movies);
   setUniqueCategoriesInDropdown(movies);
+filterMoviesByCategory("", movies); // Show all movies initially
 
-  // Update the JavaScript code to use the Bootstrap dropdown API
+
   const dropdownMenu = document.querySelector('.dropdown-menu');
-  dropdownMenu.addEventListener('click', (event) => {
-    event.preventDefault(); // Prevent the default behavior (e.g., navigating to a new page)
-    event.stopPropagation(); // Stop event propagation to parent elements
+dropdownMenu.addEventListener('click', (event) => {
+  event.preventDefault();
+  event.stopPropagation();
 
-    const selectedCategory = event.target.textContent;
-    filterMoviesByCategory(selectedCategory, movies);
+  const selectedCategory = event.target.getAttribute('data-category');
+  filterMoviesByCategory(selectedCategory, movies);
 
-    // Close the dropdown menu
-    const dropdownToggle = document.querySelector('#dropdownMenuButton');
-    dropdownToggle.classList.remove('show');
-    dropdownMenu.classList.remove('show');
-  });
+  // Close the dropdown menu
+  const dropdownToggle = document.querySelector('#dropdownMenuButton');
+  dropdownToggle.classList.remove('show');
+  dropdownMenu.classList.remove('show');
+});
+
 
   localStorage.removeItem("movieId");
   localStorage.removeItem("showtime");
   localStorage.removeItem("date");
+  localStorage.removeItem("theater");
+  localStorage.removeItem("selectedSeats");
 }
 
 let currentMovieIndex = 0;
@@ -70,16 +74,16 @@ function makeCards(movies){
                 <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}"> ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}</p>
                             </div>
               <div class="card-footer">
-                <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
+                <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.movie_ID}">Reserve Tickets</a>
               </div>
                 <p class="card-text" style="color: ${movie.ageLimit > 0 && movie.ageLimit >= 18 ? "red" : ""}"> ${movie.ageLimit > 0 ? movie.ageLimit + "+" : ""}</p>
                             </div>
                             <div class="card-footer">
-                            <a  class="btn btn-secondary" id="rate-btn" data-movie="${movie.id}" data-movie-name="${movie.title}">
+                            <a  class="btn btn-secondary btn-rating" id="rate-btn" data-movie="${movie.movie_ID}" data-movie-name="${movie.title}">
                             <i class="fas fa-star" style="color: gold;"></i>
                             <span class="rate-text">Rate Movie</span>
                         </a>
-                        <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.id}">Reserve Tickets</a>
+                        <a href="/movie" class="btn btn-primary" id="reserve-btn" data-movie="${movie.movie_ID}">Reserve Tickets</a>
                     </div>
             </div>
           </div>
@@ -97,7 +101,7 @@ function makeCards(movies){
 }
 
 function handleRateMovieClick() {
-    document.querySelectorAll(".btn-secondary").forEach(button => {
+    document.querySelectorAll(".btn-rating").forEach(button => {
         button.addEventListener("click", function () {
             const movieName = this.getAttribute("data-movie-name");
             const movieId = this.getAttribute("data-movie");
@@ -268,17 +272,16 @@ function setUniqueCategoriesInDropdown(movies) {
 
 function filterMoviesByCategory(selectedCategory, movies) {
   // Check if the selected category is "All Categories"
-  if (selectedCategory === "All Categories") {
-    makeCards(movies);
-    return;
+  if (selectedCategory === "") {
+    makeCards(movies); // Show all movies
+  } else {
+    const filteredMovies = movies.filter(movie =>
+      movie.categories.some(category => category.name === selectedCategory)
+    );
+    makeCards(filteredMovies);
   }
-
-  // Filter the movies by the selected category
-  const filteredMovies = movies.filter(movie =>
-    movie.categories.some(category => category.name === selectedCategory));
-
-  makeCards(filteredMovies);
 }
+
 
 
 
