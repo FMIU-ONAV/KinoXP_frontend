@@ -1,4 +1,7 @@
 import { url } from "./main.js";
+const movieId = localStorage.getItem('movieId');
+const showtime = localStorage.getItem('showtime');
+const date = localStorage.getItem('date');
 const selectedSeats = [];
 const rowContainer = document.getElementById('seatRow');
 const continueButton = document.getElementById('continueButton');
@@ -57,13 +60,16 @@ async function initializeSeats(seatsData) {
 
 async function loadSeats() {
     try {
-        const response = await fetch('http://localhost:8081/seat', options);
-        const seatsData = await response.json();
-        initializeSeats(seatsData);  // Call initializeSeats with seat data
+        const showtimeData = await fetchShowtime(movieId, date, showtime);
+        console.log(showtimeData);
+        const seatsData = await fetchSeats(showtimeData.showtime_ID);
+        console.log(seatsData);
+        initializeSeats(seatsData);  
     } catch (error) {
         console.error('Error loading seats:', error.message);
     }
 }
+
 
  loadSeats();
 
@@ -223,6 +229,8 @@ async function reserveSelectedSeats() {
         total_Seat_Per_Row: 25
     }
 
+    const showtimeData = await fetchShowtime(movieId, date, showtime);
+
     const updatedSeats = selectedSeats.map((seatNumber, index) => {
         const currentTime = new Date().getHours();
         const isGolden = isSeatGolden(seatNumber); // ser og sæddet er golden
@@ -237,6 +245,7 @@ async function reserveSelectedSeats() {
             isReserved: 1,
             seat_Price: seat_price,
             theater: th,
+            showtime: showtimeData,
         };
     });
     console.log(updatedSeats)
@@ -249,7 +258,7 @@ async function reserveSelectedSeats() {
         body: JSON.stringify(updatedSeats),
     };
 
-    await fetch(`http://${url}/seats`, options)
+    await fetch(`${url}/seats`, options)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to reserve seats');
@@ -261,6 +270,19 @@ async function reserveSelectedSeats() {
             console.error('Error reserving seats:', error.message);
         });
 }
+
+async function fetchShowtime(movieId, date, showtime) {
+    const response = await fetch(`${url}/showtimes/${movieId}?date=${date}&time=${showtime}`, options);
+    const showtimeData = await response.json();
+    return showtimeData;
+}
+
+async function fetchSeats(showtimeId) {
+    const response = await fetch(`${url}/seats/${showtimeId}`, options);
+    const seatsData = await response.json();
+    return seatsData;
+}
+
 
 //initializeSeats();
 continueButton.addEventListener('click',reserveSelectedSeats)
