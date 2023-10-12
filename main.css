@@ -238,7 +238,7 @@ h3 {
 }
 
 #hero-back {
-  background-color: #ccc6c6;
+  background-color: rgb(205, 198, 198);
 }
 
 @media (max-width: 768px) {
