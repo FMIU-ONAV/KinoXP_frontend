@@ -19,7 +19,6 @@ let seatCount = 0;
 const normalSeat = 110;
 const vipSeat = normalSeat + 12;
 const discount = 25;
-import { url } from "./main.js";
 
 const options = {
     method: 'GET',
