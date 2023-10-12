@@ -80,7 +80,6 @@ export async function displayMovieDetails(movieId){
         const showtime = selectedShowtime.value;
         const date = dropdown.value;
         localStorage.setItem('movieId', movieId);
-        localStorage.setItem('theater', movie.theaterId)
         localStorage.setItem('date', date);
         localStorage.setItem('showtime', showtime);
       } else {

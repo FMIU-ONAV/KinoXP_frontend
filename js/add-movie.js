@@ -29,10 +29,10 @@ function searchMovies() {
         movies.map(movie => {
           output += `<div class="col-md-3">
             <div class="well text-center" id="movie-result">
-                <h5 id="movie-id">${movie.id}</h5>
+                <h5 id="movie-id">${movie.movie_ID}</h5>
                 <h5 id="movie-title">${movie.title}</h5>
                 <h5 id="movie-release">Release Date: ${movie.release_date}</h5>
-                <button class="btn btn-primary details-btn" data-movie-id="${movie.id}">Select Movie</button>
+                <button class="btn btn-primary details-btn" data-movie-id="${movie.movie_ID}">Select Movie</button>
             </div>
           </div>`;
         });
@@ -57,7 +57,7 @@ function searchMovies() {
             let genres = movie.genres.map(genre => genre.name).join(", ");
             let output = `<div class="col-md-12" id="movie-result">
             <h3 id="movie-title"><b><span id="title-value">${movie.title}</span></b></h5>
-            <span id="movie-id" hidden>${movie.id}</span>
+            <span id="movie-id" hidden>${movie.movie_ID}</span>
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" id="poster_ref" alt="poster" width="200px">
             <img src="https://image.tmdb.org/t/p/original${movie.backdrop_path}" id="backdrop_ref" alt="poster" width="200px" style="display: none;">
             <h5 id="movie-release-date"><b>Release Date:</b> <span id="release-date-value">${movie.release_date}</span></h5>
