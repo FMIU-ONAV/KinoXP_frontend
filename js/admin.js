@@ -8,15 +8,15 @@ export async function makeUserRows() {
 
         const rows = users.map((user) => {
             return `
-        <tr data-ID="${user.id}" data-Username="${user.username}" data-FirstName="${user.first_Name}" data-LastName="${user.last_Name}" data-Role="${user.role.name}">
-          <td>${user.id}</td>
-          <td>${user.username}</td>
-          <td>${user.first_Name}</td>
-          <td>${user.last_Name}</td>
-          <td>${user.role.name}</td>
-          <td><button class="btn btn-warning btn-edit-user" data-user="${user.id}">Edit</button></td>
-        </tr>
-      `;
+    <tr data-ID="${user.id}" data-Username="${user.username}" data-FirstName="${user.first_Name || 'N/A'}" data-LastName="${user.last_Name || 'N/A'}" data-Role="${user.role ? user.role.name : 'N/A'}">
+      <td>${user.id}</td>
+      <td>${user.username}</td>
+      <td>${user.first_Name || 'N/A'}</td>
+      <td>${user.last_Name || 'N/A'}</td>
+      <td>${user.role ? user.role.name : 'N/A'}</td>
+      <td><button class="btn btn-warning btn-edit-user" data-user="${user.id}">Edit</button></td>
+    </tr>
+  `;
         });
 
         document.getElementById("user-table-body").innerHTML = rows.join("");
@@ -36,7 +36,6 @@ export async function makeUserRows() {
 }
 
 export function getAllUsers() {
-
     return fetch(`${url}/admin`, {
         method: 'GET',
         headers: {
@@ -193,12 +192,11 @@ function closeModal(modalId) {
 
 async function getUserDetails(userId) {
     try {
-        const jwtToken = localStorage.getItem('jwtToken');
         const response = await fetch(`${url}/admin/${userId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${jwtToken}`,
+                'Authorization': `Bearer ${getToken()}`,
             },
         });
         return await response.json();
