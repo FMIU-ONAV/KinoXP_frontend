@@ -30,13 +30,13 @@ const options = {
     const rows = movies.map(movie => {
         return `
       <tr>
-        <td>${movie.id}</td>  
+        <td>${movie.movie_ID}</td>  
         <td>${movie.title}</td>
-        <td>Dates<button class="btn btn-primary" id="btn-select-dates" data-movie="${movie.id}">Select Dates</button></td>
+        <td>Dates<button class="btn btn-primary" id="btn-select-dates" data-movie="${movie.movie_ID}">Select Dates</button></td>
         <td>Tickets Sold</td>
-        <td><button class="btn btn-primary btn-view-movie" data-movie="${movie.id}">View</button></td>
-        <td><button class="btn btn-warning btn-edit-movie" data-movie="${movie.id}">Edit</button></td>
-        <td><button class="btn btn-danger" id="btn-delete-movie" data-movie="${movie.id}">Delete</button></td>
+        <td><button class="btn btn-primary btn-view-movie" data-movie="${movie.movie_ID}">View</button></td>
+        <td><button class="btn btn-warning btn-edit-movie" data-movie="${movie.movie_ID}">Edit</button></td>
+        <td><button class="btn btn-danger" id="btn-delete-movie" data-movie="${movie.movie_ID}">Delete</button></td>
       </tr>
     `;
     });
