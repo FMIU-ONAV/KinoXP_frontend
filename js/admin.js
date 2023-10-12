@@ -1,8 +1,10 @@
 import {url} from "./main.js";
+import { getToken } from "./security.js";
 
 export async function makeUserRows() {
     try {
         const users = await getAllUsers();
+        console.log(users)
 
         const rows = users.map((user) => {
             return `
@@ -34,30 +36,28 @@ export async function makeUserRows() {
 }
 
 export function getAllUsers() {
-    // Retrieve the JWT token from local storage
-    const jwtToken = localStorage.getItem('jwtToken');
 
     return fetch(`${url}/admin`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${jwtToken}`
+            'Authorization': `Bearer ${getToken()}`
         }
     })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error(`Request failed with status: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(response => {
-            console.log("Response from server:", response); // Log the response
-            return response;
-        })
-        .catch(err => {
-            console.error("Error fetching data:", err); // Log any errors
-            throw err; // Rethrow the error to handle it later
-        });
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Request failed with status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(response => {
+        console.log("Response from server:", response); // Log the response
+        return response;
+    })
+    .catch(err => {
+        console.error("Error fetching data:", err); // Log any errors
+        throw err; // Rethrow the error to handle it later
+    });
 }
 
 // Store the current sorting column and order in a global variable
