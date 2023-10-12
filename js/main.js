@@ -75,7 +75,7 @@ function makeCards(movies){
                     </p>
                 </div>
                 <div class="card-footer">
-                    <a class="btn btn-secondary" id="rate-btn" data-movie="${movie.id}" data-movie-name="${movie.title}">
+                    <a class="btn btn-secondary rate-btn" id="rate-btn" data-movie="${movie.id}" data-movie-name="${movie.title}">
                         <i class="fas fa-star" style="color: gold;"></i>
                         <span class="rate-text">Rate Movie</span>
                     </a>
@@ -97,7 +97,7 @@ function makeCards(movies){
 }
 
 function handleRateMovieClick() {
-    document.querySelectorAll(".btn-secondary").forEach(button => {
+    document.querySelectorAll(".rate-btn").forEach(button => {
         button.addEventListener("click", function () {
             const movieName = this.getAttribute("data-movie-name");
             const movieId = this.getAttribute("data-movie");
