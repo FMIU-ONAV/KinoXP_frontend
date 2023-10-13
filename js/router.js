@@ -97,6 +97,13 @@ const urlRoutes = {
         description: "This is the buy ticket page that shows all running movies",
         script: "/js/buyTickets.js",
         scriptId: "buyTicketScript"
+    },
+    "/order-confirmation": {
+        template: "/templates/order-confirmation.html",
+        title: "Order Confirmation | " + pageTitle,
+        description: "This is the order confirmation page that shows all running movies",
+        script: "/js/order-confirmation.js",
+        scriptId: "orderConfirmationScript"
     }
 }
 
@@ -166,7 +173,7 @@ const urlLocationHandler = async () => {
     const allScripts = document.querySelectorAll('script');
 
   allScripts.forEach(script => {
-    if (script.id !== 'routerScript') {
+    if (script.id !== 'routerScript' && script.id !== 'jsbarcode') {
       script.remove(); 
     }
   });
