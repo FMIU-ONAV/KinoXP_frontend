@@ -53,5 +53,5 @@ async function generateReceipt() {
   
   setTimeout(() => {
     generateReceipt();
-  }, 2000);
+  }, 6000);
   
