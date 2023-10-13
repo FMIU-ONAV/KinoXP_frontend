@@ -1,3 +1,16 @@
+<div class="seating-container">
+  <div class="controls">
+    <label for="seatCount">Select the number of seats: </label>
+    <button id="decrementBtn" class="btn btn-primary">-</button>
+    <span id="seatCount">0</span>
+    <button id="incrementBtn" class="btn btn-primary">+</button>
+  </div>
+
+  <div id="countContainer"></div>
+</div>
+
+<button id="continueButton" class="btn btn-primary" disabled>Continue</button>
+
 <div class="seats">
   <div class="seatstatus selected_seat">
     <div class="seat-text">Selected</div>
@@ -11,36 +24,22 @@
     <div class="seat-text">Available</div>
   </div>
   <br />
-  <div class="seatstatus Vip">
+  <div class="seatstatus vip">
     <div class="seat-text">Vip</div>
   </div>
 </div>
 
-<button id="continueButton" class="btn btn-primary" disabled>Continue</button>
-
 <div id="theater1">
   <div class="box">IMAX</div>
-  <br />
-
+  <br>
   <div id="seatRow"></div>
 </div>
 
 <div id="price-calculation">
   <h3>Prices</h3>
-  <h4><b>Standard Tickets:</b>from 130kr.*</h4>
+  <h4><b>Standard Tickets:</b> 130kr.*</h4>
   <h4><b>VIP Tickets:</b> 150kr.</h4>
   <div id="totalPriceDisplay"><h4>Total:</h4></div>
-</div>
-
-<div class="seating-container">
-  <div class="controls">
-    <label for="seatCount">Select the number of seats: </label>
-    <button id="decrementBtn" class="btn btn-primary">-</button>
-    <span id="seatCount">0</span>
-    <button id="incrementBtn" class="btn btn-primary">+</button>
-  </div>
-
-  <div id="countContainer"></div>
 </div>
 
 <div class="custom-popup" id="customPopup" style="display: none">
