@@ -11,9 +11,15 @@
   color: transparent;
 }
 
+.seating-container{
+    margin-left: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
 .box {
-  width: 40%;
-  margin-left: 20px;
+  width: 400px;
+  margin-left: -40px;
   text-align: center;
   border: 1px solid #000000;
   padding: 18px;
@@ -30,8 +36,6 @@
 #seatRow {
   width: 400px;
   clear: both;
-  margin-bottom: 5px;
-  margin-left: 75px;
 }
 
 .seatstatus {
@@ -63,6 +67,12 @@
   padding: 15px;
 }
 
+.vip {
+    background-color: #daa520;
+    margin: 5px;
+    padding: 15px;
+}
+
 /* Optional: Adjust font size for the seat status */
 .seatstatus span {
   font-size: 13px;
@@ -70,11 +80,11 @@
 
 #theater1 {
   margin-left: 500px;
-  margin-top: -100px;
+  margin-top: -200px;
 }
 
 .seats {
-  margin-left: 1300px;
+  margin-left: 70vw;
   margin-top: 30px;
   text-align: center;
   padding: 15px;
@@ -83,8 +93,12 @@
 }
 
 #continueButton {
+    margin-left: 30px;
+}
+
+#price-calculation {
   margin-left: 30px;
-  margin-top: 40px;
+  margin-top: -250px;
 }
 
 #text {
@@ -97,11 +111,6 @@
 .seat-text {
   margin-left: 35px;
   margin-top: -10px;
-}
-
-.controls {
-  margin-top: -600px;
-  margin-right: -100px; /* Adjust the negative margin-right value to move it to the left */
 }
 
 .golden-seat {
