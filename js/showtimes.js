@@ -79,7 +79,7 @@ function tableToCSV() {
     for (var i = 0; i < rows.length; i++) {
         var cols = rows[i].querySelectorAll('td,th');
         var csvrow = [];
-        for (var j = 0; j < cols.length; j++) {
+        for (var j = 0; j < cols.length-1; j++) {
             csvrow.push(cols[j].innerText);
         }
         csv_data.push(csvrow.join(","));

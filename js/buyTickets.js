@@ -71,6 +71,8 @@ async function saveCustomer() {
       const selectedSeats = localStorage.getItem("selectedSeats").split(',');
       let tickets = [];
 
+      // Create an array to hold the promises
+      let ticketPromises = [];
 
       for (let seat of selectedSeats) {
         seat = await getSeatBySeatNumber(seat);
@@ -80,36 +82,26 @@ async function saveCustomer() {
         let snackName = localStorage.getItem("snackName");
         let snackPrice = localStorage.getItem("snackPrice");
 
-        console.log(snackName);
-        console.log(snackPrice);
-        
-        
-        
         const snack = {
           snackType: snackName,
           price: snackPrice,
         };
         
+        let snackData;
+
+        const snackResponse = await fetch(`${url}/snacks`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(snack),
+        });
+        if (snackResponse.ok) {
+          snackData = await snackResponse.json();
+        } else {
+          // Handle the case where the snack creation request failed.
+        }
         
-
-          console.log(snack);
-
-          let snackData;
-
-          const snackResponse = await fetch(`${url}/snacks`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(snack),
-          });
-          if (snackResponse.ok) {
-            snackData = await snackResponse.json();
-          } else {
-            // Handle the case where the snack creation request failed.
-          }
-        
-
         const ticket = {
           customer: newCustomer,
           movie: movie,
@@ -118,20 +110,22 @@ async function saveCustomer() {
           snack: snackData,
         };
 
-
-        const ticketResponse = await fetch(`${url}/ticket`, {
+        // Create a new promise for the ticket creation request
+        let ticketPromise = fetch(`${url}/ticket`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(ticket),
-        });
-
-        let ticketData;
-
-        if (ticketResponse.ok) {
-          ticketData = await ticketResponse.json();
-
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error('Failed to create ticket');
+          }
+        })
+        .then(ticketData => {
           // Update the snackData with the ticket_id
           const snackUpdate = {
             id: snackData.snack_id,
@@ -140,7 +134,7 @@ async function saveCustomer() {
             ticket_ID: ticketData.ticket_ID,
           }
 
-          const snackUpdateResponse = await fetch(`${url}/snacks/${snackData.snack_ID}`, {
+          const snackUpdateResponse = fetch(`${url}/snacks/${snackData.snack_ID}`, {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -148,16 +142,20 @@ async function saveCustomer() {
             body: JSON.stringify(snackUpdate),
           });
 
-          tickets.push(ticketData);
-          localStorage.setItem('tickets', JSON.stringify(tickets));
-
           if (!snackUpdateResponse.ok) {
             // Handle the case where the snack update request failed.
           }
-        } else {
-          // Handle the case where the ticket creation request failed.
-        }
+
+          tickets.push(ticketData);
+          localStorage.setItem('tickets', JSON.stringify(tickets));
+        });
+
+        // Add the promise to the array
+        ticketPromises.push(ticketPromise);
       }
+
+      // Use Promise.all to wait for all the ticket creation requests to complete
+      await Promise.all(ticketPromises);
     } else {
       // Handle the case where the customer creation request failed.
     }
@@ -165,7 +163,7 @@ async function saveCustomer() {
     console.log(err);
   }
 }
-  
+
   
 
 document.addEventListener('DOMContentLoaded', (event) => {
