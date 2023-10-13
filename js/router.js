@@ -6,14 +6,15 @@ document.addEventListener("DOMContentLoaded", function() {
 
   document.addEventListener("click", (e) => {
     const { target } = e;
-    if (!target.matches("a")) {
+    if (!target.matches("a") || target.href.startsWith('blob:')) {
       return;
     } else if(target.matches(".dropdown-item")) {
       return;
     }
     e.preventDefault();
     route();
-  }, true);  // register this event listener in the capturing phase
+}, true);
+
   
   
   
@@ -104,6 +105,13 @@ const urlRoutes = {
         description: "This is the order confirmation page that shows all running movies",
         script: "/js/order-confirmation.js",
         scriptId: "orderConfirmationScript"
+    },
+    "/admin/showtimes": {
+        template: "/templates/showtimes.html",
+        title: "Showtimes | " + pageTitle,
+        description: "This is the showtimes page that shows all running movies",
+        script: "/js/showtimes.js",
+        scriptId: "showtimesScript"
     }
 }
 

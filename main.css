@@ -70,7 +70,7 @@ body {
 
 .table {
   background-color: var(--primary-color);
-  width: 75%;
+  width: 85%;
   margin: 0 auto;
   margin-top: 100px;
 }
@@ -389,4 +389,13 @@ h3 {
   width: 100%;
   text-align: center;
   z-index: 1;
+}
+
+a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+#showtimes-title {
+  margin: auto;
 }

@@ -3,6 +3,7 @@ import { showEditMovieModal } from "./edit-movie.js";
 import { showSelectDatesModal } from "./dates-movie.js";
 import { showAddMovieModal } from "./add-movie.js";
 import { deleteMovie } from "./delete-movie.js";
+import { viewShowtimes } from "./showtimes.js";
 import {url} from "./main.js";
 
 
@@ -23,7 +24,7 @@ const options = {
     makeMovieRows();
   }
 
-  export async function makeMovieRows() {
+export async function makeMovieRows() {
     console.log("Entering makeMovieRows() function");
     const movies = await getAllMovies();
 
@@ -33,8 +34,8 @@ const options = {
         <td>${movie.movie_ID}</td>  
         <td>${movie.title}</td>
         <td>Dates<button class="btn btn-primary" id="btn-select-dates" data-movie="${movie.movie_ID}">Select Dates</button></td>
-        <td>Tickets Sold</td>
         <td><button class="btn btn-primary btn-view-movie" data-movie="${movie.movie_ID}">View</button></td>
+        <td><button class="btn btn-primary" id="btn-view-showtimes" data-movie="${movie.movie_ID}">Showtimes</button></td>
         <td><button class="btn btn-warning btn-edit-movie" data-movie="${movie.movie_ID}">Edit</button></td>
         <td><button class="btn btn-danger" id="btn-delete-movie" data-movie="${movie.movie_ID}">Delete</button></td>
       </tr>
@@ -78,6 +79,11 @@ function handleDeleteMovieClick(event) {
     deleteMovie(movieId);
 }
 
+function handleViewShowtimesClick(event) {
+    const movieId = event.currentTarget.getAttribute("data-movie");
+    viewShowtimes(movieId);
+}
+
 function handleCrudBtns() {
     /* document.querySelectorAll("#btn-select-dates").forEach(button => {
         button.removeEventListener("click", handleSelectDatesClick);
@@ -97,6 +103,11 @@ function handleCrudBtns() {
     document.querySelectorAll("#btn-delete-movie").forEach(button => {
         button.removeEventListener("click", handleDeleteMovieClick);
         button.addEventListener("click", handleDeleteMovieClick);
+    });
+
+    document.querySelectorAll("#btn-view-showtimes").forEach(button => {
+        button.removeEventListener("click", handleViewShowtimesClick);
+        button.addEventListener("click", handleViewShowtimesClick);
     });
 }
 

@@ -7,7 +7,6 @@ export async function makeUserRows() {
         console.log(users)
         
         const rows = users.map((user) => {
-            const role = user.role.name;
             return `
     <tr data-ID="${user.id}" data-Username="${user.username}" data-FirstName="${user.first_Name || 'N/A'}" data-LastName="${user.last_Name || 'N/A'}" data-Role="${user.role ? user.role.name : 'N/A'}">
       <td>${user.id}</td>
@@ -21,7 +20,6 @@ export async function makeUserRows() {
         });
 
         document.getElementById("user-table-body").innerHTML = rows.join("");
-        // Sort the table initially based on the currentSort values
         updateTableWithSort(currentSort.column, currentSort.order);
 
         // Add click event listeners to the "Edit" buttons
