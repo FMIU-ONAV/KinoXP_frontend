@@ -1,5 +1,6 @@
 import { getShowtimesByMovieId, getMovieById } from "./main.js"
 import { url } from "./main.js";
+import { getToken } from "./security.js";
 
 
 export async function viewShowtimes(movieId){
@@ -25,10 +26,25 @@ export async function viewShowtimes(movieId){
             <td>${showtime.date}</td>
             <td>${showtime.time}</td>
             <td style="color: ${color};">${ticketsSold}</td>
-            <td><button class="btn btn-danger" id="btn-delete-movie" data-showtime="${showtime.showtime_ID}">Delete</button></td>
+            <td><button class="btn btn-danger" id="btn-delete-showtime" data-showtime="${showtime.showtime_ID}">Delete</button></td>
         </tr>`;
     });
     showtimesTable.innerHTML = (await Promise.all(rows)).join("");
+
+    document.querySelectorAll("#btn-delete-showtime").forEach(button => {
+        button.addEventListener("click", function() {
+            handleBtnDeleteShowtime(this);
+        });
+    });
+}
+
+function handleBtnDeleteShowtime(button){
+    let showtimeId = button.getAttribute("data-showtime");
+    const response = deleteShowtime(showtimeId);
+    if (response.status === 200) {
+        alert("Showtime deleted successfully");
+    }
+    viewShowtimes(localStorage.getItem("movieId"));
 }
 
 
@@ -53,6 +69,7 @@ if (window.location.pathname.includes('/admin/showtimes')) {
         var csv_data = tableToCSV();
         downloadCSVFile(csv_data, movie.title);
     });
+
     
 }
 
@@ -84,6 +101,16 @@ function downloadCSVFile(csv_data, movieTitle) {
     setTimeout(() => {
         window.URL.revokeObjectURL(url);
     }, 100);
+}
+
+function deleteShowtime(showtimeId){
+    return fetch(`${url}/showtime/${showtimeId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + getToken()
+        },
+    });
 }
 
 
