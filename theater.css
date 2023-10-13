@@ -1,121 +1,115 @@
 .seat {
-    width: 18px;
-    height: 12px;
-    margin: 2px;
-    text-align: center;
-    border: 1px solid #000000;
-    padding: 2px;
-    background-color: #FFFFFF;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    color: transparent;
+  width: 18px;
+  height: 12px;
+  margin: 2px;
+  text-align: center;
+  border: 1px solid #000000;
+  padding: 2px;
+  background-color: #ffffff;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: transparent;
 }
 
 .box {
-    width: 40%;
-    margin-left: 20px;
-    text-align: center;
-    border: 1px solid #000000;
-    padding: 18px;
-    background-color:  #FFFFFF;
-    transform: rotateX(-45deg);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    perspective: 1000px;
+  width: 40%;
+  margin-left: 20px;
+  text-align: center;
+  border: 1px solid #000000;
+  padding: 18px;
+  background-color: #ffffff;
+  transform: rotateX(-45deg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  perspective: 1000px;
 }
 
 .seat:hover {
-    background-color: blue;;
+  background-color: blue;
 }
 
-
 .row {
-    clear: both;
-    margin-bottom: 5px;
-    margin-left: 30px;
+  width: 400px;
+  clear: both;
+  margin-bottom: 5px;
+  margin-left: 145px;
 }
 
 .seatstatus {
-    width: 27px;
-    height: 24px;
-    margin: 5px;
-    padding: 15px;
-    border-top-left-radius: 10px;
-    border-top-right-radius: 10px;
-    display: inline-block; /* Display seats in a line */
+  width: 27px;
+  height: 24px;
+  margin: 5px;
+  padding: 15px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  display: inline-block; /* Display seats in a line */
 }
 
 /* Adjust the margin and padding for each seat status as needed */
 .selected_seat {
-    background-color: blue;
-    margin: 5px;
-    padding: 15px;
+  background-color: blue;
+  margin: 5px;
+  padding: 15px;
 }
 
 .occupied {
-    background-color: red;
-    margin: 5px;
-    padding: 15px;
+  background-color: red;
+  margin: 5px;
+  padding: 15px;
 }
 
 .available {
-    background-color: #FFFFFF;
-    margin: 5px;
-    padding: 15px;
+  background-color: #ffffff;
+  margin: 5px;
+  padding: 15px;
 }
 
 /* Optional: Adjust font size for the seat status */
 .seatstatus span {
-    font-size: 13px;
+  font-size: 13px;
 }
 
-#theater1{
-    margin-left: 500px;
-    margin-top: -100px;
-
+#theater1 {
+  margin-left: 500px;
+  margin-top: -100px;
 }
 
-.seats{
-    margin-left: 1100px;
-    margin-top: -30px ;
-    text-align: center;
-    padding: 15px;
-    border-radius: 10px;
-    display: inline-block;
+.seats {
+  margin-left: 1300px;
+  margin-top: 30px;
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  display: inline-block;
 }
 
 #continueButton {
-    margin-left: 30px;
-    margin-top: 40px;
+  margin-left: 30px;
+  margin-top: 40px;
 }
 
-
-#text{
-    font-family: monospace;
-    font-weight: bolder;
-    color: #e3dfe8;
-    margin-right: 40px;
+#text {
+  font-family: monospace;
+  font-weight: bolder;
+  color: #e3dfe8;
+  margin-right: 40px;
 }
 
-
-.seat-text{
-    margin-left: 35px;
-    margin-top: -10px;
-
+.seat-text {
+  margin-left: 35px;
+  margin-top: -10px;
 }
 
 .controls {
-    margin-top: -600px;
-    margin-right: -100px; /* Adjust the negative margin-right value to move it to the left */
+  margin-top: -600px;
+  margin-right: -100px; /* Adjust the negative margin-right value to move it to the left */
 }
 
 .golden-seat {
-    background-color: #DAA520
-    /* Add any other styling for golden seats here */
+  background-color: #daa520;
+  /* Add any other styling for golden seats here */
 }
-
 
 .reserved-seat {
-    background-color: red; /* You can customize the styles */
-    color: transparent; /* Adjust the text color for visibility */
+  background-color: red; /* You can customize the styles */
+  color: transparent; /* Adjust the text color for visibility */
 }
-

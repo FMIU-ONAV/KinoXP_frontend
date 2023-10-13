@@ -170,8 +170,7 @@ h3 {
   display: block; /* Set to block by default */
   left: 5px;
   top: 12%;
-  transform:translateY(-50%);
-
+  transform: translateY(-50%);
 }
 
 .modal-title {
@@ -181,8 +180,6 @@ h3 {
 .btn-secondary .rate-text {
   color: #333;
 }
-
-
 
 #loading-container {
   position: fixed;
@@ -385,4 +382,11 @@ h3 {
 
 .long-title {
   font-size: 14px;
+}
+
+#footer {
+  margin-top: 10px;
+  width: 100%;
+  text-align: center;
+  z-index: 1;
 }

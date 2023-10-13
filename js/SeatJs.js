@@ -1,10 +1,5 @@
 import { url } from "./main.js";
 
-// Fixing the footer in the theater page
-const myFooter = document.querySelector('.myFooter');
-if (myFooter) {
-    myFooter.style.marginTop = '40%';
-}
 
 const movieId = localStorage.getItem('movieId');
 const showtime = localStorage.getItem('showtime');
@@ -74,6 +69,7 @@ async function initializeSeats(seatsData) {
 
         rowContainer.appendChild(rowDiv);
     }
+    document.getElementById('footer').style.transform = 'translateY(700px)';
 }
 
 
