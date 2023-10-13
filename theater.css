@@ -27,11 +27,11 @@
   background-color: blue;
 }
 
-.row {
+#seatRow {
   width: 400px;
   clear: both;
   margin-bottom: 5px;
-  margin-left: 145px;
+  margin-left: 75px;
 }
 
 .seatstatus {

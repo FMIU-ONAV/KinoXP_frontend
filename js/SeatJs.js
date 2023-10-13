@@ -40,6 +40,7 @@ async function initializeSeats(seatsData) {
     for (let j = 0; j < rows; j++) {
         const rowDiv = document.createElement('div');
         rowDiv.classList.add('row');
+        rowDiv.id = 'seatRow'
 
         for (let i = 0; i < columns; i++) {
             const seatDiv = document.createElement('div');
