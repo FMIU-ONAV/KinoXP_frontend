@@ -4,7 +4,6 @@ import { getToken } from "./security.js";
 export async function makeUserRows() {
     try {
         const users = await getAllUsers();
-        console.log(users)
         
         const rows = users.map((user) => {
             return `
@@ -49,7 +48,6 @@ export function getAllUsers() {
         return response.json();
     })
     .then(response => {
-        console.log("Response from server:", response); // Log the response
         return response;
     })
     .catch(err => {

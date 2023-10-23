@@ -13,7 +13,6 @@ export function deleteMovie(movieId) {
     })
         .then(response => {
             if (response.ok) {
-                console.log("Movie deleted");
             } else {
                 console.error(`Error deleting movie ${movieId}`);
             }

@@ -98,7 +98,6 @@ function updateCategories(updatedMovie) {
 }
 
 async function editMovie(movieId, updatedMovie) {
-    console.log("Entering editMovie() function");
 
     // Create a new copy of the updated movie object
     const copiedUpdatedMovie = Object.assign({}, updatedMovie);
@@ -119,7 +118,6 @@ async function editMovie(movieId, updatedMovie) {
 
     copiedUpdatedMovie.categories = selectedCategories;
 
-    console.log("Updated movie object:", copiedUpdatedMovie);
 
     // Send the updated movie data to the server using fetch
     const response = await fetch(`${url}/movie/${movieId}`, {
@@ -133,7 +131,6 @@ async function editMovie(movieId, updatedMovie) {
 
     // Display a success message once the movie has been updated
     if (response.ok) {
-        console.log("Movie updated successfully!");
         // Update the movie rows in the table
         makeMovieRows();
     } else {

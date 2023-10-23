@@ -109,7 +109,6 @@ function handleReserveClick(){
     })
       .then(response => response.json())
       .then(response => {
-        console.log(response);
         return response;
       })
       .catch(err => console.error(err));

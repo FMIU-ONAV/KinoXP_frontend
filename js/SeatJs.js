@@ -77,9 +77,7 @@ async function initializeSeats(seatsData) {
 async function loadSeats() {
     try {
         const showtimeData = await fetchShowtime(movieId, date, showtime);
-        console.log(showtimeData);
         const seatsData = await fetchSeats(showtimeData.showtime_ID);
-        console.log(seatsData);
         initializeSeats(seatsData);  
     } catch (error) {
         console.error('Error loading seats:', error.message);
@@ -108,7 +106,6 @@ function handleSeatClick(seatNumber) {
     }
 
     if (seatCount > 1) {
-        console.log(seatCount);
         let firstChar = seatNumber.substring(0, 1);
         let substring = seatNumber.substring(1);
         let parsedNumber = parseInt(substring);
@@ -118,7 +115,6 @@ function handleSeatClick(seatNumber) {
         for (let i = 0; i < seatCount; i++) {
             let e = firstChar + parsedNumber;
             parsedNumber++;
-            console.log(e);
             seatsToMarkRed.push(e);
         }
 
@@ -248,9 +244,7 @@ async function reserveSelectedSeats() {
 
 
     const showtimeData = await fetchShowtime(movieId, date, showtime);
-    console.log(showtimeData)
     const theater_ID = showtimeData.theater.theater_ID;
-    console.log(theater_ID)
 
     const th={
         theater_ID: theater_ID,
@@ -275,7 +269,6 @@ async function reserveSelectedSeats() {
             showtime: showtimeData,
         };
     });
-    console.log(updatedSeats)
 
     const options = {
         method: 'POST',
@@ -290,7 +283,6 @@ async function reserveSelectedSeats() {
             if (!response.ok) {
                 throw new Error('Failed to reserve seats');
             }
-            console.log('Seats reserved successfully!');
             showSnackSelection();
             // Perform actions after successful reservation
         })

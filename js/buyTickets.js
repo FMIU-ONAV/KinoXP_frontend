@@ -160,7 +160,6 @@ async function saveCustomer() {
       // Handle the case where the customer creation request failed.
     }
   } catch (err) {
-    console.log(err);
   }
 }
 

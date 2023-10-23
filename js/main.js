@@ -1,6 +1,6 @@
 import { displayMovieDetails } from './movie.js';
 
-export const url = 'https://kinoxpkea.azurewebsites.net/'
+export const url = 'https://kinoxpkea.azurewebsites.net'
 
 export async function main() {
   const movies = await getCurrentMovies()
@@ -159,7 +159,7 @@ function handleRatingSubmission(movieId) {
 
 
         // Send the rating data to the server using a fetch request
-        fetch('http://localhost:8081/rating', {
+        fetch(`${url}/rating`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -169,15 +169,11 @@ function handleRatingSubmission(movieId) {
             .then((response) => response.json())
             .then((createdRating) => {
                 // Handle the response from the server, e.g., display a success message
-                console.log("Rating submitted successfully:", createdRating);
                 // Close the modal (if needed)
                 $("#rating-modal").modal("hide");
             })
             .catch((error) => {
                 // Handle any errors that occurred during the request
-                //console.log(ratingValue);
-                //console.log(movieId);
-                //console.log(ticketId);
 
                 console.error("Error submitting rating:", error);
 
@@ -224,7 +220,6 @@ export function getAllMovies() {
   })
     .then(response => response.json())
     .then(response => {
-      console.log(response);
       return response;
     })
     .catch(err => console.error(err));

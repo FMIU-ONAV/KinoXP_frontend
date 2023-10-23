@@ -3,8 +3,6 @@ import { getMovieById, getShowtimesByMovieId } from './main.js';
 export async function displayMovieDetails(movieId){
     const movie = await getMovieById(movieId);
     const movieShowtimes = await getShowtimesByMovieId(movieId);
-    console.log(movie);
-    console.log(movieShowtimes);
     let html = ``;
     let container = document.getElementById('movie-details');
     let heroSection = document.getElementById('hero-section');

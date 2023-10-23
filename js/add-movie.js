@@ -52,7 +52,6 @@ function searchMovies() {
     fetch(`https://api.themoviedb.org/3/movie/${id}?language=en-US`, options)
         .then(response => response.json())
         .then(response => {
-            console.log(response)
             let movie = response;
             let genres = movie.genres.map(genre => genre.name).join(", ");
             let output = `<div class="col-md-12" id="movie-result">
@@ -138,8 +137,6 @@ async function addMovie() {
   fetch(`${url}/movie`, options)
       .then(response => response.json())
       .then(response => {
-          console.log(response);
-          console.log(options.body);
           makeMovieRows();
 
           addedMovieIds.push(movieId);

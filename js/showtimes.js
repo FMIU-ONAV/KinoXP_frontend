@@ -12,7 +12,6 @@ export async function viewShowtimes(movieId){
     const showtimesTable = document.getElementById("showtimes-table-body");
     const rows = showtimes.map(async showtime => {
         const tickets = await getTicketsByShowtimeId(showtime.showtime_ID);
-        console.log(tickets)
         const ticketsSold = tickets.length;
         // Determine the color based on the number of tickets sold
         let color = 'red';

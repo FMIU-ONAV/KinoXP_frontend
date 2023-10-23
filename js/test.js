@@ -7,8 +7,6 @@ function connectMovieToShowtimes(existingShowtimes, movieId) {
             movie_ID: movieId
         });
         // Make a POST request to update the showtime with the new movie association
-        console.log(showtime.id);
-        console.log(movieId);
         fetch(`http://localhost:8081/update-showtime/${showtime.id}/add-movie/${movieId}`, {
             method: 'POST',
             headers: {
@@ -37,8 +35,6 @@ function postShowTimes(dateTimes, movieId) {
             date: dateTime.toISOString().split("T")[0],
             time: dateTime.toTimeString().split(" ")[0]
         }
-        console.log(dateTime.date);
-        console.log(dateTime.time);
 
         // Check if a showtime with the same date and time combination exists
         checkExistingShowtime(showTimeData)

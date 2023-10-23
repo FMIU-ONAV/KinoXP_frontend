@@ -5,7 +5,6 @@ import { url } from "./main.js";
 export function showSelectDatesModal(movieId) {
   const myModal = new bootstrap.Modal(document.getElementById('dates-modal'));
   document.getElementById("dates-modal-title").innerHTML = `Select Dates for Movie ID: ${movieId}`;
-  console.log(movieId)
 
   function addDatesToMovie() {
     const startDateStr = document.getElementById("input-start-date").value;
@@ -71,11 +70,10 @@ export function showSelectDatesModal(movieId) {
   function postShowTimes(dateTimes) {
     let movieId = document.getElementById("dates-modal-title").innerHTML;
     let movieIdInsideFunction = movieId.split(":")[1].trim();
-    console.log("Movie Id inside postShowTimes" + movieIdInsideFunction)
+
     
     // Get the selected theater ID
     let theaterId = document.querySelector('input[name="theater"]:checked').value;
-    console.log("Theater Id inside postShowTimes" + theaterId)
   
     dateTimes.forEach(dateTime => {
       const showTime = {
@@ -83,11 +81,9 @@ export function showSelectDatesModal(movieId) {
         time: dateTime.toTimeString().split(" ")[0]
       };
   
-      console.log(showTime)
   
       let urlToUse = `${url}/showtime/${movieIdInsideFunction}?theaterId=${theaterId}`;
   
-      console.log(urlToUse)
   
       fetch(urlToUse, {
         method: 'POST',
@@ -99,7 +95,6 @@ export function showSelectDatesModal(movieId) {
       }, getToken())
         .then(response => {
           if (response.ok) {
-            console.log("Showtime added");
           } else {
             console.error("Error adding showtime");
           }

@@ -18,14 +18,12 @@ const options = {
   function load () {
     fetch('https://api.themoviedb.org/3/authentication', options)
         .then(response => response.json())
-        .then(response => console.log(response))
         .catch(err => console.error(err));
     document.getElementById("add-movie").addEventListener("click", showAddMovieModal);
     makeMovieRows();
   }
 
 export async function makeMovieRows() {
-    console.log("Entering makeMovieRows() function");
     const movies = await getAllMovies();
 
     const rows = movies.map(movie => {
@@ -54,7 +52,6 @@ export async function makeMovieRows() {
 
     handleCrudBtns();
 
-    console.log("Exiting makeMovieRows() function");
 }
 
 
@@ -113,7 +110,6 @@ function handleCrudBtns() {
 
 async function viewMovieDetails(movieId) {
     const movie = await getMovieById(movieId);
-    console.log(movie);
     const modalTitle = document.querySelector('#movie-details-modal-label');
     const modalBody = document.getElementById('movie-details-modal-body');
 
